@@ -2,7 +2,10 @@ import { Store } from '@/types/store';
 
 declare const naver: any;
 declare const MarkerClustering: any;
+declare const N: any;
+//import { MarkerClustering, MarkerClusteringOptions } from '@/types/marker-clustering';
 
+/* Naver Map 초기화 */
 export function initMap(stores: Store[]) {
 
     const markers: any[] = [];
@@ -21,7 +24,7 @@ export function initMap(stores: Store[]) {
 		zoom: 17,
 	});
 
-    (window as any).yummyMapInstance = map;
+    //(window as any).yummyMapInstance = map;
 
 	const storeIcon = 'https://cdn-icons-png.flaticon.com/128/3170/3170733.png';
 	const companyIcon = '/yummy/images/alba.png';
@@ -92,6 +95,38 @@ export function initMap(stores: Store[]) {
         });
 
     }); // forEach 
+    
+    var htmltag1 = `<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(/public/cluster-marker-1.png);background-size:contain;"></div>`;
+    var htmltag2 = `<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(/public/cluster-marker-2.png);background-size:contain;"></div>`;
+    var htmltag3 = `<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(/public/cluster-marker-3.png);background-size:contain;"></div>`;
+    var htmltag4 = `<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(/public/cluster-marker-4.png);background-size:contain;"></div>`;
+    var htmltag5 = `<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(/public/cluster-marker-5.png);background-size:contain;"></div>`;
+
+    var htmlMarker1 = {
+        content: htmltag1,
+        size: N.Size(40, 40),
+        anchor: N.Point(20, 20)
+    },
+    htmlMarker2 = {
+        content: htmltag2,
+        size: N.Size(40, 40),
+        anchor: N.Point(20, 20)
+    },
+    htmlMarker3 = {
+        content: htmltag3,
+        size: N.Size(40, 40),
+        anchor: N.Point(20, 20)
+    },
+    htmlMarker4 = {
+        content: htmltag4,
+        size: N.Size(40, 40),
+        anchor: N.Point(20, 20)
+    },
+    htmlMarker5 = {
+        content: htmltag5,
+        size: N.Size(40, 40),
+        anchor: N.Point(20, 20)
+    };
 
     new MarkerClustering({
         minClusterSize: 1,
@@ -100,7 +135,7 @@ export function initMap(stores: Store[]) {
         markers,
         disableClickZoom: false,
         gridSize: 100,
-        icons: [],
+        icons: [htmlMarker1,htmlMarker2,htmlMarker3,htmlMarker4,htmlMarker5],
         indexGenerator: [10, 100, 200, 500, 1000],
         stylingFunction: function (clusterMarker: any, count: number) {
             const el = clusterMarker.getElement();
@@ -124,6 +159,6 @@ function getDistance(lat1: number, lon1: number, lat2: number, lon2: number): nu
 }
 
 function getWalkingTime(distanceKm: number): number {
-  const speed = 3.5;
-  return Math.ceil((distanceKm / speed) * 60);
+    const speed = 3.5;
+    return Math.ceil((distanceKm / speed) * 60);
 }	
