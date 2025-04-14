@@ -21,7 +21,7 @@ export default function Header() {
         <input
           type="text"
           id="headerSearchInput"
-          placeholder="🔍 검색할 가게명을 입력하세요!"
+          placeholder="검색할 가게명을 입력하세요!"
         />
         <button className="header-search-button" onClick={() => {}}>
           검색
