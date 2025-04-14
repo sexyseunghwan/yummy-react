@@ -3,7 +3,7 @@
 import Script from 'next/script';
 
 /* Declare naver as a global variable */
-declare const naver: any;
+// declare const naver: any;
 
 import { useEffect, useState } from 'react';
 import { initMap } from '@/lib/map/initMap';

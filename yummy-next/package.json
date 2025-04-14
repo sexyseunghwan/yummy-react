@@ -3,15 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "env-cmd -f .env.local cross-var next dev -p $NEXT_PUBLIC_PORT",
+    "dev": "env-cmd -f .env.local cross-var next dev -p '$NEXT_PUBLIC_PORT'",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
-    "next": "15.3.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "next": "^15.3.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

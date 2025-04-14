@@ -11,8 +11,8 @@ export function initMap(stores: Store[]) {
     const markers: any[] = [];
 	const zeroPayMarkers: any[] = [];
 
-	let lngx = 127.048942471228;
-	let laty = 37.5045028775835;
+	const lngx = 127.048942471228;
+	const laty = 37.5045028775835;
     
 	// if (!!window.env && !!window.env.login_user) {
 	// 	lngx = window.env.login_user.detail[0].lngx;
@@ -96,13 +96,13 @@ export function initMap(stores: Store[]) {
 
     }); // forEach 
     
-    var htmltag1 = `<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(/public/cluster-marker-1.png);background-size:contain;"></div>`;
-    var htmltag2 = `<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(/public/cluster-marker-2.png);background-size:contain;"></div>`;
-    var htmltag3 = `<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(/public/cluster-marker-3.png);background-size:contain;"></div>`;
-    var htmltag4 = `<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(/public/cluster-marker-4.png);background-size:contain;"></div>`;
-    var htmltag5 = `<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(/public/cluster-marker-5.png);background-size:contain;"></div>`;
+    const htmltag1 = `<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(/public/cluster-marker-1.png);background-size:contain;"></div>`;
+    const htmltag2 = `<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(/public/cluster-marker-2.png);background-size:contain;"></div>`;
+    const htmltag3 = `<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(/public/cluster-marker-3.png);background-size:contain;"></div>`;
+    const htmltag4 = `<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(/public/cluster-marker-4.png);background-size:contain;"></div>`;
+    const htmltag5 = `<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(/public/cluster-marker-5.png);background-size:contain;"></div>`;
 
-    var htmlMarker1 = {
+    const htmlMarker1 = {
         content: htmltag1,
         size: N.Size(40, 40),
         anchor: N.Point(20, 20)

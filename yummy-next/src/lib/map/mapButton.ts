@@ -53,14 +53,14 @@ export function resetMap(map: any) {
     
     //const map = (window as any).yummyMapInstance;
     
-    let lngx = 127.0489;
-    let laty = 37.5045;
+    const lngx = 127.0489;
+    const laty = 37.5045;
 
     // if(!!window.env && !!window.env.login_user){
     //     lngx = window.env.login_user.detail[0].lngx;
     //     laty = window.env.login_user.detail[0].laty
     //     }
-
+  
     map.setCenter(new naver.maps.LatLng(laty, lngx));
     map.setZoom(17);
     map.closeInfoWindow();
