@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "env-cmd -f .env.local cross-var next dev -p '$NEXT_PUBLIC_PORT'",
     "build": "next build",
-    "start": "next start",
+    "start": "env-cmd -f .env cross-var next start -p '$NEXT_PUBLIC_PORT'",
     "lint": "next lint"
   },
   "dependencies": {
