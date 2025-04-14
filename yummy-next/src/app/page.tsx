@@ -26,6 +26,10 @@ export default function YummyMap() {
 			const defaultStore = { name: '알바천국', lat: laty, lng: lngx, type: 'company' };
 
 			const res = await fetch(`${apiBaseUrl}/search/allData`);
+			if (!res.ok) {
+				console.error("API 응답 에러:", res.status);
+				return;
+			}
 			const data = await res.json();
 
 			const converted = data.map((s: any) => ({
