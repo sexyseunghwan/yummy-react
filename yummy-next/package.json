@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "env-cmd -f .env.local cross-var next dev -p $NEXT_PUBLIC_PORT",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -20,6 +20,8 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "cross-env": "^7.0.3",
+    "cross-var": "^1.1.0",
+    "env-cmd": "^10.1.0",
     "eslint": "^9",
     "eslint-config-next": "15.3.0",
     "tailwindcss": "^4",

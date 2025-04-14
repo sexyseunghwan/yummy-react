@@ -1,107 +1,115 @@
-import Image from "next/image";
+
+import Script from 'next/script';
+import { useEffect, useState } from 'react';
+
+
+type Store = {
+	name: string;
+	lat: number;
+	lng: number;
+	type: string;
+	isBeefulPay?: boolean;
+  };
 
 export default function Home() {
-  return (
-    <div style={{ padding: '2rem' }}>
-      <h1>🎉 리액트 + Next.js 기본화면</h1>
-      <p>현재 이 앱은 <strong>/myapp</strong>에서 동작 중입니다.</p>
-    </div>
-    // <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-    //   <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-    //     <Image
-    //       className="dark:invert"
-    //       src="/next.svg"
-    //       alt="Next.js logo"
-    //       width={180}
-    //       height={38}
-    //       priority
-    //     />
-    //     <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-    //       <li className="mb-2 tracking-[-.01em]">
-    //         Get started by editing{" "}
-    //         <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-    //           src/app/page.tsx
-    //         </code>
-    //         .
-    //       </li>
-    //       <li className="tracking-[-.01em]">
-    //         Save and see your changes instantly.
-    //       </li>
-    //     </ol>
 
-    //     <div className="flex gap-4 items-center flex-col sm:flex-row">
-    //       <a
-    //         className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-    //         href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-    //         target="_blank"
-    //         rel="noopener noreferrer"
-    //       >
-    //         <Image
-    //           className="dark:invert"
-    //           src="/vercel.svg"
-    //           alt="Vercel logomark"
-    //           width={20}
-    //           height={20}
-    //         />
-    //         Deploy now
-    //       </a>
-    //       <a
-    //         className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-    //         href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-    //         target="_blank"
-    //         rel="noopener noreferrer"
-    //       >
-    //         Read our docs
-    //       </a>
-    //     </div>
-    //   </main>
-    //   <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-    //     <a
-    //       className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-    //       href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-    //       target="_blank"
-    //       rel="noopener noreferrer"
-    //     >
-    //       <Image
-    //         aria-hidden
-    //         src="/file.svg"
-    //         alt="File icon"
-    //         width={16}
-    //         height={16}
-    //       />
-    //       Learn
-    //     </a>
-    //     <a
-    //       className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-    //       href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-    //       target="_blank"
-    //       rel="noopener noreferrer"
-    //     >
-    //       <Image
-    //         aria-hidden
-    //         src="/window.svg"
-    //         alt="Window icon"
-    //         width={16}
-    //         height={16}
-    //       />
-    //       Examples
-    //     </a>
-    //     <a
-    //       className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-    //       href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-    //       target="_blank"
-    //       rel="noopener noreferrer"
-    //     >
-    //       <Image
-    //         aria-hidden
-    //         src="/globe.svg"
-    //         alt="Globe icon"
-    //         width={16}
-    //         height={16}
-    //       />
-    //       Go to nextjs.org →
-    //     </a>
-    //   </footer>
-    // </div>
-  );
+	const [stores, setStores] = useState<Store[]>([]);
+
+	useEffect(() => {
+		async function fetchStores() {
+		  let lngx = 127.046582379785;
+		  let laty = 37.5032355765545;
+	
+		//   if (typeof window !== 'undefined' && window.env?.login_user) {
+		// 	lngx = window.env.login_user.detail[0].lngx;
+		// 	laty = window.env.login_user.detail[0].laty;
+		//   }
+	
+		  const defaultStore = { name: "알바천국", lat: laty, lng: lngx, type: "company" };
+	
+		  try {
+			const response = await fetch(`${window.env.api_base_url}/search/allData`, {
+			  method: 'GET',
+			  headers: {
+				'Content-Type': 'application/json',
+			  },
+			});
+	
+			const data = await response.json();
+	
+			const fetchedStores: Store[] = data.map((store: any) => ({
+			  name: store.name,
+			  lat: store.lat,
+			  lng: store.lng,
+			  type: store.type,
+			  isBeefulPay: store.zero_possible,
+			}));
+	
+			const allStores = [defaultStore, ...fetchedStores];
+	
+			if (allStores.length === 0) {
+			  alert("등록된 가게가 없습니다.");
+			}
+	
+			setStores(allStores);
+	
+			// 🚀 지도 초기화
+			SetMap(allStores);
+	
+		  } catch (err) {
+			console.error('가게 데이터를 가져오는 중 오류:', err);
+			alert('가게 데이터를 불러오는 중 문제가 발생했습니다.');
+		  }
+		}
+	
+		fetchStores();
+	  }, []);
+
+
+
+
+	return (
+	<>
+		{/* ✅ 외부 스크립트 로드 */}
+		<Script
+		src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=87ni0cgqze&submodules=geocoder"
+		strategy="beforeInteractive"
+		/>
+		<Script
+		src="yummy/js/MarkerClustering.js"
+		strategy="afterInteractive"
+		/>
+		<Script
+		src="yummy/js/yummymap.js"
+		strategy="afterInteractive"
+		/>
+		<Script
+		src="https://code.jquery.com/jquery-1.12.4.min.js"
+		strategy="beforeInteractive"
+		integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+		crossOrigin="anonymous"
+		/>
+
+
+		{/* ✅ 지도 영역 */}
+		<div id="recommendation"></div>
+
+		<div id="map">
+		<div className="map-buttons">
+			{/* <button className="cherry-button" onClick={() => window.cherryBlossomTheme?.()}>
+			🌸 벚꽃 봄?
+			</button>
+			<button className="random-button" onClick={() => window.recommendRandomStore?.()}>
+			🍀 랜덤 추천
+			</button>
+			<button className="reset-button" onClick={() => window.resetMap?.()}>
+			🔄 맵 초기화
+			</button> */}
+
+			{/* 아래는 로그인 정보가 있을 때만 노출되도록 구성 */}
+			{/* user 정보를 props나 context로 전달해야 실제 조건부 렌더링 가능 */}
+		</div>
+		</div>
+	</>
+	);
 }
