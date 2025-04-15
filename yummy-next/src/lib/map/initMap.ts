@@ -3,7 +3,6 @@ import { Store } from '@/types/store';
 declare const naver: any;
 declare const MarkerClustering: any;
 declare const N: any;
-//import { MarkerClustering, MarkerClusteringOptions } from '@/types/marker-clustering';
 
 /* Naver Map 초기화 */
 export function initMap(stores: Store[]) {
@@ -93,7 +92,7 @@ export function initMap(stores: Store[]) {
                 }
             }
         });
-        
+
     }); // forEach 
     
     const htmltag1 = `<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(/images/cluster-marker-1.png);background-size:contain;"></div>`;
