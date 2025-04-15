@@ -58,10 +58,14 @@ export default function YummyMap() {
 	
   return (
     <>
-		<Script
+		{/* <Script
 			src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=87ni0cgqze&submodules=geocoder"
 			strategy="beforeInteractive"
-		/>
+		/> */}
+		
+			<Script	src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=x014znucr0&submodules=geocoder"
+					strategy="beforeInteractive" />
+
 		<Script src="/js/MarkerClustering.js" strategy="afterInteractive" />
 		<Script
 			src="https://code.jquery.com/jquery-1.12.4.min.js"
