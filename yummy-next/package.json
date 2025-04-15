@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "wdev": "env-cmd -f .env.local cross-var next dev -p $NEXT_PUBLIC_PORT",
     "dev": "env-cmd -f .env.local cross-var next dev -p '$NEXT_PUBLIC_PORT'",
     "build": "next build",
     "start": "env-cmd -f .env cross-var next start -p '$NEXT_PUBLIC_PORT'",

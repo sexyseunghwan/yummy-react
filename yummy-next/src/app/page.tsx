@@ -62,14 +62,14 @@ export default function YummyMap() {
 			src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=87ni0cgqze&submodules=geocoder"
 			strategy="beforeInteractive"
 		/>
-		<Script src="/yummy/js/MarkerClustering.js" strategy="afterInteractive" />
+		<Script src="/js/MarkerClustering.js" strategy="afterInteractive" />
 		<Script
 			src="https://code.jquery.com/jquery-1.12.4.min.js"
 			strategy="beforeInteractive"
 			integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
 			crossOrigin="anonymous"
 		/>
-		<link rel="stylesheet" href="/yummy/css/yummymap.css" />
+		<link rel="stylesheet" href="/css/yummymap.css" />
 
       	<div id="recommendation"></div>
 

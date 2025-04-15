@@ -23,12 +23,12 @@ export function initMap(stores: Store[]) {
 		center: new naver.maps.LatLng(laty, lngx),
 		zoom: 17,
 	});
-
+    
     //(window as any).yummyMapInstance = map;
 
 	const storeIcon = 'https://cdn-icons-png.flaticon.com/128/3170/3170733.png';
-	const companyIcon = '/yummy/images/alba.png';
-	const beefulPayIcon = '/yummy/images/pay.png';
+	const companyIcon = '/images/alba.png';
+	const beefulPayIcon = '/images/pay.png';
 
 	const referenceStore = stores.find((s) => s.name === '알바천국');
 
