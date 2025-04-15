@@ -42,7 +42,7 @@ export default function Sidebar() {
             )} */}
 
                 <li>
-                    <a href="#" className="login-button">로그인</a>
+                    <a href="/login" className="login-button">로그인</a>
                 </li>
             </ul>
         </div>

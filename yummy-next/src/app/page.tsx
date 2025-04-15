@@ -4,8 +4,6 @@ import Script from 'next/script';
 import axios from 'axios';
 
 /* Declare naver as a global variable */
-// declare const naver: any;
-
 import { useEffect, useState } from 'react';
 import { initMap } from '@/lib/map/initMap';
 import { cherryBlossomTheme, resetMap, recommendRandomStore } from '@/lib/map/mapButton';
@@ -26,6 +24,7 @@ export default function YummyMap() {
 			const defaultStore = { name: '알바천국', lat: laty, lng: lngx, type: 'company' };
 
 			try {
+
 				const res = await axios.get(`${apiBaseUrl}/search/allData`);
 				const data = res.data;
 
@@ -39,11 +38,12 @@ export default function YummyMap() {
 
 				const allStores = [defaultStore, ...converted];
 				setStores(allStores);
-
+				
 				const { map, markers, zeroPayMarkers } = initMap(allStores);
 				setMapInstance(map);
 				setMarkers(markers);
 				setZeroPayMarkers(zeroPayMarkers);
+				
 			} catch (error) {
 				if (axios.isAxiosError(error)) {
 					console.error('Axios API 요청 에러:', error.response?.status, error.message);
