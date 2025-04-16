@@ -56,7 +56,7 @@ export default function Login() {
                 텔레그램으로 로그인
             </a>
             <a className="oauth-login" id="oauth-google" onClick={loginWithGoogle}>
-                <Image src="/images/oauth/google.png" alt="Google Logo" width={24} height={24} style={{ width: '70px' }} />
+                <Image src="/images/oauth/google.svg" alt="Google Logo" width={24} height={24} />
                 구글로 로그인
             </a>
         </>
