@@ -23,8 +23,6 @@ export function initMap(stores: Store[]) {
 		zoom: 17,
 	});
     
-    //(window as any).yummyMapInstance = map;
-
 	const storeIcon = 'https://cdn-icons-png.flaticon.com/128/3170/3170733.png';
 	const companyIcon = '/images/alba.png';
 	const beefulPayIcon = '/images/pay.png';
@@ -138,7 +136,10 @@ export function initMap(stores: Store[]) {
         indexGenerator: [10, 100, 200, 500, 1000],
         stylingFunction: function (clusterMarker: any, count: number) {
             const el = clusterMarker.getElement();
-            if (el) el.innerHTML = `<div style="color:white;background:#333;border-radius:50%;padding:8px;">${count}</div>`;
+            const inner = el.querySelector('div');
+            if (inner) {
+                inner.innerHTML = `${count}`;
+            }
         },
     });
 
