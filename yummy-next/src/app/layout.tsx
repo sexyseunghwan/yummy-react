@@ -5,6 +5,7 @@ import Header from '@/components/Header';
 import Sidebar from '@/components/Sidebar';
 import KakaoInit from '@/components/KakaoInit';
 import EnvScript from '@/components/EnvScript';
+import { UserProvider } from '@/context/UserContext';
 
 export const metadata = {
   title: '가야 할 지도',
@@ -28,11 +29,13 @@ export default function RootLayout({
 			/>
 			</head>
 			<body>
-			<EnvScript />
-			<Header />
-			<KakaoInit/>
-			<Sidebar />
-			<main>{children}</main>
+				<UserProvider>
+					<EnvScript />
+					<Header />
+					<KakaoInit/>
+					<Sidebar />
+					<main>{children}</main>
+				</UserProvider>
 			<footer>
 				<p className="copyright">© 2025 Yummy 🍫 초코송이가 만들었어요! 🍄</p>
 				<p><a href="">support@yummymap.com</a></p>

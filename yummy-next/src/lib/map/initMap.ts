@@ -1,25 +1,25 @@
 import { Store } from '@/types/store';
+import { User } from '@/types/user';
+import Decimal from 'decimal.js';
 
 declare const naver: any;
 declare const MarkerClustering: any;
 declare const N: any;
 
 /* Naver Map 초기화 */
-export function initMap(stores: Store[]) {
+export function initMap(stores: Store[], user: User | null) {
 
     const markers: any[] = [];
 	const zeroPayMarkers: any[] = [];
 
-	const lngx = 127.048942471228;
-	const laty = 37.5045028775835;
-    
-	// if (!!window.env && !!window.env.login_user) {
-	// 	lngx = window.env.login_user.detail[0].lngx;
-	// 	laty = window.env.login_user.detail[0].laty;
-	// }
+    const lngx = user?.lngX ? user.lngX.toNumber() : 37.5045028775835;
+    const laty = user?.latY ? user.latY.toNumber() : 127.048942471228;
+
+    console.log("lngx: " + lngx);
+    console.log("laty: " + laty);
 
 	const map = new naver.maps.Map('map', {
-		center: new naver.maps.LatLng(laty, lngx),
+		center: new naver.maps.LatLng(lngx, laty),
 		zoom: 17,
 	});
     
