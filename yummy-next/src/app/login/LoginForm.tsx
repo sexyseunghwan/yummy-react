@@ -25,7 +25,6 @@ export default function Login() {
                                     withCredentials: true,
                                 }
                             );
-            console.log("response: " + response);
 
             if (response.status === 200) {
                 window.location.href = '/';
