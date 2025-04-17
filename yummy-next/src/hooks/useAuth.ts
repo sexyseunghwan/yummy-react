@@ -12,7 +12,7 @@ export function useAuth(apiBaseUrl: string) {
         async function verify() {
             const u = await checkLogin(apiBaseUrl);
         
-            if (u) setUser(u);
+            if (u !== undefined && u !== null) setUser(u);
         }
 
         verify();
