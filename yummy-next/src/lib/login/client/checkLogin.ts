@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { cookies } from 'next/headers';
 
 /**
  * 로그인 상태인지 확인해주는 함수

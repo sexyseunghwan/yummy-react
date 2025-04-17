@@ -1,5 +1,4 @@
 import LoginForm from './LoginForm';
-import { Suspense } from 'react';
 import { checkLoginAndRedirect } from '@/lib/login/server/checkLogin';
 
 /* Server Component */
@@ -8,7 +7,6 @@ export default async function Login() {
     const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || '';
     
     await checkLoginAndRedirect(apiBaseUrl);
-
     
     return (
         <>
@@ -17,9 +15,7 @@ export default async function Login() {
             <div className="login-container" id="login-container">
                 <h1>로그인하기</h1>
                 <p>로그인하여 다양한 기능을 사용하세요.</p>
-                <Suspense fallback={<div>Loading login form...</div>}>
-                    <LoginForm/>
-                </Suspense>
+                <LoginForm/>
             </div>
         </>
     );

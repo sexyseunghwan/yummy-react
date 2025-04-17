@@ -1,22 +1,23 @@
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { checkLogin } from '@/lib/login/client/checkLogin';
 
 
-export function useAuth(apiBaseUrl: string) {
-    
-    const router = useRouter();
-    const [user, setUser] = useState(null);
+/* deprecated */ 
+// export function useAuth(apiBaseUrl: string) {
 
-    useEffect(() => {
-        async function verify() {
-            const u = await checkLogin(apiBaseUrl);
+//     const [user, setUser] = useState(null);
+
+//     useEffect(() => {
+
+//         async function verify() {
+//             const u = await checkLogin(apiBaseUrl);
         
-            if (u !== undefined && u !== null) setUser(u);
-        }
+//             if (u !== undefined && u !== null) setUser(u);
+//         }
 
-        verify();
-    }, []);
+//         verify();
 
-    return user;
-}
+//     }, []);
+
+//     return user;
+// }
