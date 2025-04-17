@@ -3,57 +3,6 @@ function toggleMenu() {
     menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
 }
 
-// function logout() {
-//     document.cookie = "authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-//     //location.href = "/logout";
-//     window.location.reload();
-// }
-
-// function toggleSidebar() {
-//     const sidebar = document.getElementById("sidebar");
-//     sidebar.classList.toggle("active");
-// }
-
-/* 백엔드 검증을 통해 로그인 중인지 판단한다. */
-// async function mainLoginCheck() {
-
-//     try {
-
-//         const response = await fetch(`${window.env.api_base_url}/login/auth/loginCheck`,
-//             {
-//                 method:'POST',
-//                 headers:{'Content-Type':'application/json'},
-//                 credentials: 'include'
-//             });
-
-//         if (response.status === 401) {
-//             location.href = "/login";
-//         } else if (response.status === 200) {
-//             location.href = "/";
-//         }
-        
-//     } catch(err) {
-//         console.error("로그인 중 에러 발생:", err);
-//     }
-
-// }
-
-
-async function logout() {
-    try {
-        const response = await fetch('/auth/session'); // 📌 현재 로그인한 사용자 정보 가져오기
-        const user = await response.json();
-
-        if (user && user.login_channel === 'kakao') {
-            console.log("Kakao 사용자 로그아웃 실행");
-            await CallKaKaoLogout(); // 📌 카카오 로그아웃 실행
-        } 
-    } catch (error) {
-        console.error("로그아웃 처리 중 오류 발생:", error);
-        alert("로그아웃 중 오류가 발생했습니다.");
-    }
-}
-
 async function CallKaKaoLogout() {
     if (!window.Kakao || !Kakao.isInitialized()) {
         console.error("Kakao SDK가 로드되지 않았거나 초기화되지 않았습니다.");

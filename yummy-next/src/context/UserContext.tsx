@@ -25,21 +25,22 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
                 const data = res.data;
 
                 if (data.code === 'AUTH_ERROR') {
-                    // 로그인 안 된 경우
+                    /* 로그인 안 된 경우 */ 
                     setUser(null);
                 } else {
-                    // 로그인 된 유저 정보
+                    /* 로그인 된 유저 정보 */ 
                     const convertedUser: User = {
                         ...data,
-                        lngX: new Decimal(data.lngX),
-                        latY: new Decimal(data.latY)
+                        lngX: data.lngX != null ? new Decimal(data.lngX) : 37.5045028775835,
+                        latY: data.latY != null ? new Decimal(data.latY) : 127.048942471228,
                     };
+
                     setUser(convertedUser);
                 }
             })
             .catch(err => {
                 console.error('[LoginCheck] 예외 발생:', err);
-                setUser(null); // catch에서 fallback 처리
+                setUser(null); /* catch에서 fallback 처리 */ 
             })
             .finally(() => {
                 setIsLoading(false);

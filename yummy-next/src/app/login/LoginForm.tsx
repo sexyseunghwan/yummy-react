@@ -1,47 +1,31 @@
 'use client';
 
 import { useState } from 'react';
-import { loginWithKakao, loginWithNaver, loginWithTelegram, loginWithGoogle } from '@/lib/login/loginWithOauth';
+import { loginWithKakao, loginWithNaver, loginWithTelegram, loginWithGoogle } from '@/lib/login/client/loginWithOauth';
 import axios from 'axios';
 import Image from 'next/image';
+import { handleLogin, createHandleKeyDown } from '@/lib/login/client/loginHandler';
 
 
 export default function Login() {
 
-    const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
+    const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || ''; 
     const [userId, setUsername] = useState('');
     const [userPw, setPassword] = useState('');
 
-    const handleLogin = async () => {
-
-        const payload = { userId, userPw };
-        
-        try {   
-            
-            const response = await axios.post(`${apiBaseUrl}/login/standardLogin`,
-                                payload,
-                                {
-                                    headers: { 'Content-Type': 'application/json' },
-                                    withCredentials: true,
-                                }
-                            );
-
-            if (response.status === 200) {
-                window.location.href = '/';
-            } else {
-                alert('로그인에 실패하였습니다. 아이디/비밀번호를 확인해주세요.');
-            }
-
-        } catch(err) {
-            console.error("로그인 중 에러 발생:", err);
-        }
-    }
-
+    /* 기본적인 로그인 방식 */
+    const onLogin = () => {
+        handleLogin({ userId, userPw, apiBaseUrl });
+    };
+    
+    /* 키보드 엔터를 치면 로그인 */
+    const handleKeyDown = createHandleKeyDown(apiBaseUrl, userId, userPw);
+    
     return (
         <>
-            <input type="text" placeholder="아이디" value={userId} onChange={(e) => setUsername(e.target.value)} autoComplete="off"/>
-            <input type="password" placeholder="비밀번호" value={userPw} onChange={(e) => setPassword(e.target.value)} autoComplete="off"/>
-            <button id="login-button" onClick={handleLogin}>로그인</button>
+            <input type="text" placeholder="아이디" value={userId} onChange={(e) => setUsername(e.target.value)} onKeyDown={handleKeyDown} autoComplete="off"/>
+            <input type="password" placeholder="비밀번호" value={userPw} onChange={(e) => setPassword(e.target.value)} onKeyDown={handleKeyDown} autoComplete="off"/>
+            <button id="login-button" onClick={onLogin}>로그인</button>
 
             <a className="oauth-login" id="oauth-kakao" onClick={loginWithKakao}>
                 <Image src="/images/oauth/kakao.svg" alt="KakaoTalk Logo" width={24} height={24}/>

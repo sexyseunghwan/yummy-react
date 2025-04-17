@@ -1,14 +1,13 @@
 'use client';
 
 import Script from 'next/script';
-import axios from 'axios';
 
 /* Declare naver as a global variable */
 import { useEffect, useState, useRef } from 'react';
-import { initMap } from '@/lib/map/initMap';
-import { cherryBlossomTheme, resetMap, recommendRandomStore } from '@/lib/map/mapButton';
+import { cherryBlossomTheme, resetMap, recommendRandomStore } from '@/lib/map/client/mapButton';
 import { Store } from '@/types/store';
 import { useUser } from '@/context/UserContext';
+import { fetchStores } from '@/lib/map/client/fetchStore';
 
 
 export default function YummyMap() {
@@ -19,58 +18,13 @@ export default function YummyMap() {
 	const [markers, setMarkers] = useState<any[]>([]);
 	const [zeroPayMarkers, setZeroPayMarkers] = useState<any[]>([]);
 	const { user, isLoading } = useUser();
-
-	/* useRef를 사용하여 맵 초기화 여부를 관리 (초기 값 false) */ 
-	const mapInitializedRef = useRef(false);
 	
 	useEffect(() => {
-		async function fetchStores() {
-			
-			if (isLoading) {
-				console.log("로그인 준비중...");
-				return;
-			}
-		  
-			// 이미 맵이 초기화되었다면 재실행하지 않음
-			// if (mapInitializedRef.current) {
-			// 	console.log("맵 이미 초기화됨...");
-			// 	return;
-			// }
+		
+		if (isLoading) return;
 
-			const defaultStore = { name: '알바천국', lat: 37.5032, lng: 127.0465, type: 'cp' };
-			
-			try {
+		fetchStores({apiBaseUrl, user, setStores, setMapInstance, setMarkers, setZeroPayMarkers});
 
-				const res = await axios.get(`${apiBaseUrl}/search/allData`);
-				const data = res.data;
-
-				const converted = data.map((s: any) => ({
-					name: s.name,
-					lat: s.lat,
-					lng: s.lng,
-					type: s.type,
-					isBeefulPay: s.zero_possible,
-				}));
-				
-				const allStores = [defaultStore, ...converted];
-				setStores(allStores);
-				
-				const { map, markers, zeroPayMarkers } = initMap(allStores, user);
-				
-				setMapInstance(map);
-				setMarkers(markers);
-				setZeroPayMarkers(zeroPayMarkers);
-				
-			} catch (error) {
-				if (axios.isAxiosError(error)) {
-					console.error('Axios API 요청 에러:', error.response?.status, error.message);
-				} else {
-					console.error('예상치 못한 에러:', error);
-				}
-			}
-		}
-
-		fetchStores();
 	}, [isLoading]);
 
   return (

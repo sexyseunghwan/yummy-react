@@ -1,20 +1,21 @@
-import axios from 'axios';
+import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
+import axios from 'axios';
 
-export async function checkLogin(apiBaseUrl: string) {
+/**
+ * 로그인 상태 체크 함수
+ * @param apiBaseUrl 
+ */
+export async function checkLoginAndRedirect(apiBaseUrl: string) {
     
     const cookieStore = await cookies();
     const accessToken = cookieStore.get('yummy-access-token')?.value;
     const userIdHash = cookieStore.get('yummy-user-id')?.value;
 
     if (accessToken && userIdHash) {
-        
         const cookieHeader = `yummy-access-token=${accessToken}; yummy-user-id=${userIdHash}`;
 
-        try {
-        
-            const resp = await axios.post(
-                `${apiBaseUrl}/login/auth/loginCheck`,
+        axios.post(`${apiBaseUrl}/login/auth/loginCheck`,
                 {},
                 {
                     headers: {
@@ -22,20 +23,14 @@ export async function checkLogin(apiBaseUrl: string) {
                         Cookie: cookieHeader,
                     }
                 }
-            );
-    
-            if (resp.status === 200) {
-                return resp.data; /* 사용자 정보 반환 */ 
-            } else {
-                return null; /* 로그인되지 않음 */ 
-            }
-    
-        } catch (err) {
-            console.error('로그인 확인 실패:', err);
-            return null;
-        }
-
+            )
+            .then(res => {
+                if (res.status === 200) {
+                    redirect("/");
+                }
+            })
+            .catch(err => {
+                console.error('토큰 검증 중 에러 발생:', err);
+            });
     }
-
-
 }

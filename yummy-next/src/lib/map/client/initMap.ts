@@ -12,17 +12,17 @@ export function initMap(stores: Store[], user: User | null) {
     const markers: any[] = [];
 	const zeroPayMarkers: any[] = [];
 
-    const lngx = user?.lngX ? user.lngX.toNumber() : 37.5045028775835;
-    const laty = user?.latY ? user.latY.toNumber() : 127.048942471228;
-
-    // console.log("lngx: " + lngx);
-    // console.log("laty: " + laty);
+    const lngx = user?.lngX ? user.lngX : 37.5045028775835;
+    const laty = user?.latY ? user.latY : 127.048942471228;
     
+    console.log("lngx: " + lngx);
+    console.log("laty: " + laty);
+
 	const map = new naver.maps.Map('map', {
 		center: new naver.maps.LatLng(lngx, laty),
 		zoom: 17,
 	});
-    
+        
 	const storeIcon = 'https://cdn-icons-png.flaticon.com/128/3170/3170733.png';
 	const companyIcon = '/images/alba.png';
 	const beefulPayIcon = '/images/pay.png';

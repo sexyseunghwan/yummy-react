@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { checkLogin } from '@/lib/login/checkLogin';
+import { checkLogin } from '@/lib/login/client/checkLogin';
 
 
 export function useAuth(apiBaseUrl: string) {
@@ -13,7 +13,6 @@ export function useAuth(apiBaseUrl: string) {
             const u = await checkLogin(apiBaseUrl);
         
             if (u) setUser(u);
-            //else router.push('/login');
         }
 
         verify();

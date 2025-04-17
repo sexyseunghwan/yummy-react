@@ -1,53 +1,60 @@
 'use client';
 
 import { useUser } from '@/context/UserContext';
-import { checkLoginMain } from '@/lib/login/checkLoginMain';
+import { checkLoginMain } from '@/lib/login/client/checkLogin';
 import axios from 'axios';
-
-
-// 임시용
-// declare global {
-// 	interface Window {
-// 		mainLoginCheck?: () => void;
-// 	}
-// }
 
 
 export default function Sidebar() {
 
     const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || '';
     const { user, isLoading } = useUser();
-
+    
     const toggleSidebar = () => {
         const sidebar = document.getElementById('sidebar');
         sidebar?.classList.toggle('active');
     }
     
     const logout = async () => {
-        // 로그아웃 로직 작성 (예: 쿠키 삭제 후 리다이렉트)
-        // document.cookie = "yummy-access-token=; Max-Age=0; path=/;";
-        // document.cookie = "yummy-user-id=; Max-Age=0; path=/;";
-        //window.location.href = "/";
-        //alert('로그아웃!');
-        try {
-            
-            const response = await axios.post(`${apiBaseUrl}/login/standardLogout`,
-                {},
-                {
-                    headers: { 'Content-Type': 'application/json' },
-                    withCredentials: true,
-                }
-            );
-            
-            if (response.status === 204) {
+        
+        axios.post(`${apiBaseUrl}/login/standardLogout`,
+            {},
+            {
+                headers: { 'Content-Type': 'application/json' },
+                withCredentials: true, 
+            }
+        )
+        .then(res => {
+            if (res.status === 204) {
+                alert("로그아웃 성공");
                 window.location.href = '/';
             } else {
                 alert('로그아웃에 실패하였습니다.');
             }
-
-        } catch(err) {
+        })
+        .catch(err => {
             console.error("로그아웃 중 에러 발생:", err);
-        } 
+        });        
+        
+        // try {
+            
+        //     const response = await axios.post(`${apiBaseUrl}/login/standardLogout`,
+        //         {},
+        //         {
+        //             headers: { 'Content-Type': 'application/json' },
+        //             withCredentials: true,
+        //         }
+        //     );
+            
+        //     if (response.status === 204) {
+        //         window.location.href = '/';
+        //     } else {
+        //         alert('로그아웃에 실패하였습니다.');
+        //     }
+
+        // } catch(err) {
+        //     console.error("로그아웃 중 에러 발생:", err);
+        // } 
 
 
     };
