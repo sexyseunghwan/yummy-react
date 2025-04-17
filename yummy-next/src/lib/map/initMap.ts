@@ -15,9 +15,9 @@ export function initMap(stores: Store[], user: User | null) {
     const lngx = user?.lngX ? user.lngX.toNumber() : 37.5045028775835;
     const laty = user?.latY ? user.latY.toNumber() : 127.048942471228;
 
-    console.log("lngx: " + lngx);
-    console.log("laty: " + laty);
-
+    // console.log("lngx: " + lngx);
+    // console.log("laty: " + laty);
+    
 	const map = new naver.maps.Map('map', {
 		center: new naver.maps.LatLng(lngx, laty),
 		zoom: 17,

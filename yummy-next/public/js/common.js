@@ -15,28 +15,28 @@ function toggleMenu() {
 // }
 
 /* 백엔드 검증을 통해 로그인 중인지 판단한다. */
-async function mainLoginCheck() {
+// async function mainLoginCheck() {
 
-    try {
+//     try {
 
-        const response = await fetch(`${window.env.api_base_url}/login/auth/loginCheck`,
-            {
-                method:'POST',
-                headers:{'Content-Type':'application/json'},
-                credentials: 'include'
-            });
+//         const response = await fetch(`${window.env.api_base_url}/login/auth/loginCheck`,
+//             {
+//                 method:'POST',
+//                 headers:{'Content-Type':'application/json'},
+//                 credentials: 'include'
+//             });
 
-        if (response.status === 401) {
-            location.href = "/login";
-        } else if (response.status === 200) {
-            location.href = "/";
-        }
+//         if (response.status === 401) {
+//             location.href = "/login";
+//         } else if (response.status === 200) {
+//             location.href = "/";
+//         }
         
-    } catch(err) {
-        console.error("로그인 중 에러 발생:", err);
-    }
+//     } catch(err) {
+//         console.error("로그인 중 에러 발생:", err);
+//     }
 
-}
+// }
 
 
 async function logout() {
