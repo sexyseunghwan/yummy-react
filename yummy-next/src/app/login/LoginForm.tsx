@@ -2,10 +2,10 @@
 
 import { useState } from 'react';
 import { loginWithKakao, loginWithNaver, loginWithTelegram, loginWithGoogle } from '@/lib/login/client/loginWithOauth';
-import axios from 'axios';
 import Image from 'next/image';
 import { handleLogin, createHandleKeyDown } from '@/lib/login/client/loginHandler';
-
+import Link from 'next/link'; 
+import styles from './Login.module.css'; 
 
 export default function Login() {
 
@@ -26,6 +26,14 @@ export default function Login() {
             <input type="text" placeholder="아이디" value={userId} onChange={(e) => setUsername(e.target.value)} onKeyDown={handleKeyDown} autoComplete="off"/>
             <input type="password" placeholder="비밀번호" value={userPw} onChange={(e) => setPassword(e.target.value)} onKeyDown={handleKeyDown} autoComplete="off"/>
             <button id="login-button" onClick={onLogin}>로그인</button>
+            
+            <div className={styles.linkContainer}>
+                <Link href="/find-password" className={styles.link}>비밀번호 찾기</Link>
+                <span className={styles.divider}>|</span>
+                <Link href="/find-password" className={styles.link}>아이디 찾기</Link>
+                <span className={styles.divider}>|</span>
+                <Link href="/joinMember" className={styles.link}>회원가입</Link>
+            </div>
 
             <a className="oauth-login" id="oauth-kakao" onClick={loginWithKakao}>
                 <Image src="/images/oauth/kakao.svg" alt="KakaoTalk Logo" width={24} height={24}/>

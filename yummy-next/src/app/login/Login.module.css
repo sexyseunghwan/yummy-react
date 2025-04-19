@@ -1,0 +1,23 @@
+.linkContainer {
+    /* margin-top: 1rem; */
+    font-size: 0.9rem;
+    text-align: center;
+    margin: 15px;
+    /* border: 1px solid red; */
+}
+
+.link {
+    color: #666;
+    text-decoration: none;
+    padding: 0 0.5rem;
+    transition: color 0.3s;
+}
+
+.link:hover {
+    color: #0070f3;
+    text-decoration: underline;
+}
+
+.divider {
+    color: #aaa;
+}
