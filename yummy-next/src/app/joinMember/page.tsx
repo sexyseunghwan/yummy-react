@@ -1,44 +1,23 @@
 'use client';
 
 import styles from './JoinMember.module.css'; 
-import { validateAndSubmit } from '@/lib/joinMember/client/joinMemberValidate';
+import { validateAndSubmit, extractFormData } from '@/lib/joinMember/client/joinMemberValidate';
 import { useState } from 'react';
 
 /* 회원가입 페이지 */
 export default function JoinMember() {
     const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || '';
     const [gender, setGender] = useState('');
-
-    /* 회원가입 */
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault(); /* form 기본 제출 막기 */ 
-        
-        const userId = (e.currentTarget.elements.namedItem('userId') as HTMLInputElement)?.value || '';
-        const password = (e.currentTarget.elements.namedItem('password') as HTMLInputElement)?.value || '';
-        const emailId = (e.currentTarget.elements.namedItem('emailId') as HTMLInputElement)?.value || '';
-        const emailDomain = (e.currentTarget.elements.namedItem('emailDomain') as HTMLSelectElement)?.value || '';
-        const email = emailDomain ? `${emailId}@${emailDomain}` : emailId;
-        const name = (e.currentTarget.elements.namedItem('name') as HTMLInputElement)?.value || '';
-        const birthDate = (e.currentTarget.elements.namedItem('birthDate') as HTMLInputElement)?.value || '';
-        const telecom = (e.currentTarget.elements.namedItem('telecom') as HTMLSelectElement)?.value || '';
-        const phoneNumber = (e.currentTarget.elements.namedItem('phoneNumber') as HTMLInputElement)?.value || '';
-
-
-        /* 여기서 프론트엔드 단에서 검증이 한번 필요함 -> 어차피 백엔드 쪽에서도 검증은 진행함. */
-        const formData = {
-            userId,
-            password,
-            email,
-            name,
-            birthDate,
-            telecom,
-            gender,
-            phoneNumber,
-        };
     
+    /* 회원가입 함수 */
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const form = e.currentTarget;
+        const formData = extractFormData(form, gender);
         await validateAndSubmit(formData, apiBaseUrl);
     };
 
+    
     return (
         <div className={styles.joinMemberContainer}>
             <form className={styles.form} onSubmit={handleSubmit}>
