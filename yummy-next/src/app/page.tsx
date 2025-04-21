@@ -45,7 +45,6 @@ export default function YummyMap() {
 
 		<div id="map">
 			<div className="map-buttons">
-				<button className="cherry-button" onClick={cherryBlossomTheme}>🌸 벚꽃 봄?</button>
 				<button className="random-button" onClick={() => recommendRandomStore(stores, mapInstance, zeroPayMarkers)}>🍀 랜덤 추천</button>
 				<button className="reset-button"  onClick={() => resetMap(mapInstance)}>🔄 맵 초기화</button>
 			</div>
