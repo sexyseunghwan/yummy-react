@@ -16,12 +16,16 @@ export async function handleLogin({ userId, userPw, apiBaseUrl }: LoginParams) {
         }
     )
     .then(res => {
+        
+        const statusCode = res.data.code;
 
-        if (res.status === 200) {
+        if (statusCode === "SUCCESS") {
+            alert("로그인 성공!");
             window.location.href = '/';
         } else {
-            alert('로그인에 실패하였습니다. 아이디/비밀번호를 확인해주세요.');
+            alert("아이디/비밀번호를 확인해주세요.");
         }
+
     })
     .catch(err => {
         console.error("로그인 중 에러 발생:", err);
