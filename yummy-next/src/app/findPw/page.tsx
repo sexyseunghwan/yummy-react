@@ -1,7 +1,7 @@
 'use client';
 
-
 import styles from './FindPw.module.css';
+import { extractFormData, validateAndSubmit } from '@/lib/findPw/client/findPwValidate';
 
 export default function FindPw() {
     const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || '';
@@ -9,9 +9,9 @@ export default function FindPw() {
      /* 비밀번호 찾기 함수 */
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        // const form = e.currentTarget;
-        // const formData = extractFormData(form);
-        // await validateAndSubmit(formData, apiBaseUrl);
+        const form = e.currentTarget;
+        const formData = extractFormData(form);
+        await validateAndSubmit(formData, apiBaseUrl);
     };
     
     return (
