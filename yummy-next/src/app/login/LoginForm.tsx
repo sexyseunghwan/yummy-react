@@ -28,7 +28,7 @@ export default function Login() {
             <button id="login-button" onClick={onLogin}>로그인</button>
             
             <div className={styles.linkContainer}>
-                <Link href="#" className={styles.link}>비밀번호 찾기</Link>
+                <Link href="/findPw" className={styles.link}>비밀번호 찾기</Link>
                 <span className={styles.divider}>|</span>
                 <Link href="/findId" className={styles.link}>아이디 찾기</Link>
                 <span className={styles.divider}>|</span>
