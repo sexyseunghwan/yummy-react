@@ -6,7 +6,6 @@
     text-align: center;
     width: 350px;
     margin-top: 45px; /* ✅ 헤더 높이만큼 내려오기 */
-    /* height: 800px; */
     color: black;
 }
 

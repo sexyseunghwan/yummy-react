@@ -8,7 +8,7 @@ import { useState } from 'react';
 export default function JoinMember() {
     const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || '';
     const [gender, setGender] = useState('');
-    
+
     /* 회원가입 함수 */
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -16,7 +16,7 @@ export default function JoinMember() {
         const formData = extractFormData(form, gender);
         await validateAndSubmit(formData, apiBaseUrl);
     };
-
+    
     
     return (
         <div className={styles.joinMemberContainer}>
@@ -40,7 +40,7 @@ export default function JoinMember() {
                         <option value="nate.com">nate.com</option>
                     </select>
                 </div>
-
+                
                 {/* 이름 */}
                 <input type="text" name="name" className={styles.inputField} placeholder="이름" />
 
