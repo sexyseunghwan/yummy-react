@@ -1,36 +1,31 @@
 import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
-import axios from 'axios';
+
 
 /**
  * 로그인 상태 체크 함수
  * @param apiBaseUrl 
  */
 export async function checkLoginAndRedirect(apiBaseUrl: string) {
-    
     const cookieStore = await cookies();
     const accessToken = cookieStore.get('yummy-access-token')?.value;
-    const userIdHash = cookieStore.get('yummy-user-id')?.value;
 
-    if (accessToken && userIdHash) {
-        const cookieHeader = `yummy-access-token=${accessToken}; yummy-user-id=${userIdHash}`;
+    if (accessToken) {
+        const cookieHeader = `yummy-access-token=${accessToken};`;
 
-        axios.post(`${apiBaseUrl}/login/auth/loginCheck`,
-                {},
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Cookie: cookieHeader,
-                    }
-                }
-            )
-            .then(res => {
-                if (res.status === 200) {
-                    redirect("/");
-                }
-            })
-            .catch(err => {
-                console.error('토큰 검증 중 에러 발생:', err);
-            });
+        const res = await fetch(`${apiBaseUrl}/login/auth/loginCheck`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Cookie': cookieHeader,
+            },
+        });
+
+        const data = await res.json(); // ✅ 여기서 응답 JSON 파싱
+        //console.log('응답 데이터:', data);
+
+        if (data.code === 'SUCCESS') {
+            redirect('/'); // ✅ 로그인된 상태면 리다이렉트
+        }
     }
 }
