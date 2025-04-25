@@ -34,7 +34,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
                         lngX: data.lngX != null ? new Decimal(data.lngX) : 37.5045028775835,
                         latY: data.latY != null ? new Decimal(data.latY) : 127.048942471228,
                     };
-
+                    
                     setUser(convertedUser);
                 }
             })

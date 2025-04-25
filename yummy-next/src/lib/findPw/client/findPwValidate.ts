@@ -44,7 +44,7 @@ export async function validateAndSubmit(formData: FindPwForm, apiBaseUrl: string
 
         if (code === "SUCCESS") {
             alert(message);
-            //location.href = "/login";
+            location.href = "/login";
         } else {
             alert(message);
         }

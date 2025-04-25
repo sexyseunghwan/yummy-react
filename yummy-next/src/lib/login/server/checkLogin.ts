@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
+import { useUser } from '@/context/UserContext';
 
 
 /**
@@ -7,6 +8,7 @@ import { cookies } from 'next/headers';
  * @param apiBaseUrl 
  */
 export async function checkLoginAndRedirect(apiBaseUrl: string) {
+    
     const cookieStore = await cookies();
     const accessToken = cookieStore.get('yummy-access-token')?.value;
 
@@ -21,11 +23,11 @@ export async function checkLoginAndRedirect(apiBaseUrl: string) {
             },
         });
 
-        const data = await res.json(); // ✅ 여기서 응답 JSON 파싱
-        //console.log('응답 데이터:', data);
-
-        if (data.code === 'SUCCESS') {
-            redirect('/'); // ✅ 로그인된 상태면 리다이렉트
+        const data = await res.json(); 
+        
+        if (data.code !== 'AUTH_ERROR') {
+            redirect('/'); /* 로그인된 상태면 리다이렉트 */
         }
+
     }
 }
