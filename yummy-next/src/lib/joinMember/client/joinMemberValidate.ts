@@ -1,6 +1,5 @@
 import { JoinMemberForm } from '@/types/joinMember/joinMemberForm';
 import axios from 'axios';
-import { useState } from 'react';
 
 
 /**
@@ -12,6 +11,7 @@ import { useState } from 'react';
 export function extractFormData(form: HTMLFormElement, gender: string) {
     const userId = (form.elements.namedItem('userId') as HTMLInputElement)?.value || '';
     const password = (form.elements.namedItem('password') as HTMLInputElement)?.value || '';
+    const passwordCheck = (form.elements.namedItem('passwordCheck') as HTMLInputElement)?.value || '';
     const emailId = (form.elements.namedItem('emailId') as HTMLInputElement)?.value || '';
     const emailDomain = (form.elements.namedItem('emailDomain') as HTMLSelectElement)?.value || '';
     const email = emailDomain ? `${emailId}@${emailDomain}` : emailId;
@@ -23,6 +23,7 @@ export function extractFormData(form: HTMLFormElement, gender: string) {
     return {
         userId,
         password,
+        passwordCheck,
         email,
         name,
         birthDate,
@@ -45,6 +46,7 @@ export async function validateAndSubmit(formData: JoinMemberForm, apiBaseUrl: st
         ID_DUPLICATED: "이미 존재하는 아이디입니다.",
         ID_ERR: "사용할 수 없는 아이디입니다. 영문소문자 2개이상 숫자 2개이상의 조합.",
         PW_ERR: "비밀번호를 확인해주세요. 소문자/대문자 1개이상 특수문자 1개이상, 8자리 이상의 조합",
+        PW_CHECK_ERR: "비밀번호가 일치하지 않습니다.",
         EMAIL_ERR: "이메일 주소를 확인해주세요.",
         NAME_ERR: "이름을 확인해주세요.",
         BIRTH_ERR: "올바르지 않은 날짜입니다. (ex. 19930823)",

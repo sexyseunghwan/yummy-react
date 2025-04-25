@@ -1,7 +1,8 @@
 export type JoinMemberForm = {
     userId: string;
     password: string;
-    email?: string;
+    passwordCheck: string;
+    email: string;
     name: string;
     birthDate: string;
     telecom: string;

@@ -26,7 +26,10 @@ export default function JoinMember() {
 
                 {/* 비밀번호 */}
                 <input type="password" name="password" className={styles.inputField} placeholder="비밀번호" />
-
+                
+                {/* 비밀번호 확인 */}
+                <input type="password" name="passwordCheck" className={styles.inputField} placeholder="비밀번호 확인" />
+                
                 {/* 이메일 (선택) */}
                 <div className={styles.emailContainer}>
                     <input type="text" name="emailId" className={styles.emailInput} placeholder="이메일 아이디"/>
