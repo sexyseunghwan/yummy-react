@@ -1,17 +1,21 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { loginWithKakao, loginWithNaver, loginWithTelegram, loginWithGoogle } from '@/lib/login/client/loginWithOauth';
 import Image from 'next/image';
 import { handleLogin, createHandleKeyDown } from '@/lib/login/client/loginHandler';
 import Link from 'next/link'; 
+import Script from 'next/script'; 
 import styles from './Login.module.css'; 
+import axios from 'axios';
 
 export default function Login() {
 
     const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || ''; 
+    const kakaoJsKey = process.env.NEXT_PUBLIC_KAKAO_JS_KEY || '';
     const [userId, setUsername] = useState('');
     const [userPw, setPassword] = useState('');
+    const [kakaoReady, setKakaoReady] = useState(false); // Kakao 준비 상태
 
     /* 기본적인 로그인 방식 */
     const onLogin = () => {
@@ -21,8 +25,65 @@ export default function Login() {
     /* 키보드 엔터를 치면 로그인 */
     const handleKeyDown = createHandleKeyDown(apiBaseUrl, userId, userPw);
     
+
+    useEffect(() => {
+        if (typeof window !== 'undefined' && window.Kakao && !window.Kakao.isInitialized()) {
+            window.Kakao.init(kakaoJsKey);
+            setKakaoReady(true); 
+            console.log('Kakao SDK 초기화 완료');
+        } else if (typeof window !== 'undefined' && window.Kakao && window.Kakao.isInitialized()) {
+            setKakaoReady(true); 
+        }
+
+        // 이상한 코드 하나가 발급되어버렸노 ~
+        // const param = new URLSearchParams(window.location.search);
+        // const code = param.get('code');
+
+        //console.log(code);
+
+
+        const handleKakaoCallback = async () => {
+            const param = new URLSearchParams(window.location.search);
+            const code = param.get('code');
+    
+            if (!code) {
+                console.log('카카오 로그인 코드 없음');
+                return;
+            }
+    
+            try {
+                const response = await axios.post(
+                    `${apiBaseUrl}/login/kakao/login`,
+                    { code },
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        withCredentials: true,
+                    }
+                );
+    
+                console.log('백엔드 응답:', response.data);
+                // 로그인 성공 처리 (예: 토큰 저장, 리디렉션 등)
+            } catch (error) {
+                console.error('카카오 로그인 콜백 오류:', error);
+            }
+        };
+
+        handleKakaoCallback();
+
+    }, [kakaoJsKey]);
+
     return (
         <>
+
+            <Script
+                src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js"
+                integrity="sha384-DKYJZ8NLiK8MN4/C5P2dtSmLQ4KwPaoqAfyA/DfmEc1VDxu4yyC7wy6K1Hs90nka"
+                crossOrigin="anonymous"
+                strategy="beforeInteractive"
+                />
+
             <input type="text" placeholder="아이디" value={userId} onChange={(e) => setUsername(e.target.value)} onKeyDown={handleKeyDown} autoComplete="off"/>
             <input type="password" placeholder="비밀번호" value={userPw} onChange={(e) => setPassword(e.target.value)} onKeyDown={handleKeyDown} autoComplete="off"/>
             <button id="login-button" onClick={onLogin}>로그인</button>
