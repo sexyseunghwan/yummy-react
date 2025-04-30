@@ -1,4 +1,6 @@
+'use client';
 import axios from 'axios';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 /**
  * 로그인 상태인지 확인해주는 함수
@@ -57,3 +59,25 @@ export async function checkLoginMain(apiBaseUrl: string) {
         window.location.href = '/login';
     }
 }
+
+// export async function useKakaoLogin(apiBaseUrl: string) {
+
+//     const router = useRouter();
+//     const searchParams = useSearchParams();
+//     const code = searchParams.get('code');
+
+//     // axios.post(`${apiBaseUrl}/login/auth/loginCheck`,
+//     //     {},
+//     //     {
+//     //         withCredentials: true,
+//     //     }
+//     // )
+//     // .then(res => {
+
+//     // })
+//     // .catch(err => {
+
+//     // });
+
+// }
+

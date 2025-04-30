@@ -24,9 +24,10 @@ export default function Login() {
     
     /* 키보드 엔터를 치면 로그인 */
     const handleKeyDown = createHandleKeyDown(apiBaseUrl, userId, userPw);
-    
+        
 
     useEffect(() => {
+        
         if (typeof window !== 'undefined' && window.Kakao && !window.Kakao.isInitialized()) {
             window.Kakao.init(kakaoJsKey);
             setKakaoReady(true); 
@@ -35,44 +36,42 @@ export default function Login() {
             setKakaoReady(true); 
         }
 
-        // 이상한 코드 하나가 발급되어버렸노 ~
-        // const param = new URLSearchParams(window.location.search);
-        // const code = param.get('code');
-
-        //console.log(code);
-
-
-        const handleKakaoCallback = async () => {
-            const param = new URLSearchParams(window.location.search);
-            const code = param.get('code');
+        // const handleKakaoCallback = async () => {
+        //     const param = new URLSearchParams(window.location.search);
+        //     const code = param.get('code');
+            
+        //     if (!code) {
+        //         //console.log('No Kakao login code');
+        //         return;
+        //     }
     
-            if (!code) {
-                console.log('카카오 로그인 코드 없음');
-                return;
-            }
-    
-            try {
-                const response = await axios.post(
-                    `${apiBaseUrl}/login/kakao/login`,
-                    { code },
-                    {
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        withCredentials: true,
-                    }
-                );
-    
-                console.log('백엔드 응답:', response.data);
-                // 로그인 성공 처리 (예: 토큰 저장, 리디렉션 등)
-            } catch (error) {
-                console.error('카카오 로그인 콜백 오류:', error);
-            }
-        };
+        //     try {
+        //         const response = await axios.post(
+        //             `${apiBaseUrl}/login/ouath2/kakao`,
+        //             { code },
+        //             {
+        //                 headers: {
+        //                     'Content-Type': 'application/json',
+        //                 },
+        //                 withCredentials: true,
+        //             }
+        //         );
+                
+        //         // 깜빡 거리는데 ...
+        //         if (response.data === "SUCCESS") {
+        //             location.href = "/";
+        //         }
+                
+        //         //console.log('백엔드 응답:', response.data);
+        //         // 로그인 성공 처리 (예: 토큰 저장, 리디렉션 등)
+        //     } catch (error) {
+        //         console.error('Kakao login callback error:', error);
+        //     }
+        // };
 
-        handleKakaoCallback();
+        // handleKakaoCallback();
 
-    }, [kakaoJsKey]);
+    }, []);
 
     return (
         <>

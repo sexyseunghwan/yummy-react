@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
-import { useUser } from '@/context/UserContext';
+import { NextRequest, NextResponse } from 'next/server';
 
 
 /**
@@ -31,3 +31,19 @@ export async function checkLoginAndRedirect(apiBaseUrl: string) {
 
     }
 }
+
+// export async function checkKakaoLoginAndRedirect(apiBaseUrl: string, code: string) {
+    
+//     const response = await fetch(`${apiBaseUrl}/login/ouath2/kakao`, {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify({ code }),
+//         credentials: 'include',
+//     });
+
+//     const result = await response.json();
+
+//     return result === "SUCCESS"
+// }

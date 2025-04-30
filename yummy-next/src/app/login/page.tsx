@@ -1,11 +1,19 @@
+export const dynamic = 'force-dynamic';
+
 import LoginForm from './LoginForm';
 import { checkLoginAndRedirect } from '@/lib/login/server/checkLogin';
+
+// interface LoginPageProps {
+//     // NOTE: searchParams is now a Promise of an object
+//     searchParams: Promise<{ code?: string }>;
+// }
 
 /* Server Component */
 export default async function Login() {
     
     const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || '';
     
+    /* 로그인이 되었는지 판단. */
     await checkLoginAndRedirect(apiBaseUrl);
     
     return (
