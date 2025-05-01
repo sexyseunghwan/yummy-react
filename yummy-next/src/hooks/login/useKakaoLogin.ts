@@ -8,9 +8,12 @@ import axios from 'axios';
 export function useKakaoLogin(apiBaseUrl: string) {
     const router = useRouter();
     const searchParams = useSearchParams();
-    const code = searchParams.get('code');
+
+    //alert(code);
 
     useEffect(() => {
+        const code = searchParams.get('code');
+        
         if (!code) return;
 
         const checkLogin = async () => {
@@ -23,5 +26,5 @@ export function useKakaoLogin(apiBaseUrl: string) {
         };
 
         checkLogin();
-    }, [code]);
+    }, []);
 }
