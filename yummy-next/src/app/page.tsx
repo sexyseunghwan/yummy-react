@@ -4,10 +4,10 @@ import Script from 'next/script';
 
 /* Declare naver as a global variable */
 import { useEffect, useState, useRef } from 'react';
-import { cherryBlossomTheme, resetMap, recommendRandomStore } from '@/lib/map/client/mapButton';
-import { Store } from '@/types/store';
-import { useUser } from '@/context/UserContext';
-import { fetchStores } from '@/lib/map/client/fetchStore';
+import { cherryBlossomTheme, resetMap, recommendRandomStore } from '@/lib/client/map/mapButton';
+import { Store } from '@/types/shared/store';
+import { useUser } from '@/context/auth/UserContext';
+import { fetchStores } from '@/lib/client/map/fetchStore';
 
 
 export default function YummyMap() {

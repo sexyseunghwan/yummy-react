@@ -1,11 +1,11 @@
 // app/layout.tsx
 import './globals.css';
 import Script from 'next/script';
-import Header from '@/components/Header';
-import Sidebar from '@/components/Sidebar';
-import KakaoInit from '@/components/KakaoInit';
-import EnvScript from '@/components/EnvScript';
-import { UserProvider } from '@/context/UserContext';
+import Header from '@/components/common/Header';
+import Sidebar from '@/components/common/Sidebar';
+import KakaoInit from '@/components/auth/KakaoInit';
+import EnvScript from '@/components/common/EnvScript';
+import { UserProvider } from '@/context/auth/UserContext';
 
 export const metadata = {
   title: '가야 할 지도',
