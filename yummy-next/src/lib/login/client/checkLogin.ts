@@ -46,7 +46,7 @@ export async function checkLoginMain(apiBaseUrl: string) {
         .then(res => {
             const data = res.data;
 
-            if (data.code === 'AUTH_ERROR') {
+            if (data === 'AUTH_ERROR') {
                 /* 로그인이 안된 경우 */
                 window.location.href = '/login';
             } else {

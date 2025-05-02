@@ -53,7 +53,8 @@ export async function validateAndSubmit(formData: JoinMemberForm, apiBaseUrl: st
         TELECOM_ERR: "통신사를 선택해주세요.",
         GENDER_ERR: "성별을 선택해주세요.",
         PHONE_ERR: "휴대전화번호를 확인해주세요.",
-        SERVER_ERR: "회원가입 실패/서버문제"
+        SERVER_ERR: "회원가입 실패/서버문제",
+        
     };
 
     axios.post(`${apiBaseUrl}/joinMember/join`,
@@ -61,12 +62,13 @@ export async function validateAndSubmit(formData: JoinMemberForm, apiBaseUrl: st
         {
             headers: {
                 'Content-Type': 'application/json',
-            }
+            },
+            withCredentials: true
         }
     )
     .then(res => {
              
-        const code = res.data.code;
+        const code = res.data;
         const message = responseMessages[code];
 
         if (code === "SUCCESS") {

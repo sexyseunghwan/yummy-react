@@ -36,41 +36,6 @@ export default function Login() {
             setKakaoReady(true); 
         }
 
-        // const handleKakaoCallback = async () => {
-        //     const param = new URLSearchParams(window.location.search);
-        //     const code = param.get('code');
-            
-        //     if (!code) {
-        //         //console.log('No Kakao login code');
-        //         return;
-        //     }
-    
-        //     try {
-        //         const response = await axios.post(
-        //             `${apiBaseUrl}/login/ouath2/kakao`,
-        //             { code },
-        //             {
-        //                 headers: {
-        //                     'Content-Type': 'application/json',
-        //                 },
-        //                 withCredentials: true,
-        //             }
-        //         );
-                
-        //         // 깜빡 거리는데 ...
-        //         if (response.data === "SUCCESS") {
-        //             location.href = "/";
-        //         }
-                
-        //         //console.log('백엔드 응답:', response.data);
-        //         // 로그인 성공 처리 (예: 토큰 저장, 리디렉션 등)
-        //     } catch (error) {
-        //         console.error('Kakao login callback error:', error);
-        //     }
-        // };
-
-        // handleKakaoCallback();
-
     }, []);
 
     return (

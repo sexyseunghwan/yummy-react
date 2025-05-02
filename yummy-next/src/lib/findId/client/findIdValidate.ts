@@ -42,7 +42,7 @@ export async function validateAndSubmit(formData: FindIdForm, apiBaseUrl: string
     )
     .then(res => {
 
-        const code = res.data.code;
+        const code = res.data;
         const message = responseMessages[code];
 
         if (code === "SUCCESS") {

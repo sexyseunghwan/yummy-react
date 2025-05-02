@@ -17,7 +17,7 @@ export async function handleLogin({ userId, userPw, apiBaseUrl }: LoginParams) {
     )
     .then(res => {
         
-        const statusCode = res.data.code;
+        const statusCode = res.data;
 
         if (statusCode === "SUCCESS") {
             alert("로그인 성공!");

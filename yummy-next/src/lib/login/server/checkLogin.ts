@@ -25,7 +25,7 @@ export async function checkLoginAndRedirect(apiBaseUrl: string) {
 
         const data = await res.json(); 
         
-        if (data.code !== 'AUTH_ERROR') {
+        if (data !== 'AUTH_ERROR') {
             redirect('/'); /* 로그인된 상태면 리다이렉트 */
         }
 

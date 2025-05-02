@@ -24,7 +24,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
             .then(res => {
                 const data = res.data;
 
-                if (data.code === 'AUTH_ERROR') {
+                if (data === 'AUTH_ERROR') {
                     /* 로그인 안 된 경우 */ 
                     setUser(null);
                 } else {
