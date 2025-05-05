@@ -23,12 +23,11 @@ export async function checkLoginAndRedirect(apiBaseUrl: string) {
             },
         });
 
-        const data = await res.json(); 
-        
-        if (data !== 'AUTH_ERROR') {
+        const resp = await res.json(); 
+
+        if (resp.publicStatus === 'SUCCESS') {
             redirect('/'); /* 로그인된 상태면 리다이렉트 */
         }
-
     }
 }
 

@@ -22,21 +22,41 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
                 }
             )
             .then(res => {
-                const data = res.data;
+                
+                const response = res.data;
+                const status = response.publicStatus;
+                const userData = response.data;
+                
+                //console.log('response' + response.data);
 
-                if (data === 'AUTH_ERROR') {
-                    /* 로그인 안 된 경우 */ 
-                    setUser(null);
-                } else {
+                if (status === 'SUCCESS' && !userData) {
                     /* 로그인 된 유저 정보 */ 
                     const convertedUser: User = {
-                        ...data,
-                        lngX: data.lngX != null ? new Decimal(data.lngX) : 37.5045028775835,
-                        latY: data.latY != null ? new Decimal(data.latY) : 127.048942471228,
+                        ...userData,
+                        lngX: userData.lngX != null ? new Decimal(userData.lngX) : 37.5045028775835,
+                        latY: userData.latY != null ? new Decimal(userData.latY) : 127.048942471228,
                     };
                     
                     setUser(convertedUser);
+
+                } else {
+                    /* 로그인 안 된 경우 & 임시비밀번호 발급 받은 경우 */ 
+                    setUser(null);
                 }
+
+                // if (data === 'AUTH_ERROR') {
+                //     /* 로그인 안 된 경우 */ 
+                //     setUser(null);
+                // } else {
+                //     /* 로그인 된 유저 정보 */ 
+                //     const convertedUser: User = {
+                //         ...data,
+                //         lngX: data.lngX != null ? new Decimal(data.lngX) : 37.5045028775835,
+                //         latY: data.latY != null ? new Decimal(data.latY) : 127.048942471228,
+                //     };
+                    
+                //     setUser(convertedUser);
+                // }
             })
             .catch(err => {
                 console.error('[LoginCheck] 예외 발생:', err);
