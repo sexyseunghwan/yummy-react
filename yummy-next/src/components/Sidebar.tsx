@@ -20,7 +20,7 @@ export default function Sidebar() {
         e.preventDefault();
         logOut(apiBaseUrl);
     };
-        
+    
     return (
         <div className="sidebar" id="sidebar">
             <span className="close-btn" onClick={toggleSidebar}>
@@ -36,11 +36,6 @@ export default function Sidebar() {
                         <li>
                             <a href="#" onClick={handleLogoutClick}>로그아웃</a>
                         </li>
-                        {/* {user.is_admin && (
-                            <li>
-                                <a href="/admin">관리자 페이지</a>
-                            </li>
-                        )} */}
                     </>
                 ) : (
                     <li>

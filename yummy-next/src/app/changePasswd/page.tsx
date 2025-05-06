@@ -1,15 +1,16 @@
 'use client';
 
 import styles from './ChangePasswd.module.css';
+import { extractFormData, validateAndSubmit } from '@/lib/changePasswd/client/changePasswdValidate';
 
 export default function ChangePasswd() {
     const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || '';
     
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
             e.preventDefault();
-            // const form = e.currentTarget;
-            // const formData = extractFormData(form, gender);
-            // await validateAndSubmit(formData, apiBaseUrl);
+            const form = e.currentTarget;
+            const formData = extractFormData(form);
+            await validateAndSubmit(formData, apiBaseUrl);
         };
     
     return (
