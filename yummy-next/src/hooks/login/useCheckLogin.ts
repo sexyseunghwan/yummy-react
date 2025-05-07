@@ -19,7 +19,7 @@ export function useCheckLogin(apiBaseUrl: string) {
 
                 const data = res.data;
 
-                if (data.code !== 'AUTH_ERROR') {
+                if (data !== 'AUTH_ERROR') {
                     router.replace('/');
                 }
             } catch (error) {
