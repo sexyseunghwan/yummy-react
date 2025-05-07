@@ -7,7 +7,6 @@ import { handleLogin, createHandleKeyDown } from '@/lib/login/client/loginHandle
 import Link from 'next/link'; 
 import Script from 'next/script'; 
 import styles from './Login.module.css'; 
-import axios from 'axios';
 
 export default function Login() {
 

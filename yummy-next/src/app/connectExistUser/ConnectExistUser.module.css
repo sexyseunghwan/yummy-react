@@ -1,0 +1,46 @@
+.connectUserContainer {
+    background-color: #FFFAF0;
+    padding: 32px 24px;
+    border-radius: 15px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 100%;
+    max-width: 350px;
+    margin: 100px auto 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+.connectUserContainer input {
+    padding: 12px 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 15px;
+    outline: none;
+    transition: border 0.2s ease;
+    color: black;
+    width: 300px;
+}
+  
+.connectUserContainer input:focus {
+    border-color: #ffaa33;
+    box-shadow: 0 0 0 3px rgba(255, 170, 51, 0.2);
+}
+
+.connectUserContainer button {
+    padding: 12px 16px;
+    background-color: #ffaa33;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.connectUserContainer button:hover {
+    background-color: #ff9900;
+}
+  
