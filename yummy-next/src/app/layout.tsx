@@ -6,6 +6,8 @@ import Sidebar from '@/components/common/Sidebar';
 import KakaoInit from '@/components/auth/KakaoInit';
 import EnvScript from '@/components/common/EnvScript';
 import { UserProvider } from '@/context/auth/UserContext';
+import {cn} from '@/lib/utils';
+import Link from 'next/link';
 
 export const metadata = {
   title: '가야 할 지도',
@@ -29,18 +31,18 @@ export default function RootLayout({
 				strategy="beforeInteractive"
 			/>
 			</head>
-			<body>
+			<body className="min-h-screen flex flex-col">
 				<UserProvider>
 					<EnvScript />
 					<Header />
 					<KakaoInit/>
 					<Sidebar />
-					<main>{children}</main>
+					<main className={cn("flex-1")}>{children}</main>
+					<footer className={cn("w-full bg-background text-center py-3 text-xs border-t border-accent")}>
+						<p>© 2025 Yummy 초코송이표 정품입니다.</p>
+						<p><Link href="" className={cn("text-text-light")}>support@yummymap.com</Link></p>
+					</footer>
 				</UserProvider>
-			<footer>
-				<p className="copyright">© 2025 Yummy 🍫 초코송이가 만들었어요! 🍄</p>
-				<p><a href="">support@yummymap.com</a></p>
-			</footer>
 			</body>
 		</html>
 	);

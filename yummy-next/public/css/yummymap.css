@@ -169,17 +169,7 @@ main {
     text-overflow: ellipsis;
 }
 
-/* ✅ 푸터 위치 조정 */
-footer {
-    width: 100%;
-    text-align: center;
-    padding: 15px;
-    font-size: 12px;
-    background-color: #FFFAF0;
-    border-top: 1px solid #FFA500;
-    position: relative;
-    margin-top: auto;
-}
+
 
 /* ✅ 버튼 컨테이너 (맵 오른쪽에 배치) */
 .map-buttons {
