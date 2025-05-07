@@ -12,11 +12,18 @@ export function initMap(stores: Store[], user: User | null) {
     const markers: any[] = [];
 	const zeroPayMarkers: any[] = [];
 
-    const lngx = user?.lngX ? user.lngX : 37.5045028775835;
-    const laty = user?.latY ? user.latY : 127.048942471228;
+    let lngx = user?.lngX ? user.lngX : 37.5045028775835;
+    let laty = user?.latY ? user.latY : 127.048942471228;
     
-    console.log("lngx: " + lngx);
-    console.log("laty: " + laty);
+    // console.log("lngx: " + lngx);
+    // console.log("laty: " + laty);
+
+    //moon
+    const geo_location = GetGeolocation();
+    if(geo_location.lat !== null && geo_location.lng !== null){
+        laty = geo_location.lat;
+        lngx = geo_location.lng;
+    }
 
 	const map = new naver.maps.Map('map', {
 		center: new naver.maps.LatLng(lngx, laty),
@@ -162,3 +169,30 @@ function getWalkingTime(distanceKm: number): number {
     const speed = 3.5;
     return Math.ceil((distanceKm / speed) * 60);
 }	
+
+function GetGeolocation(){
+    let userLat = null;
+    let userLng = null;
+    
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            userLat = position.coords.latitude;
+            userLng = position.coords.longitude;
+
+        }, function(event) {
+            if (event.code === 1) {
+                alert("위치 정보 사용이 거부되었습니다.");
+            } else if (event.code === 2) {
+                alert("위치 정보를 찾을 수 없습니다.");
+            } else if (event.code === 3) {
+                alert("위치 정보 요청이 시간 초과되었습니다.");
+            } else {
+                alert("알 수 없는 오류가 발생했습니다.");
+            }
+        });
+    } else {
+        alert("이 브라우저는 Geolocation을 지원하지 않습니다.");
+    }
+
+    return {lat: userLat, lng: userLng };
+}

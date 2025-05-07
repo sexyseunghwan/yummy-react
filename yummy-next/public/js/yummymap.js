@@ -17,11 +17,11 @@ var zeroPayStores = [{ name: "알바천국", lat: 37.5032355765545, lng: 127.046
         }
 
         //moon
-        const geo_location = GetGeolocation();
-        if(geo_location.lat !== null && geo_location.lng !== null){
-            laty = geo_location.lat;
-            lngx = geo_location.lng;
-        }
+        // const geo_location = GetGeolocation();
+        // if(geo_location.lat !== null && geo_location.lng !== null){
+        //     laty = geo_location.lat;
+        //     lngx = geo_location.lng;
+        // }
 
         map = new naver.maps.Map('map', {
             center: new naver.maps.LatLng(laty, lngx),
@@ -402,21 +402,21 @@ var zeroPayStores = [{ name: "알바천국", lat: 37.5032355765545, lng: 127.046
         }
     }
 
-    function GetGeolocation(){
-        let userLat = null;
-        let userLng = null;
+    // function GetGeolocation(){
+    //     let userLat = null;
+    //     let userLng = null;
         
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                userLat = position.coords.latitude;
-                userLng = position.coords.longitude;
+    //     if (navigator.geolocation) {
+    //         navigator.geolocation.getCurrentPosition(function(position) {
+    //             userLat = position.coords.latitude;
+    //             userLng = position.coords.longitude;
 
-            }, function() {
-                alert("위치 정보를 가져올 수 없습니다.");
-            });
-        } else {
-            alert("이 브라우저는 Geolocation을 지원하지 않습니다.");
-        }
+    //         }, function() {
+    //             alert("위치 정보를 가져올 수 없습니다.");
+    //         });
+    //     } else {
+    //         alert("이 브라우저는 Geolocation을 지원하지 않습니다.");
+    //     }
 
-        return {lat: userLat, lng: userLng };
-    }
+    //     return {lat: userLat, lng: userLng };
+    // }
