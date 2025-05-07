@@ -1,11 +1,10 @@
-// components/LoggingInPage.tsx
 'use client';
 
 import styles from './LoggingPage.module.css';
 import { useKakaoLogin } from '@/hooks/login/useKakaoLogin';
 import { useState, useEffect } from 'react';
 
-export default function LoggingInPage() {
+export default function LoggingPage() {
 	const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || ''; 
 	const apiResult = useKakaoLogin(apiBaseUrl);
 	const [dots, setDots] = useState('');
