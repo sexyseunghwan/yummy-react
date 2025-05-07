@@ -30,7 +30,8 @@ export default function LoggingPage() {
 				alert('카카오 로그인 성공');
 				window.location.href = '/';
             } else if (apiResult === "JOIN_TARGET_MEMBER") {
-				window.location.href = '/joinMember';
+				alert('해당 카카오 아이디를 기존 회원연동 또는 회원가입이 필요합니다.')
+				window.location.href = '/selectOauthProcess';
 			} else {
               	alert('카카오 로그인 실패');
 				  window.location.href = '/';
