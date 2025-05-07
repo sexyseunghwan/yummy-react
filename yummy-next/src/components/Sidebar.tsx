@@ -20,12 +20,7 @@ export default function Sidebar() {
         e.preventDefault();
         logOut(apiBaseUrl);
     };
-
-    const handleLoginClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-        e.preventDefault();
-        checkLoginMain(apiBaseUrl);
-    };
-        
+    
     return (
         <div className="sidebar" id="sidebar">
             <span className="close-btn" onClick={toggleSidebar}>
@@ -41,15 +36,10 @@ export default function Sidebar() {
                         <li>
                             <a href="#" onClick={handleLogoutClick}>로그아웃</a>
                         </li>
-                        {/* {user.is_admin && (
-                            <li>
-                                <a href="/admin">관리자 페이지</a>
-                            </li>
-                        )} */}
                     </>
                 ) : (
                     <li>
-                        <a href="#" className="login-button" onClick={handleLoginClick}>로그인</a>
+                        <a href="/login" className="login-button">로그인</a>
                     </li>
                 )}
             </ul>

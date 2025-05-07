@@ -1,4 +1,6 @@
+'use client';
 import axios from 'axios';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 /**
  * 로그인 상태인지 확인해주는 함수
@@ -43,14 +45,19 @@ export async function checkLoginMain(apiBaseUrl: string) {
         )
         .then(res => {
             const data = res.data;
+            
+            // if (data.publicStatus === 'SUCCESS') {
+            //     /* 로그인이 된 경우 */
+            //     window.location.href = '/';
+            // } else 
 
-            if (data.code === 'AUTH_ERROR') {
-                /* 로그인이 안된 경우 */
-                window.location.href = '/login';
-            } else {
-                /* 로그인이 된 경우 */
-                window.location.href = '/';
-            }
+            // if (data === 'AUTH_ERROR') {
+            //     /* 로그인이 안된 경우 */
+            //     window.location.href = '/login';
+            // } else {
+            //     /* 로그인이 된 경우 */
+            //     window.location.href = '/';
+            // }
         })
 
     } catch (err) {

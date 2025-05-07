@@ -1,0 +1,10 @@
+.logingContainer {
+    background-color: #FFFAF0;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 350px;
+    margin-top: 45px; /* ✅ 헤더 높이만큼 내려오기 */
+    color: black;
+}
