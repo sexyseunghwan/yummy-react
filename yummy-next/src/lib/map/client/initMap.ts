@@ -15,13 +15,17 @@ export async function initMap(stores: Store[], user: User | null) {
     let lngx = user?.lngX ? user.lngX : 127.048942471228;
     let laty = user?.latY ? user.latY : 37.5045028775835;
 
-    const geo_location = await GetGeolocation();
-    console.log("after function call geo_location object",geo_location);
-    if(geo_location.lat !== null && geo_location.lng !== null){
-        console.log("in if geo_location lat, lng",geo_location.lat,geo_location.lng);
-        laty = geo_location.lat;
-        lngx = geo_location.lng;
-    }
+    try {
+        const geo_location = await GetGeolocation();
+        console.log("after function call geo_location object", geo_location);
+        if (geo_location.lat !== null && geo_location.lng !== null) {
+          console.log("in if geo_location lat, lng", geo_location.lat, geo_location.lng);
+          laty = geo_location.lat;
+          lngx = geo_location.lng;
+        }
+      } catch (e) {
+        console.warn("Geolocation fetch failed, using defaults:", e);
+      }
 
     //naver maps의 경우 lat, lng 순서가 반대이므로 주의
     //현재 잘못 세팅 되고 있는 거 같음 전체 적으로 점검이 필요 함 
@@ -171,32 +175,53 @@ function getWalkingTime(distanceKm: number): number {
     return Math.ceil((distanceKm / speed) * 60);
 }	
 
-async function GetGeolocation(){
-    let userLat = null;
-    let userLng = null;
-    
-    if (navigator.geolocation) {
-        console.log("Geolocation"+navigator.geolocation);
-        navigator.geolocation.getCurrentPosition(function(position) {
-            console.log("위치 정보가 성공적으로 수신되었습니다."+position);
-            console.log("위도: " + position.coords.latitude + ", 경도: " + position.coords.longitude);
-            userLat = position.coords.latitude;
-            userLng = position.coords.longitude;
-
-        }, function(event) {
-            if (event.code === 1) {
-                alert("위치 정보 사용이 거부되었습니다.");
-            } else if (event.code === 2) {
-                alert("위치 정보를 찾을 수 없습니다.");
-            } else if (event.code === 3) {
-                alert("위치 정보 요청이 시간 초과되었습니다.");
-            } else {
-                alert("알 수 없는 오류가 발생했습니다.");
-            }
-        });
-    } else {
-        alert("이 브라우저는 Geolocation을 지원하지 않습니다.");
-    }
-
-    return {lat: userLat, lng: userLng };
-}
+interface GeoLocation {
+    lat: number | null;
+    lng: number | null;
+  }
+  
+export function GetGeolocation(): Promise<GeoLocation> {
+    return new Promise(resolve => {
+      if (!navigator.geolocation) {
+        // 브라우저가 Geolocation을 지원하지 않을 때 안내
+        alert("이 브라우저는 위치 정보를 지원하지 않습니다.");
+        console.warn("Geolocation is not supported by this browser.");
+        return resolve({ lat: null, lng: null });
+      }
+  
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          // 위치 받아왔을 때 resolve
+          resolve({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          });
+        },
+        error => {
+          // 에러나 거부 시에도 안내 및 resolve
+          switch (error.code) {
+            case error.PERMISSION_DENIED:
+              alert("위치 정보 사용이 거부되었습니다.");
+              break;
+            case error.POSITION_UNAVAILABLE:
+              alert("위치 정보를 사용할 수 없습니다.");
+              break;
+            case error.TIMEOUT:
+              alert("위치 요청이 시간 초과되었습니다.");
+              break;
+            default:
+              alert("위치 정보를 가져오는 중 알 수 없는 오류가 발생했습니다.");
+              break;
+          }
+          console.warn('Geolocation Error:', error);
+          resolve({ lat: null, lng: null });
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 5000,
+          maximumAge: 0,
+        }
+      );
+    });
+  }
+  
