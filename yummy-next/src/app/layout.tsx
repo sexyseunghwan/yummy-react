@@ -1,7 +1,7 @@
 // app/layout.tsx
 import './globals.css';
 import Script from 'next/script';
-import Header from '@/components/common/Header';
+import Header from '@/components/common/Header/Header';
 import Sidebar from '@/components/common/Sidebar';
 import KakaoInit from '@/components/auth/KakaoInit';
 import EnvScript from '@/components/common/EnvScript';

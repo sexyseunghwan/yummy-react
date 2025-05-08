@@ -8,6 +8,7 @@ import { cherryBlossomTheme, resetMap, recommendRandomStore } from '@/lib/client
 import { Store } from '@/types/shared/store';
 import { useUser } from '@/context/auth/UserContext';
 import { fetchStores } from '@/lib/client/map/fetchStore';
+import Button from '@/components/common/Button/Button';
 
 
 export default function YummyMap() {
@@ -44,9 +45,9 @@ export default function YummyMap() {
       	<div id="recommendation"></div>
 
 		<div id="map">
-			<div className="map-buttons">
-				<button className="random-button" onClick={() => recommendRandomStore(stores, mapInstance, zeroPayMarkers)}>🍀 랜덤 추천</button>
-				<button className="reset-button"  onClick={() => resetMap(mapInstance)}>🔄 맵 초기화</button>
+			<div className="absolute bottom-8 right-4 flex flex-col gap-2 z-[1000]">
+				<Button variant="primary" size="small" onClick={() => recommendRandomStore(stores, mapInstance, zeroPayMarkers)}>랜덤 추천</Button>
+				<Button variant="secondary" size="small" onClick={() => resetMap(mapInstance)}>맵 초기화</Button>
 			</div>
 		</div>
     </>

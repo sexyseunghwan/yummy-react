@@ -8,41 +8,36 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // 1. 기본 텍스트 색상
-        // 사용법: className="text-text" 또는 className="text-text-light"
+        // 1. 텍스트 색상 (로고색과 어울리는 브라운 계열)
         text: {
-          DEFAULT: '#2C2C2C', // 기본 텍스트 색상 (딥 그레이)
-          light: '#6E6E6E',   // 밝은 텍스트 색상 (서브 텍스트용 그레이)
+          DEFAULT: '#3B2F2F',  // 다크 브라운
+          light: '#7D6E63',    // 밝은 브라운-그레이
         },
 
-        // 2. 배경색
-        // 사용법: className="bg-background" 또는 className="bg-background-light"
+        // 2. 배경색 (따뜻한 아이보리 톤)
         background: {
-          DEFAULT: '#FAFAF9', // 기본 배경색 (아주 연한 웜 화이트)
-          light: '#F0EFEC',   // 밝은 배경색 (섹션 배경용 연한 베이지)
+          DEFAULT: '#FCF8F5',  // 따뜻한 아이보리
+          light: '#F1E8E2',    // 연한 베이지 톤
         },
 
-        // 3. 주요 색상
-        // 사용법: className="text-primary" 또는 className="bg-primary"
+        // 3. Primary 색상 (로고색 기반)
         primary: {
-          DEFAULT: '#FF7755', // 기본 primary 색상 (소프트 테라코타 오렌지)
-          dark: '#E25C3D',    // 진한 primary 색상 (클릭/호버용)
+          DEFAULT: '#7C4017',  // 로고 색상
+          dark: '#5A2D10',     // 더 진한 클릭/호버용 브라운
         },
 
-        // 4. 보조 색상
-        // 사용법: className="text-secondary" 또는 className="bg-secondary"
+        // 4. Secondary 색상 (보완 색: 그린 브라운 계열)
         secondary: {
-          DEFAULT: '#4A90E2', // 기본 secondary 색상
-          dark: '#357ABD',    // 진한 secondary 색상
+          DEFAULT: '#A97343',  // 따뜻한 카라멜 브라운
+          dark: '#805530',     // 진한 버전
         },
 
-        // 5. 강조 색상
-        // 사용법: className="text-accent" 또는 className="bg-accent"
+        // 5. Accent 색상 (대비감 있는 브릭 오렌지)
         accent: {
-          DEFAULT: '#A78BFA', // 기본 accent 색상 (라벤더 퍼플)
-        }
-      }
-    }
+          DEFAULT: '#C95E2C',  // 브릭 오렌지
+        },
+      },
+    },
   },
   plugins: [],
-} 
+}
