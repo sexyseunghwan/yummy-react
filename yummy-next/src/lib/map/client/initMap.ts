@@ -7,7 +7,7 @@ declare const MarkerClustering: any;
 declare const N: any;
 
 /* Naver Map 초기화 */
-export function initMap(stores: Store[], user: User | null) {
+export async function initMap(stores: Store[], user: User | null) {
 
     const markers: any[] = [];
 	const zeroPayMarkers: any[] = [];
@@ -15,7 +15,7 @@ export function initMap(stores: Store[], user: User | null) {
     let lngx = user?.lngX ? user.lngX : 127.048942471228;
     let laty = user?.latY ? user.latY : 37.5045028775835;
 
-    const geo_location = GetGeolocation();
+    const geo_location = await GetGeolocation();
     console.log("after function call geo_location object",geo_location);
     if(geo_location.lat !== null && geo_location.lng !== null){
         console.log("in if geo_location lat, lng",geo_location.lat,geo_location.lng);
@@ -171,7 +171,7 @@ function getWalkingTime(distanceKm: number): number {
     return Math.ceil((distanceKm / speed) * 60);
 }	
 
-function GetGeolocation(){
+async function GetGeolocation(){
     let userLat = null;
     let userLng = null;
     
