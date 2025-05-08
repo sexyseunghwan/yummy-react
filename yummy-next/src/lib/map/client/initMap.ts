@@ -12,21 +12,20 @@ export function initMap(stores: Store[], user: User | null) {
     const markers: any[] = [];
 	const zeroPayMarkers: any[] = [];
 
-    let lngx = user?.lngX ? user.lngX : 37.5045028775835;
-    let laty = user?.latY ? user.latY : 127.048942471228;
-    
-    // console.log("lngx: " + lngx);
-    // console.log("laty: " + laty);
+    let lngx = user?.lngX ? user.lngX : 127.048942471228;
+    let laty = user?.latY ? user.latY : 37.5045028775835;
 
-    //moon
     const geo_location = GetGeolocation();
     if(geo_location.lat !== null && geo_location.lng !== null){
         laty = geo_location.lat;
         lngx = geo_location.lng;
     }
 
+    //naver maps의 경우 lat, lng 순서가 반대이므로 주의
+    //현재 잘못 세팅 되고 있는 거 같음 전체 적으로 점검이 필요 함 
+    //우선 변수 세팅 변경 작업 진행 후 확인 필요
 	const map = new naver.maps.Map('map', {
-		center: new naver.maps.LatLng(lngx, laty),
+		center: new naver.maps.LatLng(laty,lngx),
 		zoom: 17,
 	});
         
