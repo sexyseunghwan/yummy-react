@@ -16,7 +16,9 @@ export function initMap(stores: Store[], user: User | null) {
     let laty = user?.latY ? user.latY : 37.5045028775835;
 
     const geo_location = GetGeolocation();
+    console.log("after function call geo_location object",geo_location);
     if(geo_location.lat !== null && geo_location.lng !== null){
+        console.log("in if geo_location lat, lng",geo_location.lat,geo_location.lng);
         laty = geo_location.lat;
         lngx = geo_location.lng;
     }
@@ -174,7 +176,10 @@ function GetGeolocation(){
     let userLng = null;
     
     if (navigator.geolocation) {
+        console.log("Geolocation"+navigator.geolocation);
         navigator.geolocation.getCurrentPosition(function(position) {
+            console.log("위치 정보가 성공적으로 수신되었습니다."+position);
+            console.log("위도: " + position.coords.latitude + ", 경도: " + position.coords.longitude);
             userLat = position.coords.latitude;
             userLng = position.coords.longitude;
 
