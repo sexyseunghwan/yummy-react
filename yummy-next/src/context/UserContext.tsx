@@ -11,7 +11,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || '';
     const [user, setUser] = useState<User | null>(null);
     const [isLoading, setIsLoading] = useState(true);
-
+    
     useEffect(() => {
         axios
             .post(

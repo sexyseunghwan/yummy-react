@@ -17,28 +17,6 @@ export async function handleLogin({ userId, userPw, apiBaseUrl }: LoginParams) {
     } else {
         alert("아이디/비밀번호를 확인해주세요.");
     }
-
-    // axios.post(`${apiBaseUrl}/login/standardLogin`,
-    //     payload,
-    //     {
-    //         withCredentials: true
-    //     }
-    // )
-    // .then(res => {
-        
-    //     const statusCode = res.data;
-
-    //     if (statusCode === "SUCCESS") {
-    //         alert("로그인 성공!");
-    //         window.location.href = '/';
-    //     } else {
-    //         alert("아이디/비밀번호를 확인해주세요.");
-    //     }
-        
-    // })
-    // .catch(err => {
-    //     console.error("로그인 중 에러 발생:", err);
-    // })
 }
 
 /**

@@ -22,7 +22,7 @@ export default function LoggingPage() {
 
     useEffect(() => {
 		if (apiResult === null) return; /* 아직 응답 안 왔으면 무시 */ 
-
+		
         /* 3초 뒤 이동 */ 
         const timeout  = setTimeout(() => {
 
