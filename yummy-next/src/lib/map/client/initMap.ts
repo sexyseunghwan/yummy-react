@@ -15,6 +15,8 @@ export async function initMap(stores: Store[], user: User | null) {
     let lng = user?.lng ? user.lng : 127.048942471228;
     let lat = user?.lat ? user.lat : 37.5045028775835;
 
+    console.log("load initMap function");
+
     try {
         const geo_location = await GetGeolocation();
         console.log("after function call geo_location object", geo_location);
