@@ -7,37 +7,48 @@ declare const MarkerClustering: any;
 declare const N: any;
 
 /* Naver Map 초기화 */
-export function initMap(stores: Store[], user: User | null) {
+export async function initMap(stores: Store[], user: User | null) {
 
     const markers: any[] = [];
 	const zeroPayMarkers: any[] = [];
 
-    let lngx = user?.lngX ? user.lngX : 37.5045028775835;
-    let laty = user?.latY ? user.latY : 127.048942471228;
-    
-    // console.log("lngx: " + lngx);
-    // console.log("laty: " + laty);
+    let lng = user?.lng ? user.lng : 127.048942471228;
+    let lat = user?.lat ? user.lat : 37.5045028775835;
 
-    //moon
-    const geo_location = GetGeolocation();
-    if(geo_location.lat !== null && geo_location.lng !== null){
-        laty = geo_location.lat;
-        lngx = geo_location.lng;
+    try {
+        const geo_location = await GetGeolocation();
+        console.log("after function call geo_location object", geo_location);
+        if (geo_location.lat !== null && geo_location.lng !== null) {
+          console.log("in if geo_location lat, lng", geo_location.lat, geo_location.lng);
+          lat = geo_location.lat;
+          lng = geo_location.lng;
+        }
+      } catch (e) {
+        console.warn("Geolocation fetch failed, using defaults:", e);
     }
 
+    //naver maps의 경우 lat, lng 순서가 반대이므로 주의
+    //현재 잘못 세팅 되고 있는 거 같음 전체 적으로 점검이 필요 함 
+    //우선 변수 세팅 변경 작업 진행 후 확인 필요
 	const map = new naver.maps.Map('map', {
-		center: new naver.maps.LatLng(lngx, laty),
+		center: new naver.maps.LatLng(lat,lng),
 		zoom: 17,
 	});
         
+    const my_marker = new naver.maps.Marker({
+        position: new naver.maps.LatLng(lat, lng),
+        map: map,
+        title: '내 위치'
+    });
+
 	const storeIcon = 'https://cdn-icons-png.flaticon.com/128/3170/3170733.png';
-	const companyIcon = '/images/alba.png';
+	//const companyIcon = '/images/alba.png';
 	const beefulPayIcon = '/images/pay.png';
 
-	const referenceStore = stores.find((s) => s.name === '알바천국');
+	const referenceStore = {lat: lat, lng: lng}; // 사용자의 위치를 기준으로 설정
 
 	stores.forEach((store) => {
-		const iconUrl = store.isBeefulPay ? beefulPayIcon : store.type === 'company' ? companyIcon : storeIcon;
+		const iconUrl = store.isBeefulPay ? beefulPayIcon : storeIcon;
 
 		const marker = new naver.maps.Marker({
             position: new naver.maps.LatLng(store.lat, store.lng),
@@ -90,7 +101,7 @@ export function initMap(stores: Store[], user: User | null) {
                 infowindow.open(map, marker);
                 
                 if (referenceStore) {
-                    const distance = getDistance(store.lat, store.lng, referenceStore.lat, referenceStore.lng);
+                    const distance = getDistance(store.lat, store.lng, Number(referenceStore.lat), Number(referenceStore.lng));
                     const walkingTime = getWalkingTime(distance);
                     const el = document.getElementById(`walking-time-${store.name}`);
                     if (el) el.innerHTML = `🚶‍♂️ 도보 시간: <b>${walkingTime}분</b>`;
@@ -170,29 +181,53 @@ function getWalkingTime(distanceKm: number): number {
     return Math.ceil((distanceKm / speed) * 60);
 }	
 
-function GetGeolocation(){
-    let userLat = null;
-    let userLng = null;
-    
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-            userLat = position.coords.latitude;
-            userLng = position.coords.longitude;
-
-        }, function(event) {
-            if (event.code === 1) {
-                alert("위치 정보 사용이 거부되었습니다.");
-            } else if (event.code === 2) {
-                alert("위치 정보를 찾을 수 없습니다.");
-            } else if (event.code === 3) {
-                alert("위치 정보 요청이 시간 초과되었습니다.");
-            } else {
-                alert("알 수 없는 오류가 발생했습니다.");
-            }
-        });
-    } else {
-        alert("이 브라우저는 Geolocation을 지원하지 않습니다.");
-    }
-
-    return {lat: userLat, lng: userLng };
-}
+interface GeoLocation {
+    lat: number | null;
+    lng: number | null;
+  }
+  
+export function GetGeolocation(): Promise<GeoLocation> {
+    return new Promise(resolve => {
+      if (!navigator.geolocation) {
+        // 브라우저가 Geolocation을 지원하지 않을 때 안내
+        alert("이 브라우저는 위치 정보를 지원하지 않습니다.");
+        console.warn("Geolocation is not supported by this browser.");
+        return resolve({ lat: null, lng: null });
+      }
+  
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          // 위치 받아왔을 때 resolve
+          resolve({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          });
+        },
+        error => {
+          // 에러나 거부 시에도 안내 및 resolve
+          switch (error.code) {
+            case error.PERMISSION_DENIED:
+              alert("위치 정보 사용이 거부되었습니다.");
+              break;
+            case error.POSITION_UNAVAILABLE:
+              alert("위치 정보를 사용할 수 없습니다.");
+              break;
+            case error.TIMEOUT:
+              alert("위치 요청이 시간 초과되었습니다.");
+              break;
+            default:
+              alert("위치 정보를 가져오는 중 알 수 없는 오류가 발생했습니다.");
+              break;
+          }
+          console.warn('Geolocation Error:', error);
+          resolve({ lat: null, lng: null });
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 5000,
+          maximumAge: 0,
+        }
+      );
+    });
+  }
+  
