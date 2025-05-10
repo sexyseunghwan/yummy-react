@@ -85,15 +85,21 @@
     transition: all 0.3s ease;
 }
 
-
-.emailContainer {
+/* 이메일 인증 */
+.emailInputContainer {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     gap: 0.5rem;
     width: 100%;
 }
 
+.emailInputContainer .emailAuthButton {
+    width: 100%;
+}
+
 .emailInput {
+    flex-shrink: 0;
     flex: 2;
     padding: 0.8rem;
     font-size: 1rem;
@@ -124,6 +130,38 @@
 
 .emailSelect:focus {
     border-color: #FFA500;
+}
+
+.emailAuthContainer {
+    display: none;
+}
+
+.emailAuthContainer_active {
+    display: block;
+}
+
+.emailAuthInput {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 10px;
+}
+.emailAuthButton {
+    padding: 0.8rem;
+    font-size: 1rem;
+    border: 1px solid #ffd700;
+    border-radius: 6px;
+    background-color: #ffd700;
+    cursor: pointer;
+}
+
+.inputWarningText {
+    margin-top: 5px;
+    text-align: left;
+    color: #E82014;
+}
+.inputWarningText_active {
+    color: #00be59;
 }
 
 .activeButton {

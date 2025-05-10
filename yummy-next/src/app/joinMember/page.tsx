@@ -16,7 +16,13 @@ export default function JoinMember() {
         const formData = extractFormData(form, gender);
         await validateAndSubmit(formData, apiBaseUrl);
     };
+
+    // 이메일 인증 영역 활성화
+    const [emailAuth, setEmailAuth] = useState(false);
     
+    const handleEmailAuth = () => {
+        setEmailAuth(!emailAuth);
+    };
     
     return (
         <div className={styles.joinMemberContainer}>
@@ -32,16 +38,40 @@ export default function JoinMember() {
                 
                 {/* 이메일 (선택) */}
                 <div className={styles.emailContainer}>
-                    <input type="text" name="emailId" className={styles.emailInput} placeholder="이메일 아이디"/>
-                    <span className={styles.atMark}>@</span>
-                    <select name="emailDomain" className={styles.emailSelect}>
-                        <option value="">직접입력</option>
-                        <option value="gmail.com">gmail.com</option>
-                        <option value="naver.com">naver.com</option>
-                        <option value="daum.net">daum.net</option>
-                        <option value="hanmail.net">hanmail.net</option>
-                        <option value="nate.com">nate.com</option>
-                    </select>
+                    <div className={styles.emailInputContainer}>
+                        <input type="text" name="emailId" className={styles.emailInput} placeholder="이메일 아이디"/>
+                        <span className={styles.atMark}>@</span>
+                        <select name="emailDomain" className={styles.emailSelect}>
+                            <option value="">직접입력</option>
+                            <option value="gmail.com">gmail.com</option>
+                            <option value="naver.com">naver.com</option>
+                            <option value="daum.net">daum.net</option>
+                            <option value="hanmail.net">hanmail.net</option>
+                            <option value="nate.com">nate.com</option>
+                        </select>
+                        <button 
+                            type="button" 
+                            className={styles.emailAuthButton} 
+                            onClick={handleEmailAuth}
+                        >
+                            인증번호 받기
+                        </button>
+                    </div>
+                    <div className={`${styles.emailAuthContainer} ${emailAuth ? styles.emailAuthContainer_active : ''}`}>
+                        <div className={styles.emailAuthInput}>
+                            <input type="text" name="emailAuthNumber" className={styles.emailInput} placeholder="인증번호 입력"/>
+                            <button type="button" className={styles.emailAuthButton}>확인</button>
+                        </div>
+                        <div className={styles.inputWarningText}>
+                            <span>02:00</span>
+                        </div>
+                        <div className={styles.inputWarningText}>
+                            <span>인증번호가 틀립니다. 다시 입력해주세요</span>
+                        </div>
+                        <div className={`${styles.inputWarningText} ${styles.inputWarningText_active}`}>
+                            <span>인증완료</span>
+                        </div>
+                    </div>
                 </div>
                 
                 {/* 이름 */}
