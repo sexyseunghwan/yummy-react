@@ -22,6 +22,13 @@ export default function JoinMember() {
     
     const handleEmailAuth = () => {
         setEmailAuth(!emailAuth);
+        // 포커스 이동
+        const emailAuthInput = document.getElementById('emailAuthNumberInput') as HTMLInputElement;
+        setTimeout(() => {
+            if (emailAuthInput) {
+                emailAuthInput.focus();
+            }
+        }, 100);
     };
     
     return (
@@ -59,7 +66,7 @@ export default function JoinMember() {
                     </div>
                     <div className={`${styles.emailAuthContainer} ${emailAuth ? styles.emailAuthContainer_active : ''}`}>
                         <div className={styles.emailAuthInput}>
-                            <input type="text" name="emailAuthNumber" className={styles.emailInput} placeholder="인증번호 입력"/>
+                            <input type="text" name="emailAuthNumber" id="emailAuthNumberInput" className={styles.emailInput} placeholder="인증번호 입력"/>
                             <button type="button" className={styles.emailAuthButton}>확인</button>
                         </div>
                         <div className={styles.inputWarningText}>
