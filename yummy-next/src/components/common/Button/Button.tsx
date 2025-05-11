@@ -17,7 +17,7 @@ export default function Button({
             props.onClick?.(e);
         }
 
-        const buttonStyle = 'flex items-center justify-center text-white disabled:cursor-not-allowed disabled:bg-gray-300';
+        const buttonStyle = 'flex shrink-0 items-center justify-center text-white disabled:cursor-not-allowed disabled:bg-gray-300';
         const buttonSize = {
             small: "px-2 py-1 text-sm rounded-md",
             medium: "px-4 py-2 text-base rounded-md",

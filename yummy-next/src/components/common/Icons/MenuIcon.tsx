@@ -1,7 +1,4 @@
-export interface IconProps extends React.SVGProps<SVGSVGElement> {
-  width?: number;
-  height?: number;
-}
+import { IconProps } from './Icon.types';
 
 const MenuIcon: React.FC<IconProps> = ({ 
     width = 20, 

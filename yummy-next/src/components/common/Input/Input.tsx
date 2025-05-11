@@ -12,7 +12,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(({
 	...props
 }, ref) => {
 
-    const inputStyle = 'outline-none transition-colors border border-accent bg-background text-text focus:border-primary disabled:cursor-not-allowed disabled:opacity-50';
+    const inputStyle = 'w-full outline-none transition-colors border border-accent bg-background text-text focus:border-primary disabled:cursor-not-allowed disabled:opacity-50';
 
 	const inputSizes = {
 		small: 'px-2 py-2 text-sm rounded-md',
