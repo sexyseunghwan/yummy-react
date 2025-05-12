@@ -14,8 +14,10 @@ export async function handleLogin({ userId, userPw, apiBaseUrl }: LoginParams) {
     if (res.data.statusCode === "SUCCESS") {
         alert("로그인 성공!");
         window.location.href = '/';
-    } else {
+    } else if (res.data.statusCode === "AUTH_ERROR") {
         alert("아이디/비밀번호를 확인해주세요.");
+    } else {
+        alert("잠시후에 시도해주세요.")
     }
 }
 
