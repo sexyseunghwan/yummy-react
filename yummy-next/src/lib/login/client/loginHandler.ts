@@ -11,10 +11,12 @@ export async function handleLogin({ userId, userPw, apiBaseUrl }: LoginParams) {
     
     const res = await axios.post('/api/login', payload, { withCredentials: true });
     
-    if (res.data.statusCode === "SUCCESS") {
+    console.log(`res: ${res.data}`);
+
+    if (res.data === "SUCCESS") {
         alert("로그인 성공!");
         window.location.href = '/';
-    } else if (res.data.statusCode === "AUTH_ERROR") {
+    } else if (res.data === "AUTH_ERROR") {
         alert("아이디/비밀번호를 확인해주세요.");
     } else {
         alert("잠시후에 시도해주세요.")

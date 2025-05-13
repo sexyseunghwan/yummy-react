@@ -18,9 +18,19 @@ export async function POST(req: NextRequest) {
                     'X-Forwarded-For': clientIp,
                 },
                 withCredentials: true,
-            })
+            });
+        
+        const setCookieHeader = apiRes.headers['set-cookie'];
+        
+        console.log(setCookieHeader);
 
-        return NextResponse.json(apiRes.data, { status: 200 })
+        const response = NextResponse.json(apiRes.data, { status: 200 });
+        
+        if (setCookieHeader) {
+            response.headers.set('set-cookie', setCookieHeader.toString());
+        }
+        
+        return response;
     } catch (err) {
         console.error('백엔드 로그인 오류:', err)
         return NextResponse.json('FAIL', { status: 500 })
