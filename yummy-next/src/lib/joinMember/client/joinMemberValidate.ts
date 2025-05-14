@@ -54,7 +54,7 @@ export async function validateAndSubmit(formData: JoinMemberForm, apiBaseUrl: st
         GENDER_ERR: "성별을 선택해주세요.",
         PHONE_ERR: "휴대전화번호를 확인해주세요.",
         SERVER_ERR: "회원가입 실패/서버문제",
-        
+        PHONE_DUPLICATED: "이미 존재하는 휴대전화번호입니다.",
     };
 
     axios.post(`${apiBaseUrl}/joinMember/join`,
