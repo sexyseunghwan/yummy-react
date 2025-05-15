@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import Header from '@/components/common/Header/Header';
-import Sidebar from '@/components/common/Sidebar/Sidebar';
+import { Header } from '@/components/common/Header/Header';
+import { Sidebar } from '@/components/common/Sidebar/Sidebar';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 

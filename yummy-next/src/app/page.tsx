@@ -8,7 +8,7 @@ import { cherryBlossomTheme, resetMap, recommendRandomStore } from '@/lib/client
 import { Store } from '@/types/shared/store';
 import { useUser } from '@/context/auth/UserContext';
 import { fetchStores } from '@/lib/client/map/fetchStore';
-import Button from '@/components/common/Button/Button';
+import { Button } from '@/components/common/Button/Button';
 
 
 export default function YummyMap() {

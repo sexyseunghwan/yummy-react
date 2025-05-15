@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import CloseIcon from '../Icons/CloseIcon';
 
-export const SidebarPortal = ({ 
+const SidebarPortal = ({ 
   children 
 }: SidebarPortalProps) => {
 
@@ -20,8 +20,9 @@ export const SidebarPortal = ({
   );
 };
 
+SidebarPortal.displayName = 'SidebarPortal';
 
-export default function Sidebar({ isOpen, onClose, children }: SidebarProps) {
+const Sidebar = ({ isOpen, onClose, children }: SidebarProps) =>  {
   const { user, isLoading } = useUser();
   const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || '';
 
@@ -104,3 +105,9 @@ export default function Sidebar({ isOpen, onClose, children }: SidebarProps) {
     </>
   );
 }
+
+Sidebar.displayName = 'Sidebar';
+
+export { Sidebar, SidebarPortal };
+
+

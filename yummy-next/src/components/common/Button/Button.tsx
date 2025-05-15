@@ -1,13 +1,13 @@
-import { ButtonProps } from "./Button.types";
+import type { ButtonProps } from "./Button.types";
 import { cn } from "@/lib/utils";
-export default function Button({
+const Button = ({
         variant = 'primary',
         size = 'medium',
         disabled = false,
         className,
         children,
         ...props
-    }: ButtonProps) {
+    }: ButtonProps) => {
 
         const buttonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
             if (disabled) {
@@ -26,6 +26,7 @@ export default function Button({
         const buttonVariant = {
             primary: "bg-primary hover:bg-primary-dark",
             secondary: "bg-secondary hover:bg-secondary-dark",
+            ghost: "bg-transparent hover:bg-slate-100",
         }[variant];
     return (
         <button
@@ -43,3 +44,9 @@ export default function Button({
         </button>
     )
 }
+
+Button.displayName = 'Button';
+export { Button };
+
+
+
