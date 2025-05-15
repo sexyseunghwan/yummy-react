@@ -23,7 +23,7 @@ export async function validateAndSubmit(formData: FindPwForm, apiBaseUrl: string
     const responseMessages: { [key: string]: string } = {
         SUCCESS: "가입 메일로 임시비밀번호를 발송드렸습니다.",
         PW_FIND_ERR: "해당 정보로 회원가입한 이력이 존재하지 않습니다.",
-        EMAIL_ERR: "이메일 주소를 확인해주세요.",
+        EMAIL_FORMAT_ERR: "이메일 주소 형식을 확인해주세요.",
         NAME_ERR: "이름을 확인해주세요.",
         ID_ERR: "아이디를 확인해주세요.",
         SERVER_ERR: "아이디 찾기 실패/서버문제"

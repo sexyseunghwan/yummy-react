@@ -25,7 +25,7 @@ export async function validateAndSubmit(formData: FindIdForm, apiBaseUrl: string
     const responseMessages: { [key: string]: string } = {
         SUCCESS: "가입 메일로 아이디정보를 발송드렸습니다.",
         ID_FIND_ERR: "해당 정보로 회원가입한 이력이 존재하지 않습니다.",
-        EMAIL_ERR: "이메일 주소를 확인해주세요.",
+        EMAIL_FORMAT_ERR: "이메일 주소 형식을 확인해주세요.",
         NAME_ERR: "이름을 확인해주세요.",
         TELECOM_ERR: "통신사를 선택해주세요.",
         PHONE_ERR: "휴대전화번호를 확인해주세요.",
