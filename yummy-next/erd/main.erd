@@ -4,8 +4,8 @@
   "settings": {
     "width": 2000,
     "height": 2000,
-    "scrollTop": -1325,
-    "scrollLeft": -686.3332,
+    "scrollTop": -979.6668,
+    "scrollLeft": -561.0001,
     "zoomLevel": 1,
     "show": 431,
     "database": 4,
@@ -797,6 +797,7 @@
         "columnIds": [
           "gr6eHzgyTA3cwbQlD9X27",
           "LenEx8WCWVZtgLWPPxFnW",
+          "lcCe3bh3XRMcgLZqp9k0R",
           "rgj_VoK14Tgh3Ageuj8ja",
           "GRKdpppWFUjx9Nq70OBoi",
           "CMKnigY4mdUl3NUIR7nby",
@@ -807,6 +808,7 @@
           "gr6eHzgyTA3cwbQlD9X27",
           "5UjkfEDSPtiruF0jZZcnX",
           "LenEx8WCWVZtgLWPPxFnW",
+          "lcCe3bh3XRMcgLZqp9k0R",
           "rgj_VoK14Tgh3Ageuj8ja",
           "GRKdpppWFUjx9Nq70OBoi",
           "CMKnigY4mdUl3NUIR7nby",
@@ -815,14 +817,14 @@
         ],
         "ui": {
           "x": 977,
-          "y": 960,
+          "y": 959,
           "zIndex": 891,
           "widthName": 95,
           "widthComment": 140,
           "color": ""
         },
         "meta": {
-          "updateAt": 1747555800386,
+          "updateAt": 1747567862328,
           "createAt": 1747555523512
         }
       }
@@ -4587,6 +4589,26 @@
           "updateAt": 1747555838010,
           "createAt": 1747555798895
         }
+      },
+      "lcCe3bh3XRMcgLZqp9k0R": {
+        "id": "lcCe3bh3XRMcgLZqp9k0R",
+        "tableId": "7fsPvLOd4Sl1sa2PCebb8",
+        "name": "pic_url",
+        "comment": "프로필 url",
+        "dataType": "VARCHAR(255)",
+        "default": "",
+        "options": 8,
+        "ui": {
+          "keys": 0,
+          "widthName": 60,
+          "widthComment": 60,
+          "widthDataType": 90,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1747567870977,
+          "createAt": 1747567842740
+        }
       }
     },
     "relationshipEntities": {
@@ -5060,7 +5082,7 @@
             "gr6eHzgyTA3cwbQlD9X27"
           ],
           "x": 977,
-          "y": 1072,
+          "y": 1083,
           "direction": 1
         },
         "meta": {
