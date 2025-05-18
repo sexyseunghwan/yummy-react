@@ -16,7 +16,7 @@ export default function ClientLayout({ children }: { children?: React.ReactNode 
     <>
       <Header onMenuClick={toggleSidebar} />
       <Sidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
-      <main className={cn('flex-1')}>{children}</main>
+      <main className={cn('w-full flex-1 overflow-y-auto')}>{children}</main>
       <footer className={cn('w-full bg-background text-center py-3 text-xs border-t border-accent')}>
         <p>© 2025 Yummy 초코송이표 정품입니다.</p>
         <p><Link href="" className="text-text-light">support@yummymap.com</Link></p>

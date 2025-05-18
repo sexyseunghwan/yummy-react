@@ -12,11 +12,11 @@ const Header = ({
  }: HeaderProps) => {
 
 	return (
-		<header className="flex items-center justify-between gap-3 border-b border-accent py-2 px-2 fixed top-0 left-0 w-full z-[999] bg-background">
+		<header className="flex items-center justify-between gap-3 border-b border-accent py-2 px-2 w-full bg-background">
 			<h1><Link href="/"><LogoIcon /></Link></h1>
 
-			<div className="flex flex-1 items-center gap-2">
-				<Input placeholder="검색할 가게명을 입력하세요."/>
+			<div className="flex flex-1 items-center gap-2 ">
+				<Input placeholder="검색할 가게명을 입력하세요." className="bg-white"/>
 
 				<Button variant="primary" size="small" className="rounded-full" onClick={() => {}}>검색</Button>
 			</div>

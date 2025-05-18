@@ -3,9 +3,9 @@
 import styles from './JoinMember.module.css'; 
 import { validateAndSubmit, extractFormData } from '@/lib/client/auth/joinMember/joinMemberValidate';
 import { useState } from 'react';
-
+import { Button } from '@/components/common/Button/Button';
 /* 회원가입 페이지 */
-export default function JoinMember() {
+export default function JoinMember() { 
     const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || '';
     const [gender, setGender] = useState('');
 
@@ -20,7 +20,7 @@ export default function JoinMember() {
     
     return (
         <div className={styles.joinMemberContainer}>
-            <form className={styles.form} onSubmit={handleSubmit}>
+            <form className={styles.joinMemberForm} onSubmit={handleSubmit}>
                 {/* 아이디 */}
                 <input type="text" name="userId" className={styles.inputField} placeholder="아이디" />
 
@@ -95,7 +95,7 @@ export default function JoinMember() {
                 <input type="text" name="phoneNumber" className={styles.inputField} placeholder="휴대전화번호 (- 제외)" />
                 
                 {/* 가입 버튼 */}
-                <button type="submit" className={styles.submitButton}>가입하기</button>
+                <Button type="submit" className={styles.joinMemberButton}>가입하기</Button>
             </form>
         </div>
     )

@@ -1,18 +1,14 @@
 .joinMemberContainer {
-    background-color: #FFFAF0;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    width: 350px;
-    margin-top: 45px; /* ✅ 헤더 높이만큼 내려오기 */
-    color: black;
+    @apply flex flex-col items-center w-full bg-background h-[100%] py-[10px];
 }
 
-.form {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+.joinMemberForm {
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+
+    @apply bg-white max-w-[350px] my-auto mx-[13px] flex flex-col gap-2;
 }
 
 .inputField {
@@ -68,21 +64,8 @@
     margin-right: 0.5rem;
 }
 
-.submitButton {
-    padding: 1rem;
-    background-color: #ffcc00;
-    color: black;
-    border: none;
-    border-radius: 6px;
-    font-size: 1.1rem;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.submitButton:hover {
-    background-color: #FFA500;
-    transform: scale(1.05);
-    transition: all 0.3s ease;
+.joinMemberButton {
+    @apply w-full h-10;
 }
 
 
