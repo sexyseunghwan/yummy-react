@@ -1,4 +1,3 @@
-'use client';
 import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { SidebarPortalProps, SidebarProps } from './Sidebar.types';

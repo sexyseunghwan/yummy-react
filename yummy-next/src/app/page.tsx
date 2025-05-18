@@ -1,55 +1,54 @@
 'use client';
 
 import Script from 'next/script';
-
-/* Declare naver as a global variable */
-import { useEffect, useState, useRef } from 'react';
-import { cherryBlossomTheme, resetMap, recommendRandomStore } from '@/lib/client/map/mapButton';
+import { useEffect, useState } from 'react';
+import { resetMap, recommendRandomStore } from '@/lib/client/map/mapButton';
 import { Store } from '@/types/shared/store';
 import { useUser } from '@/context/auth/UserContext';
 import { fetchStores } from '@/lib/client/map/fetchStore';
 import { Button } from '@/components/common/Button/Button';
 
-
 export default function YummyMap() {
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || '';
+  const [stores, setStores] = useState<Store[]>([]);
+  const [mapInstance, setMapInstance] = useState<any>(null);
+  const [markers, setMarkers] = useState<any[]>([]);
+  const [zeroPayMarkers, setZeroPayMarkers] = useState<any[]>([]);
+  const { user, isLoading } = useUser();
 
-	const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || '';
-	const [stores, setStores] = useState<Store[]>([]);
-	const [mapInstance, setMapInstance] = useState<any>(null);
-	const [markers, setMarkers] = useState<any[]>([]);
-	const [zeroPayMarkers, setZeroPayMarkers] = useState<any[]>([]);
-	const { user, isLoading } = useUser();
-	
-	useEffect(() => {
-		
-		if (isLoading) return;
+  useEffect(() => {
+    if (isLoading) return;
 
-		fetchStores({apiBaseUrl, user, setStores, setMapInstance, setMarkers, setZeroPayMarkers});
-
-	}, [isLoading]);
+    fetchStores({
+      apiBaseUrl,
+      user,
+      setStores,
+      setMapInstance,
+      setMarkers,
+      setZeroPayMarkers,
+    });
+  }, [isLoading]);
 
   return (
     <>
-		<Script	src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=x014znucr0&submodules=geocoder" strategy="beforeInteractive" />
+      <Script src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=x014znucr0&submodules=geocoder" strategy="beforeInteractive" />
+      <Script src="/js/MarkerClustering.js" strategy="afterInteractive" />
+      <Script
+        src="https://code.jquery.com/jquery-1.12.4.min.js"
+        strategy="beforeInteractive"
+        integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+        crossOrigin="anonymous"
+      />
 
-		<Script src="/js/MarkerClustering.js" strategy="afterInteractive" />
-		<Script
-			src="https://code.jquery.com/jquery-1.12.4.min.js"
-			strategy="beforeInteractive"
-			integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
-			crossOrigin="anonymous"
-		/>
-
-		<link rel="stylesheet" href="/css/yummymap.css" />
-		
-      	<div id="recommendation"></div>
-
-		<div id="map">
-			<div className="absolute bottom-8 right-4 flex flex-col gap-2 z-[1000]">
-				<Button variant="primary" size="small" onClick={() => recommendRandomStore(stores, mapInstance, zeroPayMarkers)}>랜덤 추천</Button>
-				<Button variant="secondary" size="small" onClick={() => resetMap(mapInstance)}>맵 초기화</Button>
-			</div>
-		</div>
+      <div
+        id="map"
+        className="w-full h-full bg-[#e9e9e9]"
+      >
+        <div className="absolute bottom-8 right-4 flex flex-col gap-2 z-[1000]">
+          <Button variant="primary" size="small" onClick={() => recommendRandomStore(stores, mapInstance, zeroPayMarkers)}>랜덤 추천</Button>
+          <Button variant="secondary" size="small" onClick={() => resetMap(mapInstance)}>맵 초기화</Button>
+        </div>
+      </div>
     </>
   );
 }
