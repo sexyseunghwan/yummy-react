@@ -1,6 +1,5 @@
 'use client';
 
-import styles from './LoggingPage.module.css';
 import { useKakaoLogin } from '@/hooks/login/useKakaoLogin';
 import { useState, useEffect } from 'react';
 
@@ -43,7 +42,7 @@ export default function LoggingPage() {
     }, [apiResult]);
 
   return (
-    <div className={styles.logingContainer}>
+    <div className="bg-[#FFFAF0] p-5 rounded-[15px] shadow-[0_4px_10px_rgba(0,0,0,0.1)] text-center w-[350px] mt-[45px] text-black">
       로그인 중입니다{dots}
     </div>
   );

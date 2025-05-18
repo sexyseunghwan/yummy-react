@@ -67,20 +67,37 @@ export function initMap(stores: Store[], user: User | null) {
 
         const directionsUrl = `https://map.naver.com/v5/search/${store.name}?c=${store.lng},${store.lat},17,0,0,0,dh`;
         const beefulPayTag = store.isBeefulPay
-            ? '<div style="color: green; font-weight: bold;">💳 비플페이 가맹점</div>'
+            ? '<div style="display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px; background-color: rgba(124, 64, 23, 0.08); color: #7C4017; border-radius: 6px; font-size: 11px; font-weight: 500; margin: 4px 0;">💳 비플페이 가맹점</div>'
             : '';
 
         const infowindow = new naver.maps.InfoWindow({
             content: `
-                <div style="padding: 10px; border-radius: 10px; background-color: #FFF8DC; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); text-align: center; font-family: 'Comic Sans MS', sans-serif; max-width: 200px;">
-                <div style="font-size: 18px; font-weight: bold; margin-bottom: 5px;">
+                <div style="padding: 16px; background: white; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); text-align: center; font-family: 'Pretendard', sans-serif; max-width: 220px; border: none; position: relative;">
+                <div style="font-size: 15px; font-weight: 600; margin-bottom: 8px; color: #1f2937;">
                     ${emoji} ${store.name}
                 </div>
                 ${beefulPayTag}
-                <div id="walking-time-${store.name}" style="font-size: 14px; color: #555;"></div>
-                <a href="${directionsUrl}" target="_blank" style="display: inline-block; padding: 5px 10px; font-size: 14px; color: white; background-color: #FF8C00; border-radius: 5px; text-decoration: none; font-weight: bold;">🗺️ 지도에서 보기</a>
+                <div id="walking-time-${store.name}" style="font-size: 11px; color: #6b7280; margin: 8px 0;"></div>
+                <a href="${directionsUrl}" target="_blank" style="display: inline-flex; align-items: center; justify-content: center; width: 100%; padding: 8px 12px; font-size: 12px; font-weight: 500; color: white; background-color: #7C4017; border-radius: 8px; text-decoration: none; transition: background-color 0.2s;">🗺️ 지도에서 보기</a>
+                <div style="position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 8px solid transparent; border-right: 8px solid transparent; border-top: 8px solid white;"></div>
                 </div>`,
+            borderWidth: 0,
+            backgroundColor: "transparent",
+            disableAnchor: true
         });
+
+        // 인포윈도우 스타일 오버라이드
+        const style = document.createElement('style');
+        style.textContent = `
+            .naver-map-info-window {
+                border: none !important;
+                background: transparent !important;
+            }
+            .naver-map-info-window:after {
+                display: none !important;
+            }
+        `;
+        document.head.appendChild(style);
 
         naver.maps.Event.addListener(marker, 'click', function () {
             if (infowindow.getMap()) {

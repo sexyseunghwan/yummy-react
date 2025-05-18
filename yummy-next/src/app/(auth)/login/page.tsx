@@ -18,11 +18,9 @@ export default async function Login() {
     
     return (
         <>
-            <link rel="stylesheet" href="/css/login.css" />
-
-            <div className="login-container" id="login-container">
-                <h1>로그인하기</h1>
-                <p>로그인하여 다양한 기능을 사용하세요.</p>
+            <div className="bg-[#FFFAF0] p-5 rounded-[15px] shadow-[0_4px_10px_rgba(0,0,0,0.1)] text-center w-[350px] mt-[45px] text-black">
+                <h1 className="text-2xl font-bold mb-2">로그인하기</h1>
+                <p className="text-gray-600 mb-4">로그인하여 다양한 기능을 사용하세요.</p>
                 <LoginForm/>
             </div>
         </>
