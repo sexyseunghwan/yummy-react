@@ -1,14 +1,9 @@
 /* ✅ 전체 페이지 스타일 */
 body {
     background-color: #FFFFFF;
-    font-family: "Pretendard", Arial, sans-serif;
     text-align: center;
     padding: 0;
     color: #333;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 100vh;
     overflow: auto; /* ✅ 지도 안 보이는 문제 해결 */
 }
 

@@ -7,6 +7,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        poppins: ['Pretendard', 'sans-serif'],
+      },
       colors: {
         // 1. 텍스트 색상 (로고색과 어울리는 브라운 계열)
         text: {
