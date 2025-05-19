@@ -13,6 +13,7 @@ export async function linkUserByOauth({userId, userPw, apiBaseUrl}: LoginParams)
         AUTH_ERROR: "존재하지 않는 유저이거나, 비밀번호가 잘못되었습니다.",
         OAUTH_DUPLICATED: "해당 회원은 이미 유저정보가 연동된 상태입니다.",
         SERVER_ERR: "유저정보 연동에 실패하였습니다.",
+        REJOIN_CHECK: "10분이내에 회원가입 연동을 해야 합니다. 재 로그인 해주세요."
     }
 
     const payload = { userId, userPw };
@@ -26,6 +27,9 @@ export async function linkUserByOauth({userId, userPw, apiBaseUrl}: LoginParams)
         const message = responseMessages[code];
 
         if (code === 'SUCCESS') {
+            alert(message);
+            location.href = "/"
+        } else if (code === 'REJOIN_CHECK') {
             alert(message);
             location.href = "/"
         } else {

@@ -56,8 +56,9 @@ export async function validateAndSubmit(formData: JoinMemberForm, apiBaseUrl: st
         PHONE_ERR: "휴대전화번호를 확인해주세요.",
         SERVER_ERR: "회원가입 실패/서버문제",
         PHONE_DUPLICATED: "이미 존재하는 휴대전화번호입니다.",
+        REJOIN_CHECK: "10분이내에 회원가입 연동을 해야 합니다. 재 로그인 해주세요."
     };
-
+    
     axios.post(`${apiBaseUrl}/joinMember/join`,
         formData,
         {
@@ -73,6 +74,9 @@ export async function validateAndSubmit(formData: JoinMemberForm, apiBaseUrl: st
         const message = responseMessages[code];
 
         if (code === "SUCCESS") {
+            alert(message);
+            location.href = "/login";
+        } else if (code === "REJOIN_CHECK") {
             alert(message);
             location.href = "/login";
         } else {
