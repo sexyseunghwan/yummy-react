@@ -5,6 +5,7 @@ export interface User {
     userId: string;
     userNm: string;
     userBirth: string;
+    userPic: string;
     lng: Decimal;
     lat: Decimal;
 }

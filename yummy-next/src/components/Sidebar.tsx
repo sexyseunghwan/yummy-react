@@ -1,9 +1,8 @@
 'use client';
 
 import { useUser } from '@/context/UserContext';
-import { checkLoginMain } from '@/lib/login/client/checkLogin';
 import { logOut } from '@/lib/login/client/logOutHandler';
-import axios from 'axios';
+import styles from './Sidebar.module.css';
 
 
 export default function Sidebar() {
@@ -30,7 +29,7 @@ export default function Sidebar() {
                 {!isLoading && user ? (
                     <>
                         <li>
-                            {/* <img src={user.picture} alt="프로필" className="profile-img" /> */}
+                            <img src={user.userPic} alt="프로필" className={styles.profileImg} />
                             <p><strong>{user.userNm}</strong></p>
                         </li>
                         <li>
