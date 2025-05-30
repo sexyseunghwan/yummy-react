@@ -1,6 +1,5 @@
 'use client';
 import axios from 'axios';
-import { useRouter, useSearchParams } from 'next/navigation';
 
 /**
  * 로그인 상태인지 확인해주는 함수
@@ -28,7 +27,6 @@ export async function checkLogin(apiBaseUrl: string) {
         console.error(err);
     }); 
 }
-
 
 /**
  * 로그인 상태인지 확인해주는 함수 - 로그인 탭 누를경우에 호출할 함수

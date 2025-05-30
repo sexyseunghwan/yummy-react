@@ -73,7 +73,13 @@ const Sidebar = ({ isOpen, onClose, children }: SidebarProps) =>  {
         <div className="w-full space-y-4 mt-4">
           {!isLoading && user ? (
             <>
-              <div className="text-center my-1">
+              <div className="text-center my-1 flex flex-col items-center">
+                {/* 🔽 동그란 프로필 이미지 */}
+                <img
+                  src={user.userPic}
+                  alt="프로필"
+                  className="w-20 h-20 rounded-full object-cover border-2 border-gray-300 mb-2"
+                />
                 <p className="font-semibold text-lg">{user.userNm}</p>
               </div>
               <div>

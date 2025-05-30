@@ -9,12 +9,15 @@ export function extractFormData(form: HTMLFormElement) {
     const emailId = (form.elements.namedItem('emailId') as HTMLInputElement)?.value || '';
     const emailDomain = (form.elements.namedItem('emailDomain') as HTMLSelectElement)?.value || '';
     const email = emailDomain ? `${emailId}@${emailDomain}` : emailId;
-    
+    const telecom = (form.elements.namedItem('telecom') as HTMLInputElement)?.value || '';
+    const phoneNumber = (form.elements.namedItem('phoneNumber') as HTMLInputElement)?.value || '';
     
     return {
         userNm,
         userId,
-        email
+        email,
+        telecom,
+        phoneNumber
     };
 }
 
@@ -26,7 +29,9 @@ export async function validateAndSubmit(formData: FindPwForm, apiBaseUrl: string
         EMAIL_ERR: "이메일 주소를 확인해주세요.",
         NAME_ERR: "이름을 확인해주세요.",
         ID_ERR: "아이디를 확인해주세요.",
-        SERVER_ERR: "아이디 찾기 실패/서버문제"
+        TELECOM_ERR: "통신사를 확인해주세요.",
+        PHONE_ERR: "휴대전화 번호를 확인해주세요.",
+        SERVER_ERR: "아이디 찾기 실패/서버문제."
     };
 
     axios.post(`${apiBaseUrl}/joinMember/findPw`,

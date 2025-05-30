@@ -3,7 +3,7 @@
 import { useKakaoLogin } from '@/hooks/login/useKakaoLogin';
 import { useState, useEffect } from 'react';
 
-export default function LoggingPage() {
+export default function KakaoLoggingPage() {
 	const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || ''; 
 	const apiResult = useKakaoLogin(apiBaseUrl);
 	const [dots, setDots] = useState('');
@@ -13,8 +13,8 @@ export default function LoggingPage() {
 		const iv = setInterval(() => {
 			count = (count + 1) % 4;
 			setDots('.'.repeat(count));
-		}, 500);
-
+		}, 300);
+		
 		return () => clearInterval(iv);
 	}, []);
 
@@ -22,20 +22,21 @@ export default function LoggingPage() {
     useEffect(() => {
 		if (apiResult === null) return; /* 아직 응답 안 왔으면 무시 */ 
 
-        /* 3초 뒤 이동 */ 
+        /* 텀을 두고 이동 */ 
         const timeout  = setTimeout(() => {
 
             if (apiResult === "SUCCESS") {
 				alert('카카오 로그인 성공');
 				window.location.href = '/';
             } else if (apiResult === "JOIN_TARGET_MEMBER") {
-				window.location.href = '/joinMember';
+				alert('해당 카카오 아이디를 기존 회원연동 또는 회원가입이 필요합니다.')
+				window.location.href = '/selectOauthProcess';
 			} else {
               	alert('카카오 로그인 실패');
-				  window.location.href = '/';
+				window.location.href = '/';
 			}
 
-        }, 1500);
+        }, 1000);
 		
         return () => clearTimeout(timeout);
         

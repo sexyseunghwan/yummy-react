@@ -5,8 +5,9 @@ export interface User {
     userId: string;
     userNm: string;
     userBirth: string;
-    lngX: Decimal;
-    latY: Decimal;
+    userPic: string;
+    lng: Decimal;
+    lat: Decimal;
 }
 
 export interface UserContextType {

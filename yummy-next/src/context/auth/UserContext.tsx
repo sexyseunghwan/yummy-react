@@ -32,8 +32,9 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
                     /* 로그인 된 유저 정보 */ 
                     const convertedUser: User = {
                         ...userData,
-                        lngX: userData.lngX != null ? new Decimal(userData.lngX) : 37.5045028775835,
-                        latY: userData.latY != null ? new Decimal(userData.latY) : 127.048942471228,
+                        userPic: userData.userPic == null ? "/images/user/default-profile.png" : userData.userPic,
+                        lng: userData.lng != null ? new Decimal(userData.lng) : 127.048942471228,
+                        lat: userData.lat != null ? new Decimal(userData.lat) : 37.5045028775835,
                     };
 
                     setUser(convertedUser);

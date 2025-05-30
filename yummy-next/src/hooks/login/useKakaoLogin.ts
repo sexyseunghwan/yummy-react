@@ -3,6 +3,7 @@
 
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
+import { OauthLoginParams } from '@/types/client/auth/login/oauthLoginParams';
 import axios from 'axios';
 
 export function useKakaoLogin(apiBaseUrl: string) {
@@ -10,13 +11,18 @@ export function useKakaoLogin(apiBaseUrl: string) {
     const [success, setSuccess] = useState<string | null>(null);
     
     useEffect(() => {
-        const code = searchParams.get('code');
+        const loginCode = searchParams.get('code');
         
-        if (!code) return;
+        if (!loginCode) return;
+
+        const loginParams: OauthLoginParams = {
+            oauthType: 'kakao',  
+            code: loginCode     
+        };
         
         const checkLogin = async () => {
             try {
-                const res = await axios.post(`${apiBaseUrl}/login/oauth2/kakao`, { code }, { withCredentials: true });
+                const res = await axios.post(`${apiBaseUrl}/login/oauth2/kakao`, loginParams, { withCredentials: true });
                 setSuccess(res.data);
             } catch (e) {
                 console.error(e);
