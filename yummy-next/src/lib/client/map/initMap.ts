@@ -7,26 +7,31 @@ declare const MarkerClustering: any;
 declare const N: any;
 
 /* Naver Map 초기화 */
-export function initMap(stores: Store[], user: User | null) {
+export async function initMap(stores: Store[], user: User | null) {
 
     const markers: any[] = [];
 	const zeroPayMarkers: any[] = [];
 
-    let lngx = user?.lngX ? user.lngX : 37.5045028775835;
-    let laty = user?.latY ? user.latY : 127.048942471228;
+    let lng = user?.lng ? user.lng : 127.048942471228;
+    let lat = user?.lat ? user.lat : 37.5045028775835;
     
     // console.log("lngx: " + lngx);
     // console.log("laty: " + laty);
 
     //moon
-    const geo_location = GetGeolocation();
-    if(geo_location.lat !== null && geo_location.lng !== null){
-        laty = geo_location.lat;
-        lngx = geo_location.lng;
+    try {
+        const geo_location = await GetGeolocation();
+        if (geo_location.lat !== null && geo_location.lng !== null) {
+          console.log("in if geo_location lat, lng", geo_location.lat, geo_location.lng);
+          lat = geo_location.lat;
+          lng = geo_location.lng;
+        }
+      } catch (e) {
+        console.warn("Geolocation fetch failed, using defaults:", e);
     }
 
 	const map = new naver.maps.Map('map', {
-		center: new naver.maps.LatLng(lngx, laty),
+		center: new naver.maps.LatLng(lat,lng),
 		zoom: 17,
 	});
         
