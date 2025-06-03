@@ -22,24 +22,25 @@ export default function Login() {
     }, [router]);
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-[#FFF8EC] text-black">
-            <div className="bg-[#FFFAF0] p-6 rounded-[15px] shadow-[0_4px_10px_rgba(0,0,0,0.1)] text-center w-[350px]">
-                <h1 className="text-2xl font-bold mb-2">회원 선택</h1>
-                <p className="text-gray-600 mb-4">가입 유형을 선택해 주세요.</p>
-
-                <div className="flex flex-col gap-3">
-                    <Link
-                        href="/joinMember"
-                        className="block w-full py-3 bg-[#FFD700] text-black rounded-md text-lg font-semibold transition-all hover:bg-[#FFA500] hover:scale-105"
-                    >
-                        회원가입
-                    </Link>
-                    <Link
-                        href="/connectExistUser"
-                        className="block w-full py-3 bg-[#EEE] text-black rounded-md text-lg font-semibold transition-all hover:bg-gray-300 hover:scale-105"
-                    >
-                        기존회원 연동
-                    </Link>
+        <div className="auth-page-container">
+            <div className="auth-container">
+                <h1 className="auth-title">회원 선택</h1>
+                <p className="auth-desc">가입 유형을 선택해 주세요.</p>
+                <div className="auth-form">
+                    <div className="auth-input-box">
+                        <Link
+                            href="/joinMember"
+                            className="auth-button"
+                        >
+                            회원가입
+                        </Link>
+                        <Link
+                            href="/connectExistUser"
+                            className="auth-button bg-gray-200 hover:bg-gray-300"
+                        >
+                            기존회원 연동
+                        </Link>
+                    </div>
                 </div>
             </div>
         </div>

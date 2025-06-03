@@ -59,7 +59,7 @@ html, body {
 
   /* 공통 버튼 */
   .auth-button {
-    @apply w-full h-10 bg-primary text-white rounded-lg hover:opacity-90;
+    @apply w-full flex items-center justify-center h-10 bg-primary text-white rounded-lg hover:opacity-90;
   }
 
   /* 링크 컨테이너 */
