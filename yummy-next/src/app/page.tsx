@@ -44,7 +44,7 @@ export default function YummyMap() {
         id="map"
         className="w-full h-full bg-[#e9e9e9]"
       >
-        <div className="absolute bottom-8 right-4 flex flex-col gap-2 z-[1000]">
+        <div className="absolute top-4 left-4 flex gap-2 z-[1000]">
           <Button variant="primary" size="small" onClick={() => recommendRandomStore(stores, mapInstance, zeroPayMarkers)}>랜덤 추천</Button>
           <Button variant="secondary" size="small" onClick={() => resetMap(mapInstance)}>맵 초기화</Button>
         </div>
