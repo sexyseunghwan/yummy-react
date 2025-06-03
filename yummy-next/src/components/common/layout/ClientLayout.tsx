@@ -16,7 +16,7 @@ export default function ClientLayout({ children }: { children?: React.ReactNode 
       <Header onMenuClick={toggleSidebar} />
       <Sidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
 
-      <main className="flex-grow relative w-full">{children}</main>
+      <main className="flex-grow relative w-full h-[calc(100vh-120px)]">{children}</main>
 
       <footer className="w-full bg-background text-center py-3 text-xs border-t border-accent">
         <p>© 2025 Yummy 초코송이표 정품입니다.</p>
