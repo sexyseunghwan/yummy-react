@@ -2,42 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  :root {
-    --color-primary: #6366F1;
-    --color-primary-light: #A5B4FC;
-    --color-primary-dark: #4F46E5;
-
-    --color-secondary: #06B6D4;
-    --color-secondary-light: #67E8F9;
-    --color-secondary-dark: #0E7490;
-
-    --color-background: #F9FAFB;
-    --color-background-light: #FFFFFF;
-    --color-background-dark: #1F2937;
-
-    --color-text: #111827;
-    --color-text-light: #6B7280;
-    --color-text-dark: #F9FAFB;
-
-    --color-accent: #8B5CF6;
-    --color-accent-light: #C4B5FD;
-    --color-accent-dark: #6D28D9;
-  }
-}
-
 @font-face {
   font-family: 'Pretendard';
   src: url('/fonts/PretendardVariable.woff2') format('woff2-variations');
-  font-weight: 100 900; /* 가변 범위 지정 */
+  font-weight: 100 900;
   font-style: normal;
   font-display: swap;
 }
 
-
 body {
-  background: var(--color-background);
-  color: var(--color-text);
   font-family: 'Pretendard', Arial, Helvetica, sans-serif;
   font-weight: 400;
 }
@@ -46,4 +19,94 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
+}
+
+@layer components {
+  /* 공통 페이지 컨테이너 */
+  .auth-page-container {
+    @apply flex flex-col items-center w-full bg-background h-[100%] py-[10px];
+  }
+
+  /* 공통 타이틀 */
+  .auth-title {
+    @apply text-3xl font-bold;
+  }
+
+  /* 공통 설명 */
+  .auth-desc {
+    @apply text-sm text-gray-500 mt-3;
+  }
+
+  /* 공통 컨테이너 */
+  .auth-container {
+    @apply bg-white max-w-[350px] my-auto mx-[13px] w-full p-5 rounded-[15px] shadow-auth text-center;
+  }
+
+  /* 공통 폼 */
+  .auth-form {
+    @apply mt-2;
+  }
+
+  /* 공통 입력 박스 */
+  .auth-input-box {
+    @apply flex flex-col gap-2;
+  }
+
+  /* 공통 입력창 */
+  .auth-input {
+    @apply bg-white h-10 w-full px-3 rounded-lg border border-gray-200;
+  }
+
+  /* 공통 버튼 */
+  .auth-button {
+    @apply w-full h-10 bg-primary text-white rounded-lg hover:opacity-90;
+  }
+
+  /* 링크 컨테이너 */
+  .auth-link-container {
+    @apply flex items-center justify-center p-2 mt-2 flex-wrap;
+  }
+
+  /* 링크 아이템 */
+  .auth-link-item {
+    @apply px-2 relative text-sm text-text-gray hover:text-primary hover:underline;
+  }
+
+  .auth-link-divider {
+    @apply absolute right-0 top-1/2 -translate-y-1/2 w-[1px] h-3 bg-text-divider;
+  }
+
+  /* SNS 버튼 컨테이너 */
+  .auth-sns-container {
+    @apply mt-2;
+  }
+
+  /* SNS 버튼 */
+  .auth-sns-button {
+    @apply w-full flex items-center justify-center p-3 rounded-lg border-none cursor-pointer transition-all duration-300 shadow-sns text-base font-bold text-[#3C1E1E];
+
+    & + & {
+      @apply mt-2;
+    }
+
+    & img {
+      @apply w-6 h-6 mr-2.5;
+    }
+
+    &_kakao:hover {
+      @apply bg-sns-kakao animate-scale;
+    }
+    
+    &_naver:hover {
+      @apply bg-sns-naver animate-scale;
+    }
+
+    &_telegram:hover {
+      @apply bg-sns-telegram animate-scale;
+    }
+    
+    &_google:hover {
+      @apply bg-sns-google animate-scale;
+    }
+  }
 }
