@@ -2,9 +2,9 @@
 
 import { validateAndSubmit, extractFormData } from '@/lib/client/auth/joinMember/joinMemberValidate';
 import { useState } from 'react';
-
+import { Button } from '@/components/common/Button/Button';
 /* 회원가입 페이지 */
-export default function JoinMember() {
+export default function JoinMember() { 
     const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || '';
     const [gender, setGender] = useState('');
 
@@ -17,8 +17,8 @@ export default function JoinMember() {
     };
     
     return (
-        <div className="bg-[#FFFAF0] p-5 rounded-[15px] shadow-[0_4px_10px_rgba(0,0,0,0.1)] text-center w-[350px] mt-[45px] text-black">
-            <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+        <div className={styles.joinMemberContainer}>
+            <form className={styles.joinMemberForm} onSubmit={handleSubmit}>
                 {/* 아이디 */}
                 <input 
                     type="text" 
@@ -134,12 +134,7 @@ export default function JoinMember() {
                 />
                 
                 {/* 가입 버튼 */}
-                <button 
-                    type="submit" 
-                    className="py-4 bg-[#ffcc00] text-black border-none rounded-md text-lg cursor-pointer transition-all hover:bg-[#FFA500] hover:scale-105"
-                >
-                    가입하기
-                </button>
+                <Button type="submit" className={styles.joinMemberButton}>가입하기</Button>
             </form>
         </div>
     )

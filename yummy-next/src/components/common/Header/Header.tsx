@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { ComboBox } from '../ComboBox';
 import MenuIcon from '@/components/common/Icons/MenuIcon';
+import LogoIcon from '@/components/common/Icons/LogoIcon';
 import type { HeaderProps } from './Header.types';
 import { useState } from 'react';
 
@@ -11,8 +12,8 @@ const Header = ({
  }: HeaderProps) => {
 	const [selected, setSelected] = useState<string>("");
 	return (
-		<header className="flex items-center justify-between gap-3 border-b border-accent py-2 px-2 fixed top-0 left-0 w-full z-[999] bg-background">
-			<h1><Link href="/">로고</Link></h1>
+		<header className="flex items-center justify-between gap-3 border-b border-accent py-2 px-2 w-full bg-background">
+			<h1><Link href="/"><LogoIcon /></Link></h1>
 
 			<div className="flex flex-1 items-center gap-2">
 				<ComboBox 

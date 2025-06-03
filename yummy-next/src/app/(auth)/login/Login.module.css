@@ -1,0 +1,126 @@
+/* ✅ 로그인 페이지 스타일 */
+.loginPage {    
+    @apply flex flex-col items-center w-full bg-background h-[100%] py-[10px];
+}
+
+/* .loginHeader {
+    @apply font-bold text-left w-full p-4;
+} */
+
+/* 
+.backButton {
+    @apply flex items-center gap-2 text-gray-600 hover:text-primary transition-colors;
+} */
+
+.loginTitle {
+    @apply text-3xl font-bold;
+}
+
+.loginDesc {
+    @apply text-sm text-gray-500 mt-3;
+}
+
+.loginContainer {
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+
+    @apply bg-white max-w-[350px] my-auto mx-[13px] w-full;
+}
+
+/* 로그인 폼 스타일 */
+.loginForm {
+    @apply mt-2;
+}
+
+.loginInputBox {
+    @apply flex flex-col gap-2;
+}
+
+.loginInput {
+    @apply bg-white h-10;
+}
+
+.loginButton {
+    @apply w-full h-10;
+}
+
+/* 로그인 링크 컨테이너 스타일 */
+.loginLinkContainer { 
+    @apply flex items-center justify-center p-2 mt-2 flex-wrap;
+}
+
+.loginLinkItem {
+    color: #666;
+    text-decoration: none;
+    @apply px-2 relative text-sm ;
+
+    &:not(:last-child)::after {
+        content: "";
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 1px;
+        height: 12px;
+        background-color: #aaa;
+    }
+
+    &:hover,
+    &:focus-visible {
+        text-decoration: underline;
+        @apply text-primary;
+    }
+}
+
+/* ✅ oauth SNS 로그인 버튼 스타일 */
+.LoginSns {
+    @apply mt-2;
+}
+
+.LoginSnsItem {
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+    color: #3C1E1E;
+
+    @apply w-full flex items-center justify-center;
+
+    & + & {
+        @apply mt-2;
+    }
+
+    & img {
+        width: 24px;
+        height: 24px;
+        margin-right: 10px;
+    }
+
+    &_Kakao:hover {
+        background-color: #FFE812;
+        transform: scale(1.05);
+    }
+    
+    &_Naver:hover {
+        background-color: #04EB67;
+        transform: scale(1.05);
+    }
+
+    &_Telegram:hover {
+        background-color: #3390EC;
+        transform: scale(1.05);
+    }
+    
+    &_Google:hover {
+        background-color: #F6AEA3;
+        transform: scale(1.05);
+    }
+}
+

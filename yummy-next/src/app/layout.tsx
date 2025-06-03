@@ -26,7 +26,7 @@ export default function RootLayout({
           strategy="beforeInteractive"
         />
       </head>
-      <body className="min-h-screen flex flex-col">
+      <body className="min-h-screen">
         <UserProvider>
           <EnvScript />
           <KakaoInit />
