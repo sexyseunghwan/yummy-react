@@ -221,7 +221,7 @@ const ComboBoxContent = ({
             {...props}
         >
             
-            {/* 🔽 자동완성 검색 결과 */}
+            {/* 자동완성 검색 결과 */}
             {[...searchResults]
                 .sort((a, b) => b.score - a.score) /* 점수가 높은 순으로 정렬 */ 
                 .map((item, index) => (
