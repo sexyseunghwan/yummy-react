@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, useEffect } from "react";
+import React, { createContext, useState, useContext, useEffect, useRef } from "react";
 import { cn } from '@/lib/utils';
 import type { 
     ComboBoxProps,
@@ -36,6 +36,7 @@ const ComboBox = ({
     const [searchHistory, setSearchHistory] = useState<string[]>([]);
     const isControlled = selected !== undefined;
     const currentSelected = isControlled ? selected : selectedValue;
+    const comboBoxRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const savedHistory = localStorage.getItem('searchHistory');
@@ -59,6 +60,18 @@ const ComboBox = ({
         setIsSelectOpen(false);
     };
 
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (comboBoxRef.current && !comboBoxRef.current.contains(event.target as Node)) {
+                setIsSelectOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
     return (
         <ComboBoxContext.Provider
             value={{
@@ -73,6 +86,7 @@ const ComboBox = ({
             }}
         >
             <div
+                ref={comboBoxRef}
                 aria-expanded={isSelectOpen}
                 aria-haspopup="listbox"
                 aria-controls="listbox"
@@ -125,21 +139,24 @@ const ComboBoxTrigger = ({
             {...props}
         >
             <div className="flex-1 px-3 py-2">
-                <input
-                    type="text"
-                    role="combobox"
-                    aria-expanded={isSelected}
-                    aria-controls="listbox"
-                    aria-autocomplete="list"
-                    className={cn(
-                        "w-full outline-none placeholder-slate-400 bg-transparent text-sm",
-                        disabled && "cursor-not-allowed",
-                        inputClassName
-                    )}
-                    placeholder={placeholder}
-                    value={inputValue}
-                    onChange={(e) => setInputValue(e.target.value)}
-                />
+                <div className="flex items-center gap-2">    
+                    <SearchIcon/>
+                    <input
+                        type="text"
+                        role="combobox"
+                        aria-expanded={isSelected}
+                        aria-controls="listbox"
+                        aria-autocomplete="list"
+                        className={cn(
+                            "w-full outline-none placeholder-slate-400 bg-transparent text-sm",
+                            disabled && "cursor-not-allowed",
+                            inputClassName
+                        )}
+                        placeholder={placeholder}
+                        value={inputValue}
+                        onChange={(e) => setInputValue(e.target.value)}
+                    />
+                </div>
             </div>
         </div>
     );
