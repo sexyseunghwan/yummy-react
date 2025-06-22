@@ -22,9 +22,9 @@ const Header = ({
 				>
 					<ComboBox.Trigger />
 					<ComboBox.Content>
-						<ComboBox.Item value="맛집 추천">맛집 추천</ComboBox.Item>
+						{/* <ComboBox.Item value="맛집 추천">맛집 추천</ComboBox.Item>
 						<ComboBox.Item value="카페 추천">카페 추천</ComboBox.Item>
-						<ComboBox.Item value="디저트 추천">디저트 추천</ComboBox.Item>
+						<ComboBox.Item value="디저트 추천">디저트 추천</ComboBox.Item> */}
 					</ComboBox.Content>
 				</ComboBox>
 			</div>
@@ -43,5 +43,3 @@ const Header = ({
 Header.displayName = 'Header';
 
 export { Header };
-
-
