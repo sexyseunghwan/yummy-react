@@ -42,9 +42,9 @@ export default function YummyMap() {
 
       <div
         id="map"
-        className="w-full h-full bg-[#e9e9e9]"
+        className="w-full h-full bg-[#e9e9e9]" 
       >
-        <div className="absolute top-4 left-4 flex gap-2 z-49">
+        <div className="absolute top-4 left-4 flex gap-2 z-30">
           <Button variant="primary" size="small" onClick={() => recommendRandomStore(stores, mapInstance, zeroPayMarkers)}>랜덤 추천</Button>
           <Button variant="secondary" size="small" onClick={() => resetMap(mapInstance)}>맵 초기화</Button>
         </div>
