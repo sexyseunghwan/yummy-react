@@ -7,7 +7,10 @@ declare const MarkerClustering: any;
 declare const N: any;
 
 /* Naver Map 초기화 */
-export async function initMap(stores: Store[], user: User | null) {
+export async function initMap(
+    stores: Store[], 
+    user: User | null
+) {
 
     const markers: any[] = [];
 	const zeroPayMarkers: any[] = [];
@@ -15,14 +18,10 @@ export async function initMap(stores: Store[], user: User | null) {
     let lng = user?.lng ? user.lng : 127.048942471228;
     let lat = user?.lat ? user.lat : 37.5045028775835;
     
-    // console.log("lngx: " + lngx);
-    // console.log("laty: " + laty);
-
-    //moon
     try {
         const geo_location = await GetGeolocation();
         if (geo_location.lat !== null && geo_location.lng !== null) {
-          console.log("in if geo_location lat, lng", geo_location.lat, geo_location.lng);
+          //console.log("in if geo_location lat, lng", geo_location.lat, geo_location.lng);
           lat = geo_location.lat;
           lng = geo_location.lng;
         }
@@ -38,8 +37,25 @@ export async function initMap(stores: Store[], user: User | null) {
 	const storeIcon = 'https://cdn-icons-png.flaticon.com/128/3170/3170733.png';
 	const companyIcon = '/images/alba.png';
 	const beefulPayIcon = '/images/pay.png';
+    
+    //여기에 추가!
+    async function refreshMarkers() {
+        const bounds = map.getBounds();
+        const sw = bounds.getSW();
+        const ne = bounds.getNE();
+        const zoom = map.getZoom();
+
+        console.log(`bounds: ${bounds}`);
+        console.log(`sw: ${sw}`);
+        console.log(`ne: ${ne}`);
+        console.log(`zoom: ${zoom}`);
+    }
 
 	const referenceStore = stores.find((s) => s.name === '알바천국');
+
+    // 📌 이벤트 연결
+    naver.maps.Event.addListener(map, 'dragend', refreshMarkers);
+    naver.maps.Event.addListener(map, 'zoom_changed', refreshMarkers);
 
 	stores.forEach((store) => {
 		const iconUrl = store.isBeefulPay ? beefulPayIcon : store.type === 'company' ? companyIcon : storeIcon;
@@ -174,7 +190,14 @@ export async function initMap(stores: Store[], user: User | null) {
 
     return { map, markers, zeroPayMarkers };
 }
-	
+
+
+async function refreshMarkers() {
+    const bounds = map.getBounds();
+    const sw = bounds.getSW();
+    const ne = bounds.getNE();
+    const zoom = map.getZoom();
+}
 
 function getDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
 	const R = 6371;

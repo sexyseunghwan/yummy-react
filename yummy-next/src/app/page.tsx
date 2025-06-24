@@ -9,25 +9,50 @@ import { fetchStores } from '@/lib/client/map/fetchStore';
 import { Button } from '@/components/common/Button/Button';
 
 export default function YummyMap() {
-  const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || '';
-  const [stores, setStores] = useState<Store[]>([]);
-  const [mapInstance, setMapInstance] = useState<any>(null);
-  const [markers, setMarkers] = useState<any[]>([]);
-  const [zeroPayMarkers, setZeroPayMarkers] = useState<any[]>([]);
-  const { user, isLoading } = useUser();
+    const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || '';
+    const [stores, setStores] = useState<Store[]>([]);
+    const [mapInstance, setMapInstance] = useState<any>(null);
+    const [markers, setMarkers] = useState<any[]>([]);
+    const [zeroPayMarkers, setZeroPayMarkers] = useState<any[]>([]);
+    const { user, isLoading } = useUser();
 
-  useEffect(() => {
-    if (isLoading) return;
+    useEffect(() => {
+        if (isLoading) return;
 
-    fetchStores({
-      apiBaseUrl,
-      user,
-      setStores,
-      setMapInstance,
-      setMarkers,
-      setZeroPayMarkers,
-    });
-  }, [isLoading]);
+        fetchStores({
+            apiBaseUrl,
+            user,
+            setStores,
+            setMapInstance,
+            setMarkers,
+            setZeroPayMarkers,
+        });
+    }, [isLoading]);
+
+    // useEffect(() => {
+
+    //     if (!mapInstance) return;
+
+    //     const fetchMarkerByViewPoint = () => {
+    //         const bounds = mapInstance.getBounds();
+    //         const sw = bounds.getSW();
+    //         const ne = bounds.getNE();
+    //         const zoom = mapInstance.getZoom();
+
+    //         console.log(`bounds: ${bounds}`);
+    //         console.log(`sw: ${sw}`);
+    //         console.log(`ne: ${ne}`);
+    //         console.log(`zoom: ${zoom}`);
+    //     };
+
+    //     const zoomListener = naver.maps.Event.addListener(mapInstance, 'zoom_changed', fetchMarkersByViewport);
+    //     const dragListener = naver.maps.Event.addListener(mapInstance, 'dragend', fetchMarkersByViewport);
+
+        
+
+        
+
+    // }, [mapInstance]);
 
   return (
     <>
