@@ -1,58 +1,33 @@
 'use client';
 
 import Script from 'next/script';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { resetMap, recommendRandomStore } from '@/lib/client/map/mapButton';
 import { Store } from '@/types/shared/store';
 import { useUser } from '@/context/auth/UserContext';
-import { fetchStores } from '@/lib/client/map/fetchStore';
 import { Button } from '@/components/common/Button/Button';
+import { initMap } from '@/lib/client/map/initMap';
 
 export default function YummyMap() {
     const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || '';
     const [stores, setStores] = useState<Store[]>([]);
-    const [mapInstance, setMapInstance] = useState<any>(null);
+    //const [mapInstance, setMapInstance] = useState<any>(null);
+	const mapRef = useRef<any>(null);
     const [markers, setMarkers] = useState<any[]>([]);
     const [zeroPayMarkers, setZeroPayMarkers] = useState<any[]>([]);
     const { user, isLoading } = useUser();
 
     useEffect(() => {
         if (isLoading) return;
+		
+		/* 여기서 네이버 map 을 call 해줌 */
+		const initilizeMap = async () => {
+			await initMap(apiBaseUrl, user, mapRef, setStores, setMarkers, setZeroPayMarkers);
+		}
+		
+		initilizeMap();
 
-        fetchStores({
-            apiBaseUrl,
-            user,
-            setStores,
-            setMapInstance,
-            setMarkers,
-            setZeroPayMarkers,
-        });
     }, [isLoading]);
-
-    // useEffect(() => {
-
-    //     if (!mapInstance) return;
-
-    //     const fetchMarkerByViewPoint = () => {
-    //         const bounds = mapInstance.getBounds();
-    //         const sw = bounds.getSW();
-    //         const ne = bounds.getNE();
-    //         const zoom = mapInstance.getZoom();
-
-    //         console.log(`bounds: ${bounds}`);
-    //         console.log(`sw: ${sw}`);
-    //         console.log(`ne: ${ne}`);
-    //         console.log(`zoom: ${zoom}`);
-    //     };
-
-    //     const zoomListener = naver.maps.Event.addListener(mapInstance, 'zoom_changed', fetchMarkersByViewport);
-    //     const dragListener = naver.maps.Event.addListener(mapInstance, 'dragend', fetchMarkersByViewport);
-
-        
-
-        
-
-    // }, [mapInstance]);
 
   return (
     <>
