@@ -1,10 +1,11 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { User } from '@/types/shared/user';
 import { Store } from '@/types/shared/store';
 import { useUser } from '@/context/auth/UserContext';
 import { initMap } from '@/lib/client/map/initMap';
+import { MapContext } from '@/types/client/map/mapContext';
+import { LRUCache } from '@/class/lruCache';
 
 export function useNaverMap() {
 
@@ -14,12 +15,26 @@ export function useNaverMap() {
     const [markers, setMarkers] = useState<any[]>([]);
     const [zeroPayMarkers, setZeroPayMarkers] = useState<any[]>([]);
     const { user, isLoading } = useUser();
+    const storeCacheRef = useRef(new LRUCache<string, Store[]>(1024 * 200));
 
     useEffect(() => {
         if (isLoading) return;
 
+        const mapContext: MapContext = {
+            apiBaseUrl,
+            mapRef,
+            stores,
+            markers,
+            zeroPayMarkers,
+            setStores,
+            setMarkers,
+            setZeroPayMarkers,
+            user,
+            storeCacheRef
+        };
+
         const initilizeMap = async () => {
-			await initMap(apiBaseUrl, user, mapRef, setStores, setMarkers, setZeroPayMarkers);
+			await initMap(mapContext);
 		}
 
         initilizeMap();

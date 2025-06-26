@@ -2,57 +2,74 @@ import { Store } from '@/types/shared/store';
 import { MapBoundsParams } from '@/types/client/map/mapBoundsParams';
 import { fetchStores } from '@/lib/client/map/fetchStore';
 import { getDistance, getWalkingTime } from '@/lib/client/map/mapCalculate';
+import { MapContext } from '@/types/client/map/mapContext';
+import { createCacheKey } from '@/lib/client/map/createCaheKey';
 
 declare const MarkerClustering: any;
 declare const N: any;
 
 export async function fetchAndRenderMarker(
     naver: any,
-    apiBaseUrl: string, 
-    map: any, 
-    markers: any[], 
-    zeroPayMarkers: any[],
-    setStores: (stores: Store[]) => void
+    mapContext: MapContext
 ) {
     const storeIcon = 'https://cdn-icons-png.flaticon.com/128/3170/3170733.png';
 	const companyIcon = '/images/alba.png';
 	const beefulPayIcon = '/images/pay.png';
     
-    const bounds = map.getBounds();
+    const bounds = mapContext.mapRef.current.getBounds();
     const sw = bounds.getSW();
     const ne = bounds.getNE();
-    const zoom = map.getZoom();
-
-    // console.log(`bounds: ${bounds}`);
-    // console.log(`sw: ${sw}`);
-    // console.log(`ne: ${ne}`);
-    // console.log(`zoom: ${zoom}`);
-
+    const center = bounds.getCenter();
+    const zoom = mapContext.mapRef.current.getZoom();   
+    
     const params: MapBoundsParams = {
         minLat: sw.lat(),
         maxLat: ne.lat(),
         minLon: sw.lng(),
         maxLon: ne.lng(),
-        zoom: map.getZoom()
+        zoom: zoom
     };
 
-    // api 호출
-    const stores = await fetchStores(apiBaseUrl, params);
+    const cacheKey = createCacheKey(center.lat(), center.lng(), zoom);
+
+    /* api 호출 */ 
+    let stores: Store[];
+    
+    if (mapContext.storeCacheRef.current.has(cacheKey)) {
+        stores = mapContext.storeCacheRef.current.get(cacheKey)!;
+        console.log('📦 캐시에서 상점 불러옴');
+    } else {
+        stores = await fetchStores(mapContext.apiBaseUrl, params);
+        
+        /* 데이터 있을 때만 캐시해준다. */
+        if (stores.length != 0) {
+            mapContext.storeCacheRef.current.set(cacheKey, stores);
+        }
+        
+        console.log('🌐 API 호출로 상점 가져옴');
+    }
+    
     const referenceStore = stores.find((s) => s.name === '알바천국');
     
-    setStores(stores);
-    
-    markers.forEach(marker => marker.setMap(null));
-    markers.length = 0;
+    //mapContext.setStores(stores);
 
-    zeroPayMarkers.length = 0;
+    /* 마커를 지도에서 제거 */
+    //mapContext.markers.forEach(marker => marker.setMap(null));
+    //mapContext.zeroPayMarkers.forEach(m => m.marker.setMap(null));
+
+    /* 상태도 완전히 초기화 */
+    //mapContext.setMarkers([]);
+    //mapContext.setZeroPayMarkers([]);
+
+    const newMarkers: any[] = [];
+    const newZeroPayMarkers: any[] = [];
 
     stores.forEach((store) => {
 		const iconUrl = store.isBeefulPay ? beefulPayIcon : store.type === 'company' ? companyIcon : storeIcon;
 
 		const marker = new naver.maps.Marker({
             position: new naver.maps.LatLng(store.lat, store.lng),
-            map: map,
+            map: mapContext.mapRef.current,
             icon: {
                 url: iconUrl,
                 size: new naver.maps.Size(30, 30),
@@ -63,8 +80,8 @@ export async function fetchAndRenderMarker(
             draggable: false,
 		}); 
         
-        markers.push(marker);
-        zeroPayMarkers.push({ storeName: store.name, marker: marker });
+        newMarkers.push(marker);
+        newZeroPayMarkers.push({ storeName: store.name, marker: marker });
 
         const emoji = store.type === 'company'
             ? '🏢'
@@ -115,7 +132,7 @@ export async function fetchAndRenderMarker(
                 infowindow.close();
             } else {
 
-                infowindow.open(map, marker);
+                infowindow.open(mapContext.mapRef.current, marker);
                 
                 if (referenceStore) {
                     const distance = getDistance(store.lat, store.lng, referenceStore.lat, referenceStore.lng);
@@ -125,10 +142,13 @@ export async function fetchAndRenderMarker(
                 }
             }
         });
-
     }); /* forEach  */ 
 
 
+    /*  딱 한 번에 상태 업데이트 → 리렌더링 1회 */
+    //mapContext.setMarkers(newMarkers);
+    //mapContext.setZeroPayMarkers(newZeroPayMarkers);
+    
     /* Map Cluster */
     const htmltag1 = `<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(/images/cluster-marker-1.png);background-size:contain;"></div>`;
     const htmltag2 = `<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(/images/cluster-marker-2.png);background-size:contain;"></div>`;
@@ -165,8 +185,8 @@ export async function fetchAndRenderMarker(
     new MarkerClustering({
         minClusterSize: 1,
         maxZoom: 16,
-        map,
-        markers,
+        map: mapContext.mapRef.current,
+        markers: newMarkers,
         disableClickZoom: false,
         gridSize: 100,
         icons: [htmlMarker1,htmlMarker2,htmlMarker3,htmlMarker4,htmlMarker5],

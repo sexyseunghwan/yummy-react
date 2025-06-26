@@ -17,7 +17,11 @@ export function recommendRandomStore(
     zeroPayMarkers: any[]) {
     
     if (!map || stores.length === 0) return;
-
+    
+    stores.forEach((store, index) => {
+        console.log('name:', store.name);
+    });
+    
     const candidates = stores.filter((store) => store.type !== 'company');
 
     if (candidates.length === 0) {
