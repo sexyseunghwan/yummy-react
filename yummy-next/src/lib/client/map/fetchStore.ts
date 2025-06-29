@@ -20,6 +20,7 @@ export async function fetchStores(
         const defaultStore = { name: '알바천국', lat: 37.5032, lng: 127.0465, type: 'cp' };
 
         const converted = data.map((s: any) => ({
+            seq: s.seq,
             name: s.name,
             lat: s.lat,
             lng: s.lng,

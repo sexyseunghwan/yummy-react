@@ -32,6 +32,9 @@ export async function fetchAndRenderMarker(
 
     const cacheKey = createCacheKey(center.lat(), center.lng(), zoom);
 
+    /* store 상태를 지도에서 제거..? */
+    mapContext.setStores([]);
+
     /* api 호출 */ 
     let stores: Store[];
     
@@ -41,30 +44,49 @@ export async function fetchAndRenderMarker(
     } else {
         stores = await fetchStores(mapContext.apiBaseUrl, params);
         
+        console.log(stores[0]);
+
         /* 데이터 있을 때만 캐시해준다. */
         if (stores.length != 0) {
             mapContext.storeCacheRef.current.set(cacheKey, stores);
         }
         
         console.log('🌐 API 호출로 상점 가져옴');
-    }
+    }   
+
+    // TEST
+    //const stores: Store[] = await fetchStores(mapContext.apiBaseUrl, params);
+        
+    const referenceStore = stores.find((s) => s.name === '알바천국'); 
+    mapContext.setStores(stores);
     
-    const referenceStore = stores.find((s) => s.name === '알바천국');
+    // /* 마커를 지도에서 제거 */
+    // mapContext.markers.forEach(marker => marker.setMap(null));
+    // mapContext.zeroPayMarkers.forEach(m => m.marker.setMap(null));
+
+    // /* 상태도 완전히 초기화 */
+    // mapContext.setMarkers([]);
+    // mapContext.setZeroPayMarkers([]);
+
+    //console.log('제거 후 markers:', mapContext.markers.length);
+
+    // const newMarkers: any[] = [];
+    // const newZeroPayMarkers: any[] = [];
     
-    //mapContext.setStores(stores);
+    injectInfoWindowStyleOnce();
 
-    /* 마커를 지도에서 제거 */
-    //mapContext.markers.forEach(marker => marker.setMap(null));
-    //mapContext.zeroPayMarkers.forEach(m => m.marker.setMap(null));
-
-    /* 상태도 완전히 초기화 */
-    //mapContext.setMarkers([]);
-    //mapContext.setZeroPayMarkers([]);
-
-    const newMarkers: any[] = [];
-    const newZeroPayMarkers: any[] = [];
+    console.log(mapContext.markerMapRef.current.size);
 
     stores.forEach((store) => {
+
+        const markerMap = mapContext.markerMapRef.current;
+
+        //console.log(store.seq);
+
+        //console.log(markerMap.has(store.seq));
+
+        if (markerMap.has(store.seq)) return;
+
 		const iconUrl = store.isBeefulPay ? beefulPayIcon : store.type === 'company' ? companyIcon : storeIcon;
 
 		const marker = new naver.maps.Marker({
@@ -80,42 +102,127 @@ export async function fetchAndRenderMarker(
             draggable: false,
 		}); 
         
-        newMarkers.push(marker);
-        newZeroPayMarkers.push({ storeName: store.name, marker: marker });
-
-        const emoji = store.type === 'company'
-            ? '🏢'
-            : store.name.includes('커피') || store.name.includes('카페')
-            ? '☕'
-            : store.name.includes('치킨')
-            ? '🍗'
-            : store.name.includes('버거')
-            ? '🍔'
-            : '🍽️';
+        markerMap.set(store.seq, marker);
+        mapContext.markersRef.current.push(marker);
+        //newMarkers.push(marker);
+        //newZeroPayMarkers.push({ storeName: store.name, marker: marker });
         
+        const emoji = getEmojiForStore(store.name, store.type);
         const directionsUrl = `https://map.naver.com/v5/search/${store.name}?c=${store.lng},${store.lat},17,0,0,0,dh`;
         const beefulPayTag = store.isBeefulPay
-            ? '<div style="display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px; background-color: rgba(124, 64, 23, 0.08); color: #7C4017; border-radius: 6px; font-size: 11px; font-weight: 500; margin: 4px 0;">💳 비플페이 가맹점</div>'
+            ? '<div style="...">💳 비플페이 가맹점</div>'
             : '';
+        const safeId = `walking-time-${store.name.replace(/\s/g, '-')}`;
 
-        const infowindow = new naver.maps.InfoWindow({
-            content: `
-                <div style="padding: 16px; background: white; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); text-align: center; font-family: 'Pretendard', sans-serif; max-width: 220px; border: none; position: relative;">
-                <div style="font-size: 15px; font-weight: 600; margin-bottom: 8px; color: #1f2937;">
-                    ${emoji} ${store.name}
-                </div>
-                ${beefulPayTag}
-                <div id="walking-time-${store.name}" style="font-size: 11px; color: #6b7280; margin: 8px 0;"></div>
-                <a href="${directionsUrl}" target="_blank" style="display: inline-flex; align-items: center; justify-content: center; width: 100%; padding: 8px 12px; font-size: 12px; font-weight: 500; color: white; background-color: #7C4017; border-radius: 8px; text-decoration: none; transition: background-color 0.2s;">🗺️ 지도에서 보기</a>
-                <div style="position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 8px solid transparent; border-right: 8px solid transparent; border-top: 8px solid white;"></div>
-                </div>`,
-            borderWidth: 0,
-            backgroundColor: "transparent",
-            disableAnchor: true
-        });
+        // const infowindow = new naver.maps.InfoWindow({
+        //     content: createInfoWindowHtml(store, emoji, directionsUrl, beefulPayTag, safeId),
+        //     borderWidth: 0,
+        //     backgroundColor: 'transparent',
+        //     disableAnchor: true,
+        // });
 
-        /* 인포윈도우 스타일 오버라이드 */ 
+        // naver.maps.Event.addListener(marker, 'click', function () {
+        //     if (infowindow.getMap()) {
+        //         infowindow.close();
+        //     } else {
+
+        //         infowindow.open(mapContext.mapRef.current, marker);
+                
+        //         if (referenceStore) {
+        //             const distance = getDistance(store.lat, store.lng, referenceStore.lat, referenceStore.lng);
+        //             const walkingTime = getWalkingTime(distance);
+        //             const el = document.getElementById(`walking-time-${store.name}`);
+        //             if (el) el.innerHTML = `🚶‍♂️ 도보 시간: <b>${walkingTime}분</b>`;
+        //         }
+        //     }
+        // });
+    }); /* forEach  */ 
+
+
+    /*  딱 한 번에 상태 업데이트 → 리렌더링 1회 */
+    // mapContext.setMarkers(newMarkers);
+    // mapContext.setZeroPayMarkers(newZeroPayMarkers);
+    
+    /* Map Cluster */
+    // const htmltag1 = `<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(/images/cluster-marker-1.png);background-size:contain;"></div>`;
+    // const htmltag2 = `<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(/images/cluster-marker-2.png);background-size:contain;"></div>`;
+    // const htmltag3 = `<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(/images/cluster-marker-3.png);background-size:contain;"></div>`;
+    // const htmltag4 = `<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(/images/cluster-marker-4.png);background-size:contain;"></div>`;
+    // const htmltag5 = `<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(/images/cluster-marker-5.png);background-size:contain;"></div>`;
+
+    // const htmlMarker1 = {
+    //     content: htmltag1,
+    //     size: N.Size(40, 40),
+    //     anchor: N.Point(20, 20)
+    // },
+    // htmlMarker2 = {
+    //     content: htmltag2,
+    //     size: N.Size(40, 40),
+    //     anchor: N.Point(20, 20)
+    // },
+    // htmlMarker3 = {
+    //     content: htmltag3,
+    //     size: N.Size(40, 40),
+    //     anchor: N.Point(20, 20)
+    // },
+    // htmlMarker4 = {
+    //     content: htmltag4,
+    //     size: N.Size(40, 40),
+    //     anchor: N.Point(20, 20)
+    // },
+    // htmlMarker5 = {
+    //     content: htmltag5,
+    //     size: N.Size(40, 40),
+    //     anchor: N.Point(20, 20)
+    // };
+
+    // new MarkerClustering({
+    //     minClusterSize: 1,
+    //     maxZoom: 16,
+    //     map: mapContext.mapRef.current,
+    //     markers: newMarkers,
+    //     disableClickZoom: false,
+    //     gridSize: 100,
+    //     icons: [htmlMarker1,htmlMarker2,htmlMarker3,htmlMarker4,htmlMarker5],
+    //     indexGenerator: [10, 100, 200, 500, 1000],
+    //     stylingFunction: function (clusterMarker: any, count: number) {
+    //         const el = clusterMarker.getElement();
+    //         const inner = el.querySelector('div');
+    //         if (inner) {
+    //             inner.innerHTML = `${count}`;
+    //         }
+    //     },
+    // });
+}
+
+
+function createInfoWindowHtml(store: Store, emoji: string, directionsUrl: string, beefulPayTag: string, safeId: string): string {
+    return `
+        <div style="padding: 16px; background: white; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); text-align: center; font-family: 'Pretendard', sans-serif; max-width: 220px; border: none; position: relative;">
+            <div style="font-size: 15px; font-weight: 600; margin-bottom: 8px; color: #1f2937;">
+                ${emoji} ${store.name}
+            </div>
+            ${beefulPayTag}
+            <div id="${safeId}" style="font-size: 11px; color: #6b7280; margin: 8px 0;"></div>
+            <a href="${directionsUrl}" target="_blank" style="display: inline-flex; align-items: center; justify-content: center; width: 100%; padding: 8px 12px; font-size: 12px; font-weight: 500; color: white; background-color: #7C4017; border-radius: 8px; text-decoration: none; transition: background-color 0.2s;">🗺️ 지도에서 보기</a>
+            <div style="position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 8px solid transparent; border-right: 8px solid transparent; border-top: 8px solid white;"></div>
+        </div>`;
+}
+
+function getEmojiForStore(name: string, type: string): string {
+    if (type === 'company') return '🏢';
+    if (name.includes('커피') || name.includes('카페')) return '☕';
+    if (name.includes('치킨')) return '🍗';
+    if (name.includes('버거')) return '🍔';
+    return '🍽️';
+}
+
+// 한 번만 스타일 추가
+function injectInfoWindowStyleOnce() {
+    const styleId = 'custom-infowindow-style';
+    if (!document.getElementById(styleId)) {
         const style = document.createElement('style');
+        style.id = styleId;
         style.textContent = `
             .naver-map-info-window {
                 border: none !important;
@@ -126,77 +233,5 @@ export async function fetchAndRenderMarker(
             }
         `;
         document.head.appendChild(style);
-
-        naver.maps.Event.addListener(marker, 'click', function () {
-            if (infowindow.getMap()) {
-                infowindow.close();
-            } else {
-
-                infowindow.open(mapContext.mapRef.current, marker);
-                
-                if (referenceStore) {
-                    const distance = getDistance(store.lat, store.lng, referenceStore.lat, referenceStore.lng);
-                    const walkingTime = getWalkingTime(distance);
-                    const el = document.getElementById(`walking-time-${store.name}`);
-                    if (el) el.innerHTML = `🚶‍♂️ 도보 시간: <b>${walkingTime}분</b>`;
-                }
-            }
-        });
-    }); /* forEach  */ 
-
-
-    /*  딱 한 번에 상태 업데이트 → 리렌더링 1회 */
-    //mapContext.setMarkers(newMarkers);
-    //mapContext.setZeroPayMarkers(newZeroPayMarkers);
-    
-    /* Map Cluster */
-    const htmltag1 = `<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(/images/cluster-marker-1.png);background-size:contain;"></div>`;
-    const htmltag2 = `<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(/images/cluster-marker-2.png);background-size:contain;"></div>`;
-    const htmltag3 = `<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(/images/cluster-marker-3.png);background-size:contain;"></div>`;
-    const htmltag4 = `<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(/images/cluster-marker-4.png);background-size:contain;"></div>`;
-    const htmltag5 = `<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(/images/cluster-marker-5.png);background-size:contain;"></div>`;
-
-    const htmlMarker1 = {
-        content: htmltag1,
-        size: N.Size(40, 40),
-        anchor: N.Point(20, 20)
-    },
-    htmlMarker2 = {
-        content: htmltag2,
-        size: N.Size(40, 40),
-        anchor: N.Point(20, 20)
-    },
-    htmlMarker3 = {
-        content: htmltag3,
-        size: N.Size(40, 40),
-        anchor: N.Point(20, 20)
-    },
-    htmlMarker4 = {
-        content: htmltag4,
-        size: N.Size(40, 40),
-        anchor: N.Point(20, 20)
-    },
-    htmlMarker5 = {
-        content: htmltag5,
-        size: N.Size(40, 40),
-        anchor: N.Point(20, 20)
-    };
-
-    new MarkerClustering({
-        minClusterSize: 1,
-        maxZoom: 16,
-        map: mapContext.mapRef.current,
-        markers: newMarkers,
-        disableClickZoom: false,
-        gridSize: 100,
-        icons: [htmlMarker1,htmlMarker2,htmlMarker3,htmlMarker4,htmlMarker5],
-        indexGenerator: [10, 100, 200, 500, 1000],
-        stylingFunction: function (clusterMarker: any, count: number) {
-            const el = clusterMarker.getElement();
-            const inner = el.querySelector('div');
-            if (inner) {
-                inner.innerHTML = `${count}`;
-            }
-        },
-    });
+    }
 }
