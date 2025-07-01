@@ -17,8 +17,8 @@ export async function fetchAndRenderMarker(
 	const beefulPayIcon = '/images/pay.png';
     
     const bounds = mapContext.mapRef.current.getBounds();
-    const sw = bounds.getSW();
-    const ne = bounds.getNE();
+    const sw = bounds.getSW();  /* 지도 남서쪽 좌표 */
+    const ne = bounds.getNE();  /* 지도 북동쪽 좌표 */
     const center = bounds.getCenter();
     const zoom = mapContext.mapRef.current.getZoom();   
     
@@ -32,19 +32,33 @@ export async function fetchAndRenderMarker(
 
     const cacheKey = createCacheKey(center.lat(), center.lng(), zoom);
 
+    /* 현재 지도 반경안에 없는 지도 marker 는 모두 제거해준다. */
+    const markerMap = mapContext.markerMapRef.current;
+    const markers = mapContext.markersRef.current;
+
+    for (const [seq, marker] of markerMap.entries()) {
+        const pos = marker.getPosition();
+        if (!bounds.hasLatLng(pos)) {
+            naver.maps.Event.clearInstanceListeners(marker); /* 리스너 제거 */
+            marker.setMap(null); /* 지도에서 제거 */ 
+            markerMap.delete(seq); /* Map 에서 제거 */ 
+            const idx = markers.indexOf(marker);
+            if (idx > -1) markers.splice(idx, 1); /* 배열에서도 제거 */ 
+        }
+    }
+    
     /* store 상태를 지도에서 제거..? */
     mapContext.setStores([]);
 
-    /* api 호출 */ 
     let stores: Store[];
     
     if (mapContext.storeCacheRef.current.has(cacheKey)) {
         stores = mapContext.storeCacheRef.current.get(cacheKey)!;
         console.log('📦 캐시에서 상점 불러옴');
     } else {
+        /* api 호출 */ 
         stores = await fetchStores(mapContext.apiBaseUrl, params);
-        
-        console.log(stores[0]);
+        //console.log(stores[0]);
 
         /* 데이터 있을 때만 캐시해준다. */
         if (stores.length != 0) {
@@ -53,25 +67,9 @@ export async function fetchAndRenderMarker(
         
         console.log('🌐 API 호출로 상점 가져옴');
     }   
-
-    // TEST
-    //const stores: Store[] = await fetchStores(mapContext.apiBaseUrl, params);
         
     const referenceStore = stores.find((s) => s.name === '알바천국'); 
     mapContext.setStores(stores);
-    
-    // /* 마커를 지도에서 제거 */
-    // mapContext.markers.forEach(marker => marker.setMap(null));
-    // mapContext.zeroPayMarkers.forEach(m => m.marker.setMap(null));
-
-    // /* 상태도 완전히 초기화 */
-    // mapContext.setMarkers([]);
-    // mapContext.setZeroPayMarkers([]);
-
-    //console.log('제거 후 markers:', mapContext.markers.length);
-
-    // const newMarkers: any[] = [];
-    // const newZeroPayMarkers: any[] = [];
     
     injectInfoWindowStyleOnce();
 
@@ -81,14 +79,14 @@ export async function fetchAndRenderMarker(
 
         const markerMap = mapContext.markerMapRef.current;
 
-        //console.log(store.seq);
-
-        //console.log(markerMap.has(store.seq));
-
+        /* 이미 naver map 이 해당 상점을 가지고 있다면 마커를 추가해주지 않는다. */
         if (markerMap.has(store.seq)) return;
-
+        
 		const iconUrl = store.isBeefulPay ? beefulPayIcon : store.type === 'company' ? companyIcon : storeIcon;
 
+        /* 
+            아래의 new 를 계속 해서 호출해주면 JS 의 GC 가 자주돌게 되면서 성능에 부하가 발생하므로 조심. 
+        */
 		const marker = new naver.maps.Marker({
             position: new naver.maps.LatLng(store.lat, store.lng),
             map: mapContext.mapRef.current,
@@ -104,40 +102,36 @@ export async function fetchAndRenderMarker(
         
         markerMap.set(store.seq, marker);
         mapContext.markersRef.current.push(marker);
-        //newMarkers.push(marker);
-        //newZeroPayMarkers.push({ storeName: store.name, marker: marker });
         
         const emoji = getEmojiForStore(store.name, store.type);
         const directionsUrl = `https://map.naver.com/v5/search/${store.name}?c=${store.lng},${store.lat},17,0,0,0,dh`;
         const beefulPayTag = store.isBeefulPay
             ? '<div style="...">💳 비플페이 가맹점</div>'
             : '';
-        const safeId = `walking-time-${store.name.replace(/\s/g, '-')}`;
+        const safeId = `walking-time-${store.seq}`;
 
-        // const infowindow = new naver.maps.InfoWindow({
-        //     content: createInfoWindowHtml(store, emoji, directionsUrl, beefulPayTag, safeId),
-        //     borderWidth: 0,
-        //     backgroundColor: 'transparent',
-        //     disableAnchor: true,
-        // });
+        const infowindow = new naver.maps.InfoWindow({
+            content: createInfoWindowHtml(store, emoji, directionsUrl, beefulPayTag, safeId),
+            borderWidth: 0,
+            backgroundColor: 'transparent',
+            disableAnchor: true,
+        });
 
-        // naver.maps.Event.addListener(marker, 'click', function () {
-        //     if (infowindow.getMap()) {
-        //         infowindow.close();
-        //     } else {
-
-        //         infowindow.open(mapContext.mapRef.current, marker);
+        naver.maps.Event.addListener(marker, 'click', function () {
+            if (infowindow.getMap()) {
+                infowindow.close();
+            } else {
+                infowindow.open(mapContext.mapRef.current, marker);
                 
-        //         if (referenceStore) {
-        //             const distance = getDistance(store.lat, store.lng, referenceStore.lat, referenceStore.lng);
-        //             const walkingTime = getWalkingTime(distance);
-        //             const el = document.getElementById(`walking-time-${store.name}`);
-        //             if (el) el.innerHTML = `🚶‍♂️ 도보 시간: <b>${walkingTime}분</b>`;
-        //         }
-        //     }
-        // });
+                if (referenceStore) {
+                    const distance = getDistance(store.lat, store.lng, referenceStore.lat, referenceStore.lng);
+                    const walkingTime = getWalkingTime(distance);
+                    const el = document.getElementById(`walking-time-${store.seq}`);
+                    if (el) el.innerHTML = `🚶‍♂️ 도보 시간: <b>${walkingTime}분</b>`;
+                }
+            }
+        });
     }); /* forEach  */ 
-
 
     /*  딱 한 번에 상태 업데이트 → 리렌더링 1회 */
     // mapContext.setMarkers(newMarkers);
