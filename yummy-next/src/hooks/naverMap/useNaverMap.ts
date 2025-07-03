@@ -12,30 +12,16 @@ export function useNaverMap() {
     const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || '';
     const mapRef = useRef<any>(null);
     const [stores, setStores] = useState<Store[]>([]);
-    //const [markers, setMarkers] = useState<any[]>([]);
-    //const [zeroPayMarkers, setZeroPayMarkers] = useState<any[]>([]);
     const markerMapRef = useRef<Map<number, any>>(new Map());
     const markersRef = useRef<any[]>([]);
     const zeroPayMarkersRef = useRef<any[]>([]);
     const { user, isLoading } = useUser();
     const storeCacheRef = useRef(new LRUCache<string, Store[]>(1024 * 200));
+    const clusterRef = useRef<any>(null);
 
     useEffect(() => {
         if (isLoading) return;
-
-        // const mapContext: MapContext = {
-        //     apiBaseUrl,
-        //     mapRef,
-        //     stores,
-        //     markers,
-        //     zeroPayMarkers,
-        //     setStores,
-        //     setMarkers,
-        //     setZeroPayMarkers,
-        //     user,
-        //     storeCacheRef
-        // };
-
+        
         const mapContext: MapContext = {
             apiBaseUrl,
             mapRef,
@@ -45,7 +31,8 @@ export function useNaverMap() {
             markerMapRef,
             zeroPayMarkersRef,
             user,
-            storeCacheRef
+            storeCacheRef,
+            clusterRef
         };
 
         const initilizeMap = async () => {
@@ -55,12 +42,6 @@ export function useNaverMap() {
         initilizeMap();
 
   }, [isLoading]);
-
-    // return {
-    //     mapRef,
-    //     stores,
-    //     zeroPayMarkers
-    // };
 
     return {
         mapRef,

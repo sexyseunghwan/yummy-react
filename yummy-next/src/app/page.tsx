@@ -10,7 +10,6 @@ import { initMap } from '@/lib/client/map/initMap';
 import { useNaverMap } from '@/hooks/naverMap/useNaverMap';
 
 export default function YummyMap() {
-	// const { mapRef, stores, zeroPayMarkers } = useNaverMap();
 	const { mapRef, stores, zeroPayMarkersRef } = useNaverMap();
 
 	return (

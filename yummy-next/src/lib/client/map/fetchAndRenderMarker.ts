@@ -4,9 +4,8 @@ import { fetchStores } from '@/lib/client/map/fetchStore';
 import { getDistance, getWalkingTime } from '@/lib/client/map/mapCalculate';
 import { MapContext } from '@/types/client/map/mapContext';
 import { createCacheKey } from '@/lib/client/map/createCaheKey';
+import { makeMapCluster } from '@/lib/client/map/makeMapCluster';
 
-declare const MarkerClustering: any;
-declare const N: any;
 
 export async function fetchAndRenderMarker(
     naver: any,
@@ -47,9 +46,10 @@ export async function fetchAndRenderMarker(
         }
     }
     
-    /* store 상태를 지도에서 제거..? */
+    /* store 상태를 지도에서 제거 */
     mapContext.setStores([]);
 
+    /* store 상태를 다시 정의 */
     let stores: Store[];
     
     if (mapContext.storeCacheRef.current.has(cacheKey)) {
@@ -58,7 +58,6 @@ export async function fetchAndRenderMarker(
     } else {
         /* api 호출 */ 
         stores = await fetchStores(mapContext.apiBaseUrl, params);
-        //console.log(stores[0]);
 
         /* 데이터 있을 때만 캐시해준다. */
         if (stores.length != 0) {
@@ -73,6 +72,7 @@ export async function fetchAndRenderMarker(
     
     injectInfoWindowStyleOnce();
 
+    /* 테스트 -> 상점이 몇개가 맵에 뿌려지는지 보기 위함. */
     console.log(mapContext.markerMapRef.current.size);
 
     stores.forEach((store) => {
@@ -133,9 +133,8 @@ export async function fetchAndRenderMarker(
         });
     }); /* forEach  */ 
 
-    /*  딱 한 번에 상태 업데이트 → 리렌더링 1회 */
-    // mapContext.setMarkers(newMarkers);
-    // mapContext.setZeroPayMarkers(newZeroPayMarkers);
+
+    makeMapCluster(mapContext);
     
     /* Map Cluster */
     // const htmltag1 = `<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(/images/cluster-marker-1.png);background-size:contain;"></div>`;
