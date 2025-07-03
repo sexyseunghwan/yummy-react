@@ -65,6 +65,4 @@ export function makeMapCluster(mapContext: MapContext) {
     });
 
     mapContext.clusterRef.current = newCluster;
-
-    console.log(mapContext.clusterRef.current);
 }
