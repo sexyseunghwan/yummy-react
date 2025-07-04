@@ -54,7 +54,7 @@ export async function fetchAndRenderMarker(
     
     if (mapContext.storeCacheRef.current.has(cacheKey)) {
         stores = mapContext.storeCacheRef.current.get(cacheKey)!;
-        console.log('📦 캐시에서 상점 불러옴');
+        //console.log('📦 캐시에서 상점 불러옴');
     } else {
         /* api 호출 */ 
         stores = await fetchStores(mapContext.apiBaseUrl, params);
@@ -64,7 +64,7 @@ export async function fetchAndRenderMarker(
             mapContext.storeCacheRef.current.set(cacheKey, stores);
         }
         
-        console.log('🌐 API 호출로 상점 가져옴');
+        //console.log('🌐 API 호출로 상점 가져옴');
     }   
         
     const referenceStore = stores.find((s) => s.name === '알바천국'); 
@@ -73,7 +73,7 @@ export async function fetchAndRenderMarker(
     injectInfoWindowStyleOnce();
 
     /* 테스트 -> 상점이 몇개가 맵에 뿌려지는지 보기 위함. */
-    console.log(mapContext.markerMapRef.current.size);
+    //console.log(mapContext.markerMapRef.current.size);
 
     stores.forEach((store) => {
 
