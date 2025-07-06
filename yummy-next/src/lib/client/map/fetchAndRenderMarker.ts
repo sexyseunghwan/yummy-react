@@ -101,6 +101,8 @@ export async function fetchAndRenderMarker(
             seq: store.seq
 		}); 
         
+        store.marker = marker;
+
         markerMap.set(store.seq, marker);
         mapContext.markersRef.current.push(marker);
         
@@ -132,7 +134,7 @@ export async function fetchAndRenderMarker(
                 }
             }
         });
-    }); /* forEach  */ 
+    }); /* forEach */ 
 
 
     makeMapCluster(mapContext);

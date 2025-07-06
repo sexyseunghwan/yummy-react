@@ -1,3 +1,5 @@
+import { fetchAndRenderMarker } from '@/lib/client/map/fetchAndRenderMarker';
+
 /* Declare naver as a global variable */
 declare const naver: any;
 
@@ -10,35 +12,54 @@ export function cherryBlossomTheme() {
 	);
 }
 
-/* 랜덤 음식점 뽑기 버튼 */
+/**
+ * 랜덤 음식점 뽑기 버튼
+ * @param stores 
+ * @param map 
+ * @param zeroPayMarkers 
+ * @param markersRef 
+ * @returns 
+ */
 export function recommendRandomStore(
     stores: Store[],
     map: any,
     zeroPayMarkers: any[],
     markersRef: any[]
 ) {
-    
+
+    alert('서비스 준비중입니다.');
+
+    return;
+
     // if (!map || stores.length === 0) {
     //     alert("시야 내에 음식점이 존재하지 않습니다.")
     //     return;
     // }
-    
     const candidates = stores.filter((store) => store.type !== 'company');
-
+    
     if (candidates.length === 0) {
         alert('등록된 맛집이 없습니다!');
         return;
     }
 
-    //candidates.forEach(store => console.log(store));
+    console.log(`${stores.length}`);
     
-    const randomIndex = Math.floor(Math.random() * markersRef.length);
-    const winner = markersRef[randomIndex];
+    const randomIndex = Math.floor(Math.random() * stores.length);
+
+    console.log(`${randomIndex}`);
+
+    const winner = stores[randomIndex];
+
+    console.log(`${winner.name}`);
+
+    //candidates.forEach(store => console.log(store));
+    // const randomIndex = Math.floor(Math.random() * markersRef.length);
+    // const winner = markersRef[randomIndex];
 
     if (winner) {
-        naver.maps.Event.trigger(winner, 'click');
+        naver.maps.Event.trigger(winner.marker, 'click');
         map.setZoom(18);
-        map.setCenter(winner.getPosition());
+        map.setCenter(winner.marker.getPosition());
     }
 
     // const recommendationEl = document.getElementById('recommendation');
@@ -65,19 +86,15 @@ export function recommendRandomStore(
   }
 
 /* 맵 reset 버튼 */
-export function resetMap(map: any) {
-
-    //const map = (window as any).yummyMapInstance;
-
+export async function resetMap(map: any, refreshMarkersRef?: React.RefObject<(() => void) | null>) {
     const lngx = 127.0489;
     const laty = 37.5045;
-
-    // if(!!window.env && !!window.env.login_user){
-    //     lngx = window.env.login_user.detail[0].lngx;
-    //     laty = window.env.login_user.detail[0].laty
-    //     }
 
     map.setCenter(new naver.maps.LatLng(laty, lngx));
     map.setZoom(17);
     map.closeInfoWindow();
+
+    if (refreshMarkersRef?.current) {
+		await refreshMarkersRef.current();
+	}
 }

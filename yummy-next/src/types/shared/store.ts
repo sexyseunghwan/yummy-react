@@ -5,4 +5,5 @@ export type Store = {
     lng: number;
     type: string;
     isBeefulPay?: boolean;
+    marker: any;
   };

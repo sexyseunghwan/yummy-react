@@ -1,16 +1,20 @@
 'use client';
 
 import Script from 'next/script';
-import { useEffect, useState, useRef } from 'react';
 import { resetMap, recommendRandomStore } from '@/lib/client/map/mapButton';
-import { Store } from '@/types/shared/store';
-import { useUser } from '@/context/auth/UserContext';
 import { Button } from '@/components/common/Button/Button';
-import { initMap } from '@/lib/client/map/initMap';
 import { useNaverMap } from '@/hooks/naverMap/useNaverMap';
 
 export default function YummyMap() {
-	const { mapRef, stores, zeroPayMarkersRef, markersRef } = useNaverMap();
+	const { mapRef, stores, zeroPayMarkersRef, markersRef, refreshMarkersRef } = useNaverMap();
+
+	const handleResetClick = async () => {
+		try {
+			await resetMap(mapRef.current, refreshMarkersRef);
+		} catch (err) {
+			console.error("맵 초기화 실패", err);
+		}
+	};
 
 	return (
 		<>
@@ -29,7 +33,7 @@ export default function YummyMap() {
 		>
 			<div className="absolute top-4 left-4 flex gap-2 z-30">
 			<Button variant="primary" size="small" onClick={() => recommendRandomStore(stores, mapRef.current, zeroPayMarkersRef.current, markersRef.current)}>랜덤 추천</Button>
-			<Button variant="secondary" size="small" onClick={() => resetMap(mapRef.current)}>맵 초기화</Button>
+			<Button variant="secondary" size="small" onClick={handleResetClick}>맵 초기화</Button>
 			</div>
 		</div>
 		</>

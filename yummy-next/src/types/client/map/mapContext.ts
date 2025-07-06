@@ -13,4 +13,5 @@ export interface MapContext {
     user: User | null;
     storeCacheRef: React.RefObject<LRUCache<string, Store[]>>;
     clusterRef: React.RefObject<any>;
+    refreshMarkersRef: React.RefObject<(() => void) | null>;
 }

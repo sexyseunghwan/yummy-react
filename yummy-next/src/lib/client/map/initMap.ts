@@ -38,6 +38,8 @@ export async function initMap(
         await fetchAndRenderMarker(naver, mapContext);
     }, 500);
 
+    mapContext.refreshMarkersRef.current = refreshMarkers;
+
     /* 최초 1회 호출 */
     await fetchAndRenderMarker(naver, mapContext);
 

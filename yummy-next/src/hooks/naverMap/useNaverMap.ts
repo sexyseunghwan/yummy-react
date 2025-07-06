@@ -8,7 +8,6 @@ import { MapContext } from '@/types/client/map/mapContext';
 import { LRUCache } from '@/class/lruCache';
 
 export function useNaverMap() {
-
     const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || '';
     const mapRef = useRef<any>(null);
     const [stores, setStores] = useState<Store[]>([]);
@@ -18,6 +17,7 @@ export function useNaverMap() {
     const { user, isLoading } = useUser();
     const storeCacheRef = useRef(new LRUCache<string, Store[]>(1024 * 200));
     const clusterRef = useRef<any>(null);
+    const refreshMarkersRef = useRef<(() => void) | null>(null);
 
     useEffect(() => {
         if (isLoading) return;
@@ -32,7 +32,8 @@ export function useNaverMap() {
             zeroPayMarkersRef,
             user,
             storeCacheRef,
-            clusterRef
+            clusterRef,
+            refreshMarkersRef
         };
 
         const initilizeMap = async () => {
@@ -47,6 +48,7 @@ export function useNaverMap() {
         mapRef,
         stores,
         zeroPayMarkersRef,
-        markersRef
+        markersRef,
+        refreshMarkersRef
     };
 }
