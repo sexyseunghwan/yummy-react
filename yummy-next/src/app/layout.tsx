@@ -3,7 +3,6 @@ import Script from 'next/script';
 import KakaoInit from '@/components/auth/KakaoInit';
 import EnvScript from '@/components/common/EnvScript';
 import { UserProvider } from '@/context/auth/UserContext';
-import ClientLayout from '@/components/common/layout/ClientLayout';
 
 export const metadata = {
   title: 'Yummy Map',
@@ -30,7 +29,7 @@ export default function RootLayout({
         <UserProvider>
           <EnvScript />
           <KakaoInit />
-          <ClientLayout>{children}</ClientLayout>
+          {children}
         </UserProvider>
       </body>
     </html>
