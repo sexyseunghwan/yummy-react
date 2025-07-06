@@ -14,13 +14,14 @@ export function cherryBlossomTheme() {
 export function recommendRandomStore(
     stores: Store[],
     map: any,
-    zeroPayMarkers: any[]) {
+    zeroPayMarkers: any[],
+    markersRef: any[]
+) {
     
-    if (!map || stores.length === 0) return;
-    
-    stores.forEach((store, index) => {
-        console.log('name:', store.name);
-    });
+    // if (!map || stores.length === 0) {
+    //     alert("시야 내에 음식점이 존재하지 않습니다.")
+    //     return;
+    // }
     
     const candidates = stores.filter((store) => store.type !== 'company');
 
@@ -29,26 +30,38 @@ export function recommendRandomStore(
         return;
     }
 
-    const randomIndex = Math.floor(Math.random() * candidates.length);
-    const winner = candidates[randomIndex];
+    //candidates.forEach(store => console.log(store));
+    
+    const randomIndex = Math.floor(Math.random() * markersRef.length);
+    const winner = markersRef[randomIndex];
 
-    const recommendationEl = document.getElementById('recommendation');
-
-    if (recommendationEl) {
-        recommendationEl.innerHTML = `🎉 ${winner.name}!`;
-        recommendationEl.style.display = 'block';
-        setTimeout(() => {
-            recommendationEl.style.display = 'none';
-        }, 3000);
-    }
-
-    const marker = zeroPayMarkers.find((m) => m.storeName === winner.name);
-
-    if (marker) {
-        naver.maps.Event.trigger(marker.marker, 'click');
+    if (winner) {
+        naver.maps.Event.trigger(winner, 'click');
         map.setZoom(18);
-        map.setCenter(marker.marker.getPosition());
+        map.setCenter(winner.getPosition());
     }
+
+    // const recommendationEl = document.getElementById('recommendation');
+
+    // console.log(recommendationEl);
+
+    // if (recommendationEl) {
+    //     recommendationEl.innerHTML = `🎉 ${winner.name}!`;
+    //     recommendationEl.style.display = 'block';
+    //     setTimeout(() => {
+    //         recommendationEl.style.display = 'none';
+    //     }, 3000);
+    // }
+
+    //const marker = stores.find((m) => m.name === winner.name);
+
+    // console.log(marker);
+
+    // if (marker) {
+    //     naver.maps.Event.trigger(marker.marker, 'click');
+    //     map.setZoom(18);
+    //     map.setCenter(marker.marker.getPosition());
+    // }
   }
 
 /* 맵 reset 버튼 */

@@ -10,7 +10,7 @@ import { initMap } from '@/lib/client/map/initMap';
 import { useNaverMap } from '@/hooks/naverMap/useNaverMap';
 
 export default function YummyMap() {
-	const { mapRef, stores, zeroPayMarkersRef } = useNaverMap();
+	const { mapRef, stores, zeroPayMarkersRef, markersRef } = useNaverMap();
 
 	return (
 		<>
@@ -28,7 +28,7 @@ export default function YummyMap() {
 			className="w-full h-full bg-[#e9e9e9]" 
 		>
 			<div className="absolute top-4 left-4 flex gap-2 z-30">
-			<Button variant="primary" size="small" onClick={() => recommendRandomStore(stores, mapRef.current, zeroPayMarkersRef.current)}>랜덤 추천</Button>
+			<Button variant="primary" size="small" onClick={() => recommendRandomStore(stores, mapRef.current, zeroPayMarkersRef.current, markersRef.current)}>랜덤 추천</Button>
 			<Button variant="secondary" size="small" onClick={() => resetMap(mapRef.current)}>맵 초기화</Button>
 			</div>
 		</div>

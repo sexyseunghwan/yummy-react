@@ -46,6 +46,7 @@ export function useNaverMap() {
     return {
         mapRef,
         stores,
-        zeroPayMarkersRef
+        zeroPayMarkersRef,
+        markersRef
     };
 }
