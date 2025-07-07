@@ -83,7 +83,8 @@ export async function fetchAndRenderMarker(
         /* 이미 naver map 이 해당 상점을 가지고 있다면 마커를 추가해주지 않는다. */
         if (markerMap.has(store.seq)) return;
         
-		const iconUrl = store.isBeefulPay ? beefulPayIcon : store.type === 'company' ? companyIcon : storeIcon;
+        const iconUrl = store.categoryIcon === "" ? storeIcon : `./images/map/${store.categoryIcon}`;
+		//const iconUrl = store.isBeefulPay ? beefulPayIcon : store.type === 'company' ? companyIcon : storeIcon;
 
         /* 
             아래의 new 를 계속 해서 호출해주면 JS 의 GC 가 자주돌게 되면서 성능에 부하가 발생하므로 조심. 

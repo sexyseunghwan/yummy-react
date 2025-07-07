@@ -17,7 +17,7 @@ export async function fetchStores(
         const res = await axios.get(`${apiBaseUrl}/search/searchStore`, { params });
         const data = res.data;
 
-        const defaultStore = { name: '알바천국', lat: 37.5032, lng: 127.0465, type: 'cp' };
+        const defaultStore = { name: '알바천국', lat: 37.5032, lng: 127.0465, type: 'cp', isBeefulPay: false, categoryIcon: "" };
 
         const converted = data.map((s: any) => ({
             seq: s.seq,
@@ -26,6 +26,7 @@ export async function fetchStores(
             lng: s.lng,
             type: s.type,
             isBeefulPay: s.zero_possible,
+            categoryIcon: s.category_icon
         }));
 
         const allStores = [defaultStore, ...converted];

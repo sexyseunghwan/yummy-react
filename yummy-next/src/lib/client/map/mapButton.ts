@@ -1,5 +1,3 @@
-import { fetchAndRenderMarker } from '@/lib/client/map/fetchAndRenderMarker';
-
 /* Declare naver as a global variable */
 declare const naver: any;
 
