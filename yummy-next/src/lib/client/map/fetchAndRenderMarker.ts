@@ -98,10 +98,9 @@ export async function fetchAndRenderMarker(
                 anchor: new naver.maps.Point(20, 40),
             },
             draggable: false,
-            seq: store.seq
+            seq: store.seq,
+            store_type: store.type
 		}); 
-        
-        store.marker = marker;
 
         markerMap.set(store.seq, marker);
         mapContext.markersRef.current.push(marker);

@@ -26,63 +26,23 @@ export function recommendRandomStore(
     zeroPayMarkers: any[],
     markersRef: any[]
 ) {
-
-    alert('서비스 준비중입니다.');
-
-    return;
-
-    // if (!map || stores.length === 0) {
-    //     alert("시야 내에 음식점이 존재하지 않습니다.")
-    //     return;
-    // }
-    const candidates = stores.filter((store) => store.type !== 'company');
+    
+    const candidates = markersRef.filter((marker) => marker.store_type !== 'company');
     
     if (candidates.length === 0) {
         alert('등록된 맛집이 없습니다!');
         return;
     }
-
-    console.log(`${stores.length}`);
     
-    const randomIndex = Math.floor(Math.random() * stores.length);
+    const randomIndex = Math.floor(Math.random() * candidates.length);
+    const winner = markersRef[randomIndex];
 
-    console.log(`${randomIndex}`);
-
-    const winner = stores[randomIndex];
-
-    console.log(`${winner.name}`);
-
-    //candidates.forEach(store => console.log(store));
-    // const randomIndex = Math.floor(Math.random() * markersRef.length);
-    // const winner = markersRef[randomIndex];
 
     if (winner) {
-        naver.maps.Event.trigger(winner.marker, 'click');
+        naver.maps.Event.trigger(winner, 'click');
         map.setZoom(18);
-        map.setCenter(winner.marker.getPosition());
+        map.setCenter(winner.getPosition());
     }
-
-    // const recommendationEl = document.getElementById('recommendation');
-
-    // console.log(recommendationEl);
-
-    // if (recommendationEl) {
-    //     recommendationEl.innerHTML = `🎉 ${winner.name}!`;
-    //     recommendationEl.style.display = 'block';
-    //     setTimeout(() => {
-    //         recommendationEl.style.display = 'none';
-    //     }, 3000);
-    // }
-
-    //const marker = stores.find((m) => m.name === winner.name);
-
-    // console.log(marker);
-
-    // if (marker) {
-    //     naver.maps.Event.trigger(marker.marker, 'click');
-    //     map.setZoom(18);
-    //     map.setCenter(marker.marker.getPosition());
-    // }
   }
 
 /* 맵 reset 버튼 */
