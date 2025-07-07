@@ -11,8 +11,9 @@ export async function fetchAndRenderMarker(
     naver: any,
     mapContext: MapContext
 ) {
-    const storeIcon = 'https://cdn-icons-png.flaticon.com/128/3170/3170733.png';
-	const companyIcon = '/images/alba.png';
+    //const storeIcon = 'https://cdn-icons-png.flaticon.com/128/3170/3170733.png';
+	const storeIcon = '/images/map/food_store.png';
+    const companyIcon = '/images/alba.png';
 	const beefulPayIcon = '/images/pay.png';
     
     const bounds = mapContext.mapRef.current.getBounds();
