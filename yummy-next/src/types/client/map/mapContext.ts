@@ -14,4 +14,8 @@ export interface MapContext {
     storeCacheRef: React.RefObject<LRUCache<string, Store[]>>;
     clusterRef: React.RefObject<any>;
     refreshMarkersRef: React.RefObject<(() => void) | null>;
+    showOnlyZeroPay: boolean;
+    setShowOnlyZeroPay: (s: boolean) => void;
+    showOnlyZeroPayPrevRef: React.RefObject<boolean>;
+    showOnlyZeroPayRef: React.RefObject<boolean>;
 }

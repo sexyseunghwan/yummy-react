@@ -4,4 +4,5 @@ export type MapBoundsParams = {
   minLon: number;
   maxLon: number;
   zoom: number;
+  showOnlyZeroPay: boolean;
 };

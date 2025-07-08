@@ -4,18 +4,32 @@ import Script from 'next/script';
 import { resetMap, recommendRandomStore } from '@/lib/client/map/mapButton';
 import { Button } from '@/components/common/Button/Button';
 import { useNaverMap } from '@/hooks/naverMap/useNaverMap';
+import { fetchAndRenderMarker } from '@/lib/client/map/fetchAndRenderMarker';
+import { wrapAsync } from '@/utils/wrapAsync';
 
 export default function YummyMap() {
-	const { mapRef, stores, zeroPayMarkersRef, markersRef, refreshMarkersRef } = useNaverMap();
+
+	const mapContext = useNaverMap();
 
 	const handleResetClick = async () => {
-		try {
-			await resetMap(mapRef.current, refreshMarkersRef);
-		} catch (err) {
+		const [_, err] = await wrapAsync(resetMap(mapContext.mapRef.current, mapContext.refreshMarkersRef));
+		if (err) {
 			console.error("맵 초기화 실패", err);
 		}
 	};
-
+	
+	const handleZeroPayToggle = async () => {
+		let showOnlyZeroPay = !mapContext.showOnlyZeroPay;
+		
+		mapContext.showOnlyZeroPayPrevRef.current = mapContext.showOnlyZeroPay;
+		mapContext.showOnlyZeroPayRef.current = showOnlyZeroPay;
+		
+		const [_, err] = await wrapAsync(fetchAndRenderMarker(mapContext, showOnlyZeroPay));
+		if (err) {
+			console.error("", err);
+		}
+	}
+	
 	return (
 		<>
 		<Script src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=x014znucr0&submodules=geocoder" strategy="beforeInteractive" />
@@ -26,14 +40,17 @@ export default function YummyMap() {
 			integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
 			crossOrigin="anonymous"
 		/>
-
-		<div
-			id="map"
-			className="w-full h-full bg-[#e9e9e9]" 
-		>
+		
+		<div id="map" className="w-full h-full bg-[#e9e9e9]" >
 			<div className="absolute top-4 left-4 flex gap-2 z-30">
-			<Button variant="primary" size="small" onClick={() => recommendRandomStore(stores, mapRef.current, zeroPayMarkersRef.current, markersRef.current)}>랜덤 추천</Button>
-			<Button variant="secondary" size="small" onClick={handleResetClick}>맵 초기화</Button>
+				<Button variant="primary" size="small" onClick={() => recommendRandomStore(mapContext.stores, mapContext.mapRef.current, mapContext.zeroPayMarkersRef.current, mapContext.markersRef.current)}>랜덤 추천</Button>
+				<Button variant="secondary" size="small" onClick={handleResetClick}>맵 초기화</Button>
+				<Button variant="zeropay" size="small" onClick={handleZeroPayToggle} className="rounded-full gap-x-2">
+					<img src={mapContext.showOnlyZeroPay ? "/images/pay.png" : "/images/map/cafe.png"} 
+						alt="비플페이" className="w-5 h-5 rounded-full" 
+					/>
+					{mapContext.showOnlyZeroPay ? "비플페이" : "전체보기"}
+				</Button>
 			</div>
 		</div>
 		</>

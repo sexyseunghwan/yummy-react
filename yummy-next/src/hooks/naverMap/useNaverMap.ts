@@ -18,23 +18,30 @@ export function useNaverMap() {
     const storeCacheRef = useRef(new LRUCache<string, Store[]>(1024 * 200));
     const clusterRef = useRef<any>(null);
     const refreshMarkersRef = useRef<(() => void) | null>(null);
+    const [showOnlyZeroPay, setShowOnlyZeroPay] = useState(false);
+    const showOnlyZeroPayPrevRef = useRef<boolean>(false);
+    const showOnlyZeroPayRef = useRef<boolean>(false);
+
+    const mapContext: MapContext = {
+        apiBaseUrl,
+        mapRef,
+        stores,
+        setStores,
+        markersRef,
+        markerMapRef,
+        zeroPayMarkersRef,
+        user,
+        storeCacheRef,
+        clusterRef,
+        refreshMarkersRef,
+        showOnlyZeroPay,
+        setShowOnlyZeroPay,
+        showOnlyZeroPayPrevRef,
+        showOnlyZeroPayRef
+    };
 
     useEffect(() => {
         if (isLoading) return;
-        
-        const mapContext: MapContext = {
-            apiBaseUrl,
-            mapRef,
-            stores,
-            setStores,
-            markersRef,
-            markerMapRef,
-            zeroPayMarkersRef,
-            user,
-            storeCacheRef,
-            clusterRef,
-            refreshMarkersRef
-        };
 
         const initilizeMap = async () => {
 			await initMap(mapContext);
@@ -44,11 +51,5 @@ export function useNaverMap() {
 
   }, [isLoading]);
 
-    return {
-        mapRef,
-        stores,
-        zeroPayMarkersRef,
-        markersRef,
-        refreshMarkersRef
-    };
+    return mapContext;
 }

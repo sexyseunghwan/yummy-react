@@ -1,5 +1,6 @@
 import type { ButtonProps } from "./Button.types";
 import { cn } from "@/lib/utils";
+
 const Button = ({
         variant = 'primary',
         size = 'medium',
@@ -27,6 +28,7 @@ const Button = ({
             primary: "bg-primary hover:bg-primary-dark",
             secondary: "bg-secondary hover:bg-secondary-dark",
             ghost: "bg-transparent hover:bg-slate-100",
+            zeropay: "bg-white border-2 border-green-700 text-black hover:bg-green-50"
         }[variant];
     return (
         <button

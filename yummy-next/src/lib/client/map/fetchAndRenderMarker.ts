@@ -6,15 +6,32 @@ import { MapContext } from '@/types/client/map/mapContext';
 import { createCacheKey } from '@/lib/client/map/createCaheKey';
 import { makeMapCluster } from '@/lib/client/map/makeMapCluster';
 
+declare const naver: any;
 
+export async function testFunc(mapContext: MapContext, showOnlyZeroPay: boolean) {
+
+    //console.log(mapContext.showOnlyZeroPay);
+    mapContext.setShowOnlyZeroPay(showOnlyZeroPay);
+
+    console.log(showOnlyZeroPay);
+
+}
+
+
+/**
+ * 네이버 지도에 마커를 찍어주는 함수
+ * @param mapContext 
+ * @param showOnlyZeroPay 
+ */
 export async function fetchAndRenderMarker(
-    naver: any,
-    mapContext: MapContext
+    mapContext: MapContext,
+    showOnlyZeroPay: boolean
 ) {
-    //const storeIcon = 'https://cdn-icons-png.flaticon.com/128/3170/3170733.png';
-	const storeIcon = '/images/map/food_store.png';
-    const companyIcon = '/images/alba.png';
-	const beefulPayIcon = '/images/pay.png';
+	
+    //console.log(showOnlyZeroPay);
+    
+    const storeIcon = '/images/map/food_store.png'; /* 기본 상점 이미지 */
+    const companyIcon = '/images/alba.png';         /* 회사 이미지 */
     
     const bounds = mapContext.mapRef.current.getBounds();
     const sw = bounds.getSW();  /* 지도 남서쪽 좌표 */
@@ -27,24 +44,23 @@ export async function fetchAndRenderMarker(
         maxLat: ne.lat(),
         minLon: sw.lng(),
         maxLon: ne.lng(),
-        zoom: zoom
+        zoom: zoom,
+        showOnlyZeroPay: showOnlyZeroPay
     };
 
-    const cacheKey = createCacheKey(center.lat(), center.lng(), zoom);
+    mapContext.setShowOnlyZeroPay(showOnlyZeroPay);
+
+    const cacheKey = createCacheKey(center.lat(), center.lng(), zoom, showOnlyZeroPay);
 
     /* 현재 지도 반경안에 없는 지도 marker 는 모두 제거해준다. */
     const markerMap = mapContext.markerMapRef.current;
     const markers = mapContext.markersRef.current;
-
-    for (const [seq, marker] of markerMap.entries()) {
-        const pos = marker.getPosition();
-        if (!bounds.hasLatLng(pos)) {
-            naver.maps.Event.clearInstanceListeners(marker); /* 리스너 제거 */
-            marker.setMap(null); /* 지도에서 제거 */ 
-            markerMap.delete(seq); /* Map 에서 제거 */ 
-            const idx = markers.indexOf(marker);
-            if (idx > -1) markers.splice(idx, 1); /* 배열에서도 제거 */ 
-        }
+    
+    /* 맵에서 마커를 정리해주는 부분 */
+    if (mapContext.showOnlyZeroPayPrevRef.current === mapContext.showOnlyZeroPayRef.current) {
+        deleteBoundaryMarkers(markerMap, markers, bounds);
+    } else {
+        deleteAllMerkers(markerMap, markers);
     }
     
     /* store 상태를 지도에서 제거 */
@@ -64,7 +80,6 @@ export async function fetchAndRenderMarker(
         if (stores.length != 0) {
             mapContext.storeCacheRef.current.set(cacheKey, stores);
         }
-        
         //console.log('🌐 API 호출로 상점 가져옴');
     }   
         
@@ -83,9 +98,18 @@ export async function fetchAndRenderMarker(
         /* 이미 naver map 이 해당 상점을 가지고 있다면 마커를 추가해주지 않는다. */
         if (markerMap.has(store.seq)) return;
         
-        const iconUrl = store.categoryIcon === "" ? storeIcon : `./images/map/${store.categoryIcon}`;
-		//const iconUrl = store.isBeefulPay ? beefulPayIcon : store.type === 'company' ? companyIcon : storeIcon;
+        
+        /* 음식점 아이콘 분류별 표시 */
+        let iconUrl = "";
 
+        if (store.categoryIcon != "") {
+            iconUrl = `./images/map/${store.categoryIcon}`;
+        } else if (store.type === 'cp') {
+            iconUrl = companyIcon;
+        } else {
+            iconUrl = storeIcon;
+        }
+        
         /* 
             아래의 new 를 계속 해서 호출해주면 JS 의 GC 가 자주돌게 되면서 성능에 부하가 발생하므로 조심. 
         */
@@ -103,7 +127,7 @@ export async function fetchAndRenderMarker(
             seq: store.seq,
             store_type: store.type
 		}); 
-
+        
         markerMap.set(store.seq, marker);
         mapContext.markersRef.current.push(marker);
         
@@ -180,4 +204,41 @@ function injectInfoWindowStyleOnce() {
         `;
         document.head.appendChild(style);
     }
+}
+
+/**
+ * 맵에 있는 마커를 모두 제거해주는 함수
+ * @param markerMap 
+ * @param markers 
+ */
+function deleteAllMerkers(markerMap: Map<number, any>, markers: any[]) {
+    for (const [seq, marker] of markerMap.entries()) {
+        naver.maps.Event.clearInstanceListeners(marker); /* 리스너 제거 */
+        markerMap.delete(seq); /* Map 에서 제거 */ 
+        marker.setMap(null); /* 지도에서 제거 */ 
+        const idx = markers.indexOf(marker);
+        if (idx > -1) markers.splice(idx, 1); /* 배열에서도 제거 */ 
+    }
+}
+
+
+/**
+ * 맵에서 안보이는 영역의 마커를 모두 제거해주는 함수
+ * @param markerMap 
+ * @param markers 
+ * @param bounds 
+ */
+function deleteBoundaryMarkers(markerMap: Map<number, any>, markers: any[], bounds: any) {
+
+    for (const [seq, marker] of markerMap.entries()) {
+        const pos = marker.getPosition();
+        if (!bounds.hasLatLng(pos)) {
+            naver.maps.Event.clearInstanceListeners(marker); /* 리스너 제거 */
+            marker.setMap(null); /* 지도에서 제거 */ 
+            markerMap.delete(seq); /* Map 에서 제거 */ 
+            const idx = markers.indexOf(marker);
+            if (idx > -1) markers.splice(idx, 1); /* 배열에서도 제거 */ 
+        }
+    }
+
 }

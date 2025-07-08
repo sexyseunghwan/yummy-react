@@ -14,6 +14,7 @@ export async function fetchStores(
 ): Promise<Store[]> {
     
     try {
+        
         const res = await axios.get(`${apiBaseUrl}/search/searchStore`, { params });
         const data = res.data;
 

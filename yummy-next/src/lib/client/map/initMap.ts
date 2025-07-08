@@ -35,13 +35,15 @@ export async function initMap(
 
     /* 사용자가 지도 움직일때마다 이벤트 발생 */
     const refreshMarkers = debounce(async () => {
-        await fetchAndRenderMarker(naver, mapContext);
+        const onlyZero = mapContext.showOnlyZeroPayRef.current;
+        mapContext.showOnlyZeroPayPrevRef.current = onlyZero;
+        await fetchAndRenderMarker(mapContext, onlyZero);
     }, 500);
 
     mapContext.refreshMarkersRef.current = refreshMarkers;
 
     /* 최초 1회 호출 */
-    await fetchAndRenderMarker(naver, mapContext);
+    await fetchAndRenderMarker(mapContext, mapContext.showOnlyZeroPay);
 
     /* 지도 움직이는 이벤트 연결 */
     naver.maps.Event.addListener(map, 'dragend', refreshMarkers);

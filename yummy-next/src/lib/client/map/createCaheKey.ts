@@ -7,9 +7,9 @@ function getGridSizeByZoom(zoom: number): number {
   return 0.01;                   // 기본 1km
 }
 
-export function createCacheKey(lat: number, lng: number, zoom: number): string {
+export function createCacheKey(lat: number, lng: number, zoom: number, showOnlyZeroPay: boolean): string {
   const gridSize = getGridSizeByZoom(zoom);
   const keyLat = Math.floor(lat / gridSize) * gridSize;
   const keyLng = Math.floor(lng / gridSize) * gridSize;
-  return `${keyLat.toFixed(5)},${keyLng.toFixed(5)},z${zoom}`;
+  return `${keyLat.toFixed(5)},${keyLng.toFixed(5)},z${zoom},p${showOnlyZeroPay}`;
 }
