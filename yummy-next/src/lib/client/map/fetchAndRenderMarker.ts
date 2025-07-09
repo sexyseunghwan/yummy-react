@@ -27,8 +27,6 @@ export async function fetchAndRenderMarker(
     mapContext: MapContext,
     showOnlyZeroPay: boolean
 ) {
-	
-    //console.log(showOnlyZeroPay);
     
     const storeIcon = '/images/map/food_store.png'; /* 기본 상점 이미지 */
     const companyIcon = '/images/alba.png';         /* 회사 이미지 */

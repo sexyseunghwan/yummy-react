@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Script from 'next/script';
 import { resetMap, recommendRandomStore } from '@/lib/client/map/mapButton';
 import { Button } from '@/components/common/Button/Button';
@@ -20,13 +21,16 @@ export default function YummyMap() {
 	};
 
 	/* 버튼을 토글할 경우 */
-	const handleZeroPayToggle = async () => {
-		let showOnlyZeroPay = !mapContext.showOnlyZeroPay;
+	const handleZeroPayToggle = async (nextState: boolean) => {
+		if (mapContext.showOnlyZeroPay === nextState) {
+			/* 이미 해당 상태면 아무것도 하지 않음 */ 
+			return;
+		}
 		
 		mapContext.showOnlyZeroPayPrevRef.current = mapContext.showOnlyZeroPay;
-		mapContext.showOnlyZeroPayRef.current = showOnlyZeroPay;
+		mapContext.showOnlyZeroPayRef.current = nextState;
 		
-		const [_, err] = await wrapAsync(fetchAndRenderMarker(mapContext, showOnlyZeroPay));
+		const [_, err] = await wrapAsync(fetchAndRenderMarker(mapContext, nextState));
 		if (err) {
 			console.error("", err);
 		}
@@ -47,35 +51,29 @@ export default function YummyMap() {
 			<div className="absolute top-4 left-4 flex gap-2 z-30">
 				<Button variant="primary" size="small" onClick={() => recommendRandomStore(mapContext.stores, mapContext.mapRef.current, mapContext.zeroPayMarkersRef.current, mapContext.markersRef.current)}>랜덤 추천</Button>
 				<Button variant="secondary" size="small" onClick={handleResetClick}>맵 초기화</Button>
-				{/* <Button variant="zeropay" size="small" onClick={handleZeroPayToggle} className="rounded-full gap-x-2">
-					<img src={mapContext.showOnlyZeroPay ? "/images/pay.png" : "/images/map/food_store.png"} 
-						alt="비플페이" className="w-5 h-5 rounded-full" 
-					/>
-					{mapContext.showOnlyZeroPay ? "비플페이" : "전체"}
-				</Button> */}
 				<Button
 					variant="zeropay"
 					size="small"
-					onClick={handleZeroPayToggle}
+					onClick={() => handleZeroPayToggle(false)}
 					className={`rounded-full gap-x-2 border px-3 py-1 text-sm flex items-center transition-colors ${
 						!mapContext.showOnlyZeroPay
 							? 'bg-[#8B5E3C] text-white border-[#8B5E3C] hover:bg-[#7A4F30]'
 							: 'bg-white text-[#8B5E3C] border-[#D2B48C] hover:bg-[#F5EBDD]'
 					}`}>
-					<img src="/images/map/food_store.png" alt="전체" className="w-5 h-5 rounded-full" />
+					<Image src="/images/map/food_store.png" alt="전체" className="w-5 h-5 rounded-full" width={20} height={20}/>
 					전체
 				</Button>
 
 				<Button
 					variant="zeropay"
 					size="small"
-					onClick={handleZeroPayToggle}
+					onClick={() => handleZeroPayToggle(true)}
 					className={`rounded-full gap-x-2 border px-3 py-1 text-sm flex items-center transition-colors ${
 						mapContext.showOnlyZeroPay
 							? 'bg-[#8B5E3C] text-white border-[#8B5E3C] hover:bg-[#7A4F30]'
 							: 'bg-white text-[#8B5E3C] border-[#D2B48C] hover:bg-[#F5EBDD]'
 					}`}>
-					<img src="/images/pay.png" alt="비플페이" className="w-5 h-5 rounded-full" />
+					<Image src="/images/pay.png" alt="비플페이" className="w-5 h-5 rounded-full" width={20} height={20}/>
 					비플페이
 				</Button>
 
