@@ -21,6 +21,7 @@
   },
   "devDependencies": {
     "@types/lodash": "^4.17.18",
+    "@types/navermaps": "^3.9.1",
     "@types/node": "^20",
     "@types/prop-types": "^15.7.14",
     "@types/react": "^19",

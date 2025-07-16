@@ -32,7 +32,7 @@ export class LRUCache<K, V> {
 
         // maxSize 초과 시 오래된 항목 제거
         while (this.currentSize + itemSize > this.maxSize) {
-            //console.log('캐시제거해라!! 영배야');
+            console.log('캐시제거해라!! 영배야');
             const oldestKey = this.cache.keys().next().value;
             if (oldestKey === undefined) break;
 
