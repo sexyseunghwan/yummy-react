@@ -2,7 +2,7 @@ import { Store } from '@/types/shared/store';
 import { MapContext } from '@/types/client/map/mapContext';
 import { MapBoundsParams } from '@/types/client/map/mapBoundsParams';
 import { createCacheKey } from '@/lib/client/map/createCaheKey';
-import { fetchStores } from '@/lib/client/map/fetchStore';
+import { fetchStores } from '@/lib/client/map/store/fetchStore';
 import { getDistance, getWalkingTime } from '@/lib/client/map/mapCalculate';
 import { makeMapCluster } from '@/lib/client/map/makeMapCluster';
 
@@ -12,9 +12,6 @@ export async function renderStore(
     mapContext: MapContext,
     showOnlyZeroPay: boolean
 ) {
-
-    console.log('??');
-
     const storeIcon = '/images/map/food_store.png'; /* 기본 상점 이미지 */
     const companyIcon = '/images/alba.png';         /* 회사 이미지 */
 
@@ -32,12 +29,6 @@ export async function renderStore(
         zoom: zoom
     };
 
-    // console.log(`${mapBoundParams.minLat}`);
-    // console.log(`${mapBoundParams.maxLat}`);
-    // console.log(`${mapBoundParams.minLon}`);
-    // console.log(`${mapBoundParams.maxLon}`);
-    // console.log(`${mapBoundParams.zoom}`);
-
     mapContext.setShowOnlyZeroPay(showOnlyZeroPay);
 
     const cacheKey = createCacheKey(center.lat(), center.lng(), zoom, showOnlyZeroPay);
@@ -48,11 +39,9 @@ export async function renderStore(
     /* store 상태를 다시 정의 */
     let stores: Store[];
 
-    console.log(`cacheKey: ${cacheKey}`);
-
     if (mapContext.storeCacheRef.current.has(cacheKey)) {
         stores = mapContext.storeCacheRef.current.get(cacheKey)!;
-        console.log('캐시에서 상점 불러옴');
+        //console.log('캐시에서 상점 불러옴');
     } else {
         /* api 호출 */ 
         stores = await fetchStores(mapContext.apiBaseUrl, mapBoundParams, showOnlyZeroPay);
@@ -61,7 +50,7 @@ export async function renderStore(
         if (stores.length != 0) {
             mapContext.storeCacheRef.current.set(cacheKey, stores);
         }
-        console.log('API 호출로 상점 가져옴');
+        //console.log('API 호출로 상점 가져옴');
     }   
 
     const referenceStore = stores.find((s) => s.name === '알바천국'); 
@@ -76,7 +65,6 @@ export async function renderStore(
 
         /* 이미 naver map 이 해당 상점을 가지고 있다면 마커를 추가해주지 않는다. */
         if (markerMap.has(store.seq)) return;
-        
         
         /* 음식점 아이콘 분류별 표시 */
         let iconUrl = "";

@@ -15,8 +15,6 @@ export async function fetchStores(
 ): Promise<Store[]> {
     
     try {
-        
-        console.log("call");
 
         const res = await axios.get(`${apiBaseUrl}/search/searchStore`, { params: {
                 ...mapParams,
