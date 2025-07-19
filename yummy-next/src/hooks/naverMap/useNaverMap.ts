@@ -6,12 +6,13 @@ import { useUser } from '@/context/auth/UserContext';
 import { initMap } from '@/lib/client/map/initMap';
 import { MapContext } from '@/types/client/map/mapContext';
 import { LRUCache } from '@/class/lruCache';
+import { Subway } from '@/types/client/map/subway';
 
 export function useNaverMap() {
     const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || '';
     const mapRef = useRef<any>(null);
     const [stores, setStores] = useState<Store[]>([]);
-    const markerMapRef = useRef<Map<number, any>>(new Map());
+    const markerMapRef = useRef<Map<string, any>>(new Map());
     const markersRef = useRef<any[]>([]);
     const zeroPayMarkersRef = useRef<any[]>([]);
     const { user, isLoading } = useUser();
@@ -21,6 +22,8 @@ export function useNaverMap() {
     const [showOnlyZeroPay, setShowOnlyZeroPay] = useState(false);
     const showOnlyZeroPayPrevRef = useRef<boolean>(false);
     const showOnlyZeroPayRef = useRef<boolean>(false);
+    const [subways, setSubways] = useState<Subway[]>([]);
+    const subwayCacheRef = useRef(new LRUCache<string, Subway[]>(1024 * 50));
 
     const mapContext: MapContext = {
         apiBaseUrl,
@@ -37,7 +40,10 @@ export function useNaverMap() {
         showOnlyZeroPay,
         setShowOnlyZeroPay,
         showOnlyZeroPayPrevRef,
-        showOnlyZeroPayRef
+        showOnlyZeroPayRef,
+        subways,
+        setSubways,
+        subwayCacheRef
     };
 
     useEffect(() => {

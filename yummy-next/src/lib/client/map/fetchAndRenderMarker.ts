@@ -6,6 +6,7 @@ import { MapContext } from '@/types/client/map/mapContext';
 import { createCacheKey } from '@/lib/client/map/createCaheKey';
 import { makeMapCluster } from '@/lib/client/map/makeMapCluster';
 import { renderStore } from './store/renderStore';
+import { renderSubway } from './subway/renderSubway';
 
 declare const naver: any;
 
@@ -35,10 +36,24 @@ export async function fetchAndRenderMarker(
         deleteAllMarkers(mapContext)
     }
 
+    const bounds = mapContext.mapRef.current.getBounds();
+    const sw = bounds.getSW();  /* 지도 남서쪽 좌표 */
+    const ne = bounds.getNE();  /* 지도 북동쪽 좌표 */
+    const zoom = mapContext.mapRef.current.getZoom();   
+    
+    const mapBoundParams: MapBoundsParams = {
+        minLat: sw.lat(),
+        maxLat: ne.lat(),
+        minLon: sw.lng(),
+        maxLon: ne.lng(),
+        zoom: zoom
+    };
+    
     /* 상점 마커 render */
-    await renderStore(mapContext, showOnlyZeroPay);
+    await renderStore(mapContext, showOnlyZeroPay, mapBoundParams);
     
     /* 지하철 마커 render */
+    await renderSubway(mapContext, mapBoundParams);
     
     
 }

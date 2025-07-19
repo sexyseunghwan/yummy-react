@@ -10,28 +10,18 @@ declare const naver: any;
 
 export async function renderStore(
     mapContext: MapContext,
-    showOnlyZeroPay: boolean
+    showOnlyZeroPay: boolean,
+    mapBoundParams: MapBoundsParams
 ) {
     const storeIcon = '/images/map/food_store.png'; /* 기본 상점 이미지 */
     const companyIcon = '/images/alba.png';         /* 회사 이미지 */
 
     const bounds = mapContext.mapRef.current.getBounds();
-    const sw = bounds.getSW();  /* 지도 남서쪽 좌표 */
-    const ne = bounds.getNE();  /* 지도 북동쪽 좌표 */
     const center = bounds.getCenter();
-    const zoom = mapContext.mapRef.current.getZoom();   
     
-    const mapBoundParams: MapBoundsParams = {
-        minLat: sw.lat(),
-        maxLat: ne.lat(),
-        minLon: sw.lng(),
-        maxLon: ne.lng(),
-        zoom: zoom
-    };
-
     mapContext.setShowOnlyZeroPay(showOnlyZeroPay);
 
-    const cacheKey = createCacheKey(center.lat(), center.lng(), zoom, showOnlyZeroPay);
+    const cacheKey = createCacheKey(center.lat(), center.lng(), mapBoundParams.zoom, showOnlyZeroPay);
 
     /* store 상태를 지도에서 제거 */
     mapContext.setStores([]);
@@ -64,7 +54,7 @@ export async function renderStore(
         const markerMap = mapContext.markerMapRef.current;
 
         /* 이미 naver map 이 해당 상점을 가지고 있다면 마커를 추가해주지 않는다. */
-        if (markerMap.has(store.seq)) return;
+        if (markerMap.has(`store-${store.seq}`)) return;
         
         /* 음식점 아이콘 분류별 표시 */
         let iconUrl = "";
@@ -95,7 +85,7 @@ export async function renderStore(
             store_type: store.type
 		}); 
         
-        markerMap.set(store.seq, marker);
+        markerMap.set(`store-${store.seq}`, marker);
         mapContext.markersRef.current.push(marker);
         
         const emoji = getEmojiForStore(store.name, store.type);
