@@ -30,7 +30,7 @@ export function useKakaoLogin(apiBaseUrl: string) {
             }
         };
         
-        checkLogin();
+        checkLogin(); 
         
     }, []);
     

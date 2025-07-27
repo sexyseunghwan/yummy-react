@@ -36,5 +36,15 @@ export function loginWithTelegram() {
 
 
 export function loginWithGoogle() {
-    alert("현재 서비스 준비중입니다.")
+    const googleClientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || '';
+    const googleAuthUrl = process.env.NEXT_PUBLIC_GOOGLE_AUTH_URL || '';
+    const redirectUri = process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URL || '';
+
+    const scope = encodeURIComponent('openid profile email');
+    const state = encodeURIComponent('your-random-state'); 
+    
+
+    const oauthUrl = `${googleAuthUrl}?response_type=code&client_id=${googleClientId}&redirect_uri=${redirectUri}&scope=${scope}&state=${state}&access_type=offline&prompt=consent`;
+
+    window.location.href = oauthUrl;
 }

@@ -36,7 +36,7 @@ export default function KakaoLoggingPage() {
 				window.location.href = '/';
 			}
 
-        }, 1000);
+        }, 100);
 		
         return () => clearTimeout(timeout);
         

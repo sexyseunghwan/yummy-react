@@ -25,19 +25,23 @@ export async function linkUserByOauth({userId, userPw, apiBaseUrl}: LoginParams)
     .then(res => {
         const code = res.data;
         const message = responseMessages[code];
-
-        if (code === 'SUCCESS') {
-            alert(message);
-            location.href = "/"
-        } else if (code === 'REJOIN_CHECK') {
-            alert(message);
-            location.href = "/"
+        
+        if (message) {
+            if (code === 'SUCCESS') {
+                alert(message);
+                location.href = "/"
+            } else if (code === 'REJOIN_CHECK') {
+                alert(message);
+                location.href = "/"
+            } else {
+                alert(message);
+            }
         } else {
-            alert(message);
+            alert('an unknown response');
         }
-
     })
     .catch(err => {
+        alert(err);
         console.error("Oauth <-> 유저 정보 연동 중 에러 발생:", err);
     });
 }

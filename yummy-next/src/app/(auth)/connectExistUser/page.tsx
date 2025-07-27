@@ -59,7 +59,8 @@ export default function ConnectExistUser() {
                             className="auth-input"
                         />
                         <button 
-                            id="login-button" 
+                            id="login-button"
+                            type="button" 
                             onClick={onLogin}
                             className="auth-button"
                         >

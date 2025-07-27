@@ -76,7 +76,7 @@ export default function Login() {
                     <Link href="/findId" className="auth-link-item">아이디 찾기</Link>
                     <Link href="/joinMember" className="auth-link-item">회원가입</Link>
                 </div>
-
+                
                 <div className="auth-sns-container">
                     <a className="auth-sns-button auth-sns-button_kakao" id="oauth-kakao" onClick={loginWithKakao}>
                         <Image src="/images/oauth/kakao.svg" alt="KakaoTalk Logo" width={24} height={24}/>
