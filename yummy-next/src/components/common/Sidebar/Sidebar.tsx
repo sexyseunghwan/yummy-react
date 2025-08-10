@@ -2,10 +2,11 @@ import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { SidebarPortalProps, SidebarProps } from './Sidebar.types';
 import { useUser } from '@/context/auth/UserContext';
-import { logOut } from '@/lib/client/auth/login/logOutHandler';
+import { logOut } from '@/lib/client/auth/logout/logOutHandler';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import CloseIcon from '../Icons/CloseIcon';
+import Image from 'next/image';
 
 const SidebarPortal = ({ 
   children 
@@ -74,11 +75,13 @@ const Sidebar = ({ isOpen, onClose, children }: SidebarProps) =>  {
           {!isLoading && user ? (
             <>
               <div className="text-center my-1 flex flex-col items-center">
-                {/* 🔽 동그란 프로필 이미지 */}
-                <img
+                {/* 동그란 프로필 이미지 */}
+                <Image
                   src={user.userPic}
                   alt="프로필"
                   className="w-20 h-20 rounded-full object-cover border-2 border-gray-300 mb-2"
+                  width={24} 
+                  height={24}
                 />
                 <p className="font-semibold text-lg">{user.userNm}</p>
               </div>

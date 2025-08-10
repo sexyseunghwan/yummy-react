@@ -4,8 +4,8 @@
   "settings": {
     "width": 2000,
     "height": 2000,
-    "scrollTop": -230.4999,
-    "scrollLeft": 0,
+    "scrollTop": -250.4999,
+    "scrollLeft": -2,
     "zoomLevel": 1,
     "show": 431,
     "database": 4,
@@ -399,8 +399,8 @@
         "name": "user_oauth_google_tbl",
         "comment": "유저 Google Oauth2 관련 테이블",
         "columnIds": [
-          "oqrKGso-5n6YGn-j116aa",
           "4VojvhnMzNT6sMFhW1IMC",
+          "oqrKGso-5n6YGn-j116aa",
           "rYsKyIK1Csm65QELi7XJE",
           "RQnNs8xtyGtdHUEarOS3V",
           "C6dhDC5qrybQeTO0qdYvI",
@@ -408,8 +408,8 @@
           "wg_BdRWKpQNma1sXyLmr9"
         ],
         "seqColumnIds": [
-          "oqrKGso-5n6YGn-j116aa",
           "4VojvhnMzNT6sMFhW1IMC",
+          "oqrKGso-5n6YGn-j116aa",
           "rYsKyIK1Csm65QELi7XJE",
           "RQnNs8xtyGtdHUEarOS3V",
           "C6dhDC5qrybQeTO0qdYvI",
@@ -425,7 +425,7 @@
           "color": ""
         },
         "meta": {
-          "updateAt": 1753500338337,
+          "updateAt": 1754813349483,
           "createAt": 1753500249834
         }
       }
@@ -2098,16 +2098,16 @@
         "comment": "유저번호",
         "dataType": "INT",
         "default": "",
-        "options": 10,
+        "options": 8,
         "ui": {
-          "keys": 3,
+          "keys": 2,
           "widthName": 60,
           "widthComment": 60,
           "widthDataType": 60,
           "widthDefault": 60
         },
         "meta": {
-          "updateAt": 1753500308401,
+          "updateAt": 1754813344216,
           "createAt": 1753500295932
         }
       },
@@ -2118,16 +2118,16 @@
         "comment": "로그인 토큰 아이디",
         "dataType": "VARCHAR(255)",
         "default": "",
-        "options": 8,
+        "options": 10,
         "ui": {
-          "keys": 0,
+          "keys": 1,
           "widthName": 60,
           "widthComment": 92,
           "widthDataType": 90,
           "widthDefault": 60
         },
         "meta": {
-          "updateAt": 1753500334536,
+          "updateAt": 1754813347054,
           "createAt": 1753500334536
         }
       },
@@ -2431,7 +2431,7 @@
       },
       "ZAyfRzbygDhv63celzBBU": {
         "id": "ZAyfRzbygDhv63celzBBU",
-        "identification": true,
+        "identification": false,
         "relationshipType": 16,
         "startRelationshipType": 2,
         "start": {

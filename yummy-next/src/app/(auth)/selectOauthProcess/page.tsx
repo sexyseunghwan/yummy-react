@@ -1,9 +1,9 @@
 'use client';
 
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { checkLogin } from '@/lib/client/auth/login/checkLogin';
+import { removeTempJwt } from '@/lib/client/auth/logout/removeTempJwtHandler';
 
 export default function Login() {
     const router = useRouter();
@@ -20,7 +20,7 @@ export default function Login() {
 
         check();
     }, [router]);
-
+    
     return (
         <div className="auth-page-container">
             <div className="auth-container">
@@ -28,18 +28,24 @@ export default function Login() {
                 <p className="auth-desc">가입 유형을 선택해 주세요.</p>
                 <div className="auth-form">
                     <div className="auth-input-box">
-                        <Link
-                            href="/joinMember"
+                        <button
+                            onClick={() => router.push('/joinMember')}
                             className="auth-button"
                         >
                             회원가입
-                        </Link>
-                        <Link
-                            href="/connectExistUser"
-                            className="auth-button bg-gray-200 hover:bg-gray-300"
+                        </button>
+                        <button
+                            onClick={() => router.push('/connectExistUser')}
+                            className="auth-button bg-gray-700 hover:bg-gray-300"
                         >
-                            기존회원 연동
-                        </Link>
+                            가존회원 연동
+                        </button>
+                        <button
+                            onClick={() => removeTempJwt(apiBaseUrl)}
+                            className="auth-button bg-gray-500 hover:bg-gray-300"
+                        >
+                            메인으로 돌아가기
+                        </button>
                     </div>
                 </div>
             </div>
