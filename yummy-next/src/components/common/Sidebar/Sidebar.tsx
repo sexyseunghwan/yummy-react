@@ -76,12 +76,10 @@ const Sidebar = ({ isOpen, onClose, children }: SidebarProps) =>  {
             <>
               <div className="text-center my-1 flex flex-col items-center">
                 {/* 동그란 프로필 이미지 */}
-                <Image
+                <img
                   src={user.userPic}
                   alt="프로필"
                   className="w-20 h-20 rounded-full object-cover border-2 border-gray-300 mb-2"
-                  width={24} 
-                  height={24}
                 />
                 <p className="font-semibold text-lg">{user.userNm}</p>
               </div>
