@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "wdev": "env-cmd -f .env.local cross-var next dev -p $NEXT_PUBLIC_PORT",
-    "dev": "env-cmd -f .env.local cross-var next dev -p '$NEXT_PUBLIC_PORT'",
+    "wdev": "dotenv -e .env.local next dev",
+    "dev": "dotenv -e .env.local next dev",
     "build": "next build",
-    "start": "env-cmd -f .env cross-var NODE_ENV=production node server.js",
+    "start": "cross-env NODE_ENV=production env-cmd -f .env node server.js",
     "lint": "next lint"
   },
   "dependencies": {
@@ -28,12 +28,16 @@
     "@types/react-dom": "^19",
     "autoprefixer": "^10.4.17",
     "cross-env": "^7.0.3",
-    "cross-var": "^1.1.0",
+    "dotenv-cli": "^11.0.0",
     "env-cmd": "^10.1.0",
     "eslint": "^9",
     "eslint-config-next": "15.3.0",
     "postcss": "^8.4.35",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
+  },
+  "engines": {
+    "node": ">=20.18.1",
+    "npm": ">=10.0.0"
   }
 }
